@@ -33,7 +33,7 @@ public extension JNI {
 
 	public func GetStringUTFChars(string: jstring, isCopy: UnsafeMutablePointer<jboolean>) -> String {
 	    let env = self._env
-	    return env.memory.memory.GetStringUTFChars(env, string, isCopy)
+	    return String(env.memory.memory.GetStringUTFChars(env, string, isCopy))
 	}
 
 	public func ReleaseStringUTFChars(string: jstring, utf: String) {
@@ -46,9 +46,9 @@ public extension JNI {
 	    env.memory.memory.GetStringRegion(env, str, start, len, buf)
 	}
 
-	public func GetStringUTFRegion(str: jstring, start: jsize, len: jsize, buf: UnsafeMutablePointer<char>) {
+	public func GetStringUTFRegion(str: jstring, start: jsize, len: jsize, buf: UnsafeMutablePointer<CChar>) {
 	    let env = self._env
-	    return env.memory.memory.GetStringUTFRegion(env, str, start, len, buf)
+	    env.memory.memory.GetStringUTFRegion(env, str, start, len, buf)
 	}
 
 	public func GetStringCritical(string: jstring, isCopy: UnsafeMutablePointer<jboolean>) -> UnsafePointer<jchar> {

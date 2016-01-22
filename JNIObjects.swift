@@ -2,29 +2,32 @@ import CJNI
 
 public extension JNI {
 
-	public func AllocObject(clazz: jclass) -> jobject {
+	public func AllocObject(targetClass: jclass) -> jobject {
 	    let env = self._env
-	    return env.memory.memory.AllocObject(env, clazz)
+	    return env.memory.memory.AllocObject(env, targetClass)
 	}
 
-	public func NewObject(clazz: jclass, methodID: jmethodID, ...) -> jobject {
-	    let env = self._env
-	    return self.env.memory.memory.NewObjectV(env, clazz, methodID, args)
+	public func NewObject(targetClass: jclass, methodID: jmethodID, args: jvalue...) -> jobject {
+	    return self.NewObjectA(targetClass, methodID: methodID, args: args)
 	}
 
-	public func NewObjectV(clazz: jclass, methodID: jmethodID, va_list args) -> jobject {
-	    let env = self._env
-	    return env.memory.memory.NewObjectV(env, clazz, methodID, args)
+    @available(*, unavailable, message="CVaListPointer unavailable, use NewObject or NewObjectA")
+	public func NewObjectV(targetClass: jclass, methodID: jmethodID, args: CVaListPointer) -> jobject {
+	    // let env = self._env
+	    // return env.memory.memory.NewObjectV(env, targetClass, methodID, args)
+        return jobject()
 	}
 
-	public func NewObjectA(clazz: jclass, methodID: jmethodID, args: UnsafeMutablePointer<jvalue>) -> jobject {
+	public func NewObjectA(targetClass: jclass, methodID: jmethodID, args: [jvalue]) -> jobject {
 	    let env = self._env
-	    return env.memory.memory.NewObjectA(env, clazz, methodID, args)
+        var mutableArgs = args
+	    return env.memory.memory.NewObjectA(env, targetClass, methodID, &mutableArgs)
 	}
 
-	public func GetObjectClass(obj: jobject) -> jclass {
+	public func GetObjectClass(obj: jobject) -> jclass? {
 	    let env = self._env
-	    return env.memory.memory.GetObjectClass(env, obj)
+        let result = env.memory.memory.GetObjectClass(env, obj)
+        return (result != nil) ? result : .None
 	}
 	
 }

@@ -50,23 +50,11 @@ public class SwiftJNI : JNI {
         return (result != nil) ? result : .None
     }
 
-    public func DeleteLocalRef(object: jobject) {
-        let _env = self._env
-        _env.memory.memory.DeleteLocalRef(_env, object)
-    }
-
-
     // MARK: Classes and Methods
 
     public func FindClass(className: String) -> jclass? {
         let _env = self._env
         let result = _env.memory.memory.FindClass(_env, className)
-        return (result != nil) ? result : .None
-    }
-
-    public func GetObjectClass(object: jobject) -> jclass? {
-        let _env = self._env
-        let result = _env.memory.memory.GetObjectClass(_env, object)
         return (result != nil) ? result : .None
     }
 
@@ -216,13 +204,13 @@ public struct JavaCallback {
         self.methodID = methodID
     }
 
-    public func apply(parameters: [jvalue]) {
-        jni.CallVoidMethodA(jobj, methodID: methodID, parameters: parameters)
+    public func apply(args: [jvalue]) {
+        jni.CallVoidMethodA(jobj, methodID: methodID, args: args)
     }
 
     /// Send variadic parameters to the func that takes an array
-    public func call(parameters: jvalue...) {
-        self.apply(parameters)
+    public func call(args: jvalue...) {
+        self.apply(args)
     }
 }
 
