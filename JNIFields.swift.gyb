@@ -1,0 +1,54 @@
+// Hash maps and fields
+
+%{
+  jTypes = [
+    ('Object', 'jobject'),
+    ('Boolean', 'jboolean'),
+    ('Byte', 'jbyte'),
+    ('Char', 'jchar'),
+    ('Short', 'jshort'),
+    ('Int', 'jint'),
+    ('Long', 'jlong'),
+    ('Float', 'jfloat'),
+    ('Double', 'jdouble')
+  ]
+}%
+
+public extension JNI {
+
+    public func GetFieldID(clazz: jclass, name: String, sig: String) -> jfieldID {
+        let env = self._env
+        return env.memory.memory.GetFieldID(env, clazz, name, sig)
+    }
+
+    public func GetStaticFieldID(clazz: jclass, name: String, sig: String) -> jfieldID {
+        let env = self._env
+        return env.memory.memory.GetStaticFieldID(env, clazz, name, sig)
+    }
+
+% for (TypeName, Type) in jTypes:
+    public func Get${TypeName}Field(obj: jobject, fieldID: jfieldID) -> ${Type} {
+        let env = self._env
+        return env.memory.memory.Get${TypeName}Field(env, obj, fieldID)
+    }
+
+    public func Set${TypeName}Field(obj: jobject, fieldID: jfieldID, value: ${Type}) {
+        let env = self._env
+        env.memory.memory.Set${TypeName}Field(env, obj, fieldID, value)
+    }
+
+    public func GetStatic${TypeName}Field(clazz: jclass, fieldID: jfieldID) -> ${Type} {
+        let env = self._env
+        return env.memory.memory.GetStatic${TypeName}Field(env, clazz, fieldID)
+    }
+
+    public func SetStatic${TypeName}Field(clazz: jclass, fieldID: jfieldID, value: ${Type}) {
+        let env = self._env
+        env.memory.memory.SetStatic${TypeName}Field(env, clazz, fieldID, value)
+    }
+% end
+}
+
+// ${'Local Variables'}:
+// eval: (read-only-mode 1)
+// End:

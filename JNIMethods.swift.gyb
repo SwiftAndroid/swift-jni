@@ -1,0 +1,110 @@
+//===--- JNICallMethod.swift.gyb ------------------------------*- swift -*-===//
+//
+// This source file is part of the Swift.org open source project
+//
+// Copyright (c) 2014 - 2016 Apple Inc. and the Swift project authors
+// Licensed under Apache License v2.0 with Runtime Library Exception
+//
+// See http://swift.org/LICENSE.txt for license information
+// See http://swift.org/CONTRIBUTORS.txt for the list of Swift project authors
+//
+//===----------------------------------------------------------------------===//
+
+%{
+  jTypes = [
+    ('Void', 'Void'), # returning Void is also valid in swift
+    ('Object', 'jobject'),
+    ('Boolean', 'jboolean'),
+    ('Byte', 'jbyte'),
+    ('Char', 'jchar'),
+    ('Short', 'jshort'),
+    ('Int', 'jint'),
+    ('Long', 'jlong'),
+    ('Float', 'jfloat'),
+    ('Double', 'jdouble')
+  ]
+}%
+
+
+public extension JNI {
+
+% # Standard Java method calls
+
+  public func GetMethodID(clazz: jclass, name: String, sig: String) -> jmethodID {
+    let env = self._env
+    return env.memory.memory.GetMethodID(env, clazz, name, sig)
+  }
+
+% for (TypeName, type) in jTypes:
+
+  public func Call${TypeName}Method(obj: jobject, methodID: jmethodID, args: jvalue...) -> ${type} {
+    return Call${TypeName}MethodA(object, method, args)
+  }
+
+  public func Call${TypeName}MethodV(obj: jobject, methodID: jmethodID, args: va_list) -> ${type} {
+    let env = self._env
+    return env.memory.memory.Call${TypeName}MethodV(env, object, method, args)
+  }
+
+  public func Call${TypeName}MethodA(obj: jobject, methodID: jmethodID, args: [jvalue]) -> ${type} {
+    let env = self._env
+    var mutableArgs = args
+    return env.memory.memory.Call${TypeName}MethodA(env, object, method, &mutableArgs)
+  }
+
+% end #standard methods
+
+
+
+% # Nonvirtual Java method calls
+% for (TypeName, Type) in jTypes:
+
+  public func CallNonvirtual${TypeName}Method(obj: jobject, class: jclass, methodID: jmethodID, args: jvalue...) -> ${type} {
+    return self.CallNonvirtual${TypeName}MethodA()
+  }
+
+  public func CallNonvirtual${TypeName}MethodV(obj: jobject, class: jclass, methodID: jmethodID, args: va_list) -> ${type} {
+    let env = self._env
+    return env.memory.memory.CallNonvirtual${TypeName}MethodV(env, object, method, args)
+  }
+
+  public func CallNonvirtual${TypeName}MethodA(obj: jobject, class: jclass, methodID: jmethodID, args: [jvalue]) -> ${type} {
+    let env = self._env
+    var mutableArgs = args
+    return env.memory.memory.CallNonvirtual${TypeName}MethodA(env, object, method, &mutableArgs)
+  }
+
+% end #nonvirtual methods
+
+
+
+%# Static Java method calls
+
+  public func GetStaticMethodID(clazz: jclass, name: String, sig: String) -> jmethodID {
+    let env = self._env
+    return env.memory.memory.GetStaticMethodID(env, clazz, name, sig)
+  }
+
+% for (TypeName, Type) in jTypes:
+
+  public func CallStatic${TypeName}Method(class: jclass, methodID: jmethodID, args: jvalue...) -> ${type} {
+    return CallStatic${TypeName}MethodA(object, method, args)
+  }
+
+  public func CallStatic${TypeName}MethodV(class: jclass, methodID: jmethodID, args: va_list) -> ${type} {
+    let env = self._env
+    return env.memory.memory.CallStatic${TypeName}MethodV(env, object, method, args)
+  }
+
+  public func CallStatic${TypeName}MethodA(class: jclass, methodID: jmethodID, args: [jvalue]) -> ${type} {
+    let env = self._env
+    var mutableArgs = args
+    return env.memory.memory.CallStatic${TypeName}MethodA(env, object, method, &mutableArgs)
+  }
+
+% end #static methods
+}
+
+// ${'Local Variables'}:
+// eval: (read-only-mode 1)
+// End:

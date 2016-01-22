@@ -1,0 +1,105 @@
+
+%{
+    jTypes = [
+        
+        # You can only set / get one jobject array element at a time
+        # So we handle that case manually, and automate the rest...
+        # ('Object', 'jobject'), 
+
+        ('Boolean', 'jboolean'),
+        ('Byte', 'jbyte'),
+        ('Char', 'jchar'),
+        ('Short', 'jshort'),
+        ('Int', 'jint'),
+        ('Long', 'jlong'),
+        ('Float', 'jfloat'),
+        ('Double', 'jdouble')
+    ]
+}%
+
+public extension JNI {
+
+    public func GetArrayLength(array: jarray) -> jsize {
+        let env = self._env
+        return env.memory.memory.GetArrayLength(env, array)
+    }
+
+% # You can only set / get one object element at a time
+    public func NewObjectArray(length: jsize, elementClass: jclass, initialElement: jobject) -> jobjectArray {
+        let env = self._env
+        return env.memory.memory.NewObjectArray(env, length, elementClass, initialElement)
+    }
+
+    public func GetObjectArrayElement(array: jobjectArray, index: jsize) -> jobject {
+        let env = self._env
+        return env.memory.memory.GetObjectArrayElement(env, array, index)
+    }
+
+    public func SetObjectArrayElement(array: jobjectArray, index: jsize, value: jobject) {
+        let env = self._env
+        env.memory.memory.SetObjectArrayElement(env, array, index, value)
+    }
+
+
+% # But we can automate the rest
+% for (TypeName, type) in jTypes:
+
+    public func New${TypeName}Array(length: jsize) -> ${type}Array {
+        let env = self._env
+        return env.memory.memory.New${TypeName}Array(env, length)
+    }
+
+    public func Get${TypeName}ArrayElements(array: ${type}Array, isCopy: UnsafeMutablePointer<jboolean>) -> UnsafeMutablePointer<${type}> {
+       let env = self._env
+       return env.memory.memory.Get${TypeName}ArrayElements(env, array, isCopy)
+    }
+
+    public func Release${TypeName}ArrayElements(array: ${type}Array, elems: UnsafeMutablePointer<${type}>, mode: jint) {
+       let env = self._env
+       env.memory.memory.Release${TypeName}ArrayElements(env, array, elems, mode)
+    }
+
+    public func Get${TypeName}ArrayRegion(array: ${type}Array, start: jsize, len: jsize, buf: UnsafeMutablePointer<${type}>) {
+        let env = self._env
+        env.memory.memory.Get${TypeName}ArrayRegion(env, array, start, len, buf)
+    }
+
+    public func Set${TypeName}ArrayRegion(array: ${type}Array, start: jsize, len: jsize, buf: UnsafePointer<${type}>) {
+        let env = self._env
+        env.memory.memory.Set${TypeName}ArrayRegion(env, array, start, len, buf)
+    }
+
+% end
+}
+
+/// High performance JNI extensions
+public extension JNI {
+    public func GetPrimitiveArrayCritical(array: jarray, isCopy: UnsafeMutablePointer<jboolean>) -> UnsafeMutablePointer<Void> {
+        let env = self._env
+        return env.memory.memory.GetPrimitiveArrayCritical(env, array, isCopy)
+    }
+
+    public func ReleasePrimitiveArrayCritical(array: jarray, carray: UnsafeMutablePointer<Void>, mode: jint) {
+        let env = self._env
+        env.memory.memory.ReleasePrimitiveArrayCritical(env, array, carray, mode)
+    }
+
+    public func NewDirectByteBuffer(address: UnsafeMutablePointer<Void>, capacity: jlong) -> jobject {
+        let env = self._env
+        return env.memory.memory.NewDirectByteBuffer(env, address, capacity)
+    }
+
+    public func GetDirectBufferAddress(buf: jobject) -> UnsafeMutablePointer<Void> {
+        let env = self._env
+        return env.memory.memory.GetDirectBufferAddress(env, buf)
+    }
+
+    public func GetDirectBufferCapacity(buf: jobject) -> jlong {
+        let env = self._env
+        return env.memory.memory.GetDirectBufferCapacity(env, buf)
+    }
+}
+
+// ${'Local Variables'}:
+// eval: (read-only-mode 1)
+// End:
