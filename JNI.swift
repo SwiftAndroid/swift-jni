@@ -1,3 +1,5 @@
+@_exported import CJNI // Clang module
+
 public class JNI {
     /// Our reference to the Java Virtual Machine, to be set on init
     private let _jvm: UnsafeMutablePointer<JavaVM>
