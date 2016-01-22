@@ -1,3 +1,5 @@
+import CJNI
+
 public extension JNI {
 	public func DefineClass(name: String, loader: jobject, buf: UnsafePointer<jbyte>, bufLen: jsize) -> jclass {
 	    let env = self._env

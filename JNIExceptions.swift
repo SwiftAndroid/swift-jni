@@ -1,3 +1,5 @@
+import CJNI
+
 public extension JNI {
     public func ExceptionCheck() -> jboolean {
         let env = self._env

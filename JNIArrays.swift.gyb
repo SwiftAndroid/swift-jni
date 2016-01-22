@@ -1,3 +1,4 @@
+import CJNI
 
 %{
     jTypes = [

@@ -1,3 +1,5 @@
+import CJNI
+
 public extension JNI {
 	public func NewString(unicodeChars: UnsafePointer<jchar>, len: jsize) -> jstring {
 	    let env = self._env

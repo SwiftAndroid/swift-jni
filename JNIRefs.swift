@@ -1,3 +1,5 @@
+import CJNI
+
 public extension JNI {
     public func NewGlobalRef(obj: jobject) -> jobject {
         let env = self._env

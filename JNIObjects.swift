@@ -1,3 +1,5 @@
+import CJNI
+
 public extension JNI {
 
 	public func AllocObject(clazz: jclass) -> jobject {

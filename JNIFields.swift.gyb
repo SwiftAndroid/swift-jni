@@ -1,5 +1,7 @@
 // Hash maps and fields
 
+import CJNI
+
 %{
   jTypes = [
     ('Object', 'jobject'),
