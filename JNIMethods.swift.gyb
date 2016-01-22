@@ -10,6 +10,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+import CJNI
+
 %{
   jTypes = [
     ('Void', 'Void'), # returning Void is also valid in swift

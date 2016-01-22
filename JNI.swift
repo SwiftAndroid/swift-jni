@@ -2,10 +2,10 @@
 
 public class JNI {
     /// Our reference to the Java Virtual Machine, to be set on init
-    private let _jvm: UnsafeMutablePointer<JavaVM>
+    let _jvm: UnsafeMutablePointer<JavaVM>
 
     /// Ensure the _env pointer we have is always attached to the JVM
-    private var _env: UnsafeMutablePointer<JNIEnv> {
+    var _env: UnsafeMutablePointer<JNIEnv> {
         let jvm = _jvm.memory.memory
 
         // The type `JNIEnv` is defined as a non-mutable pointer,
