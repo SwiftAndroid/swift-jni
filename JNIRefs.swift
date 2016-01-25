@@ -36,14 +36,14 @@ public extension JNI {
         return env.memory.memory.EnsureLocalCapacity(env, capacity)
     }
 
-    public func IsSameObject(ref1: jobject, ref2: jobject) -> jboolean {
+    public func IsSameObject(ref1: jobject, _ ref2: jobject) -> jboolean {
         let env = self._env
         return env.memory.memory.IsSameObject(env, ref1, ref2)
     }
 
-    public func IsInstanceOf(obj: jobject, clazz: jclass) -> jboolean {
+    public func IsInstanceOf(obj: jobject, _ targetClass: jclass) -> jboolean {
         let env = self._env
-        return env.memory.memory.IsInstanceOf(env, obj, clazz)
+        return env.memory.memory.IsInstanceOf(env, obj, targetClass)
     }
 
     public func NewWeakGlobalRef(obj: jobject) -> jweak {

@@ -18,35 +18,35 @@ import CJNI
 
 public extension JNI {
 
-    public func GetFieldID(clazz: jclass, name: String, sig: String) -> jfieldID {
+    public func GetFieldID(targetClass: jclass, _ name: String, _ sig: String) -> jfieldID {
         let env = self._env
-        return env.memory.memory.GetFieldID(env, clazz, name, sig)
+        return env.memory.memory.GetFieldID(env, targetClass, name, sig)
     }
 
-    public func GetStaticFieldID(clazz: jclass, name: String, sig: String) -> jfieldID {
+    public func GetStaticFieldID(targetClass: jclass, _ name: String, _ sig: String) -> jfieldID {
         let env = self._env
-        return env.memory.memory.GetStaticFieldID(env, clazz, name, sig)
+        return env.memory.memory.GetStaticFieldID(env, targetClass, name, sig)
     }
 
 % for (TypeName, Type) in jTypes:
-    public func Get${TypeName}Field(obj: jobject, fieldID: jfieldID) -> ${Type} {
+    public func Get${TypeName}Field(obj: jobject, _ fieldID: jfieldID) -> ${Type} {
         let env = self._env
         return env.memory.memory.Get${TypeName}Field(env, obj, fieldID)
     }
 
-    public func Set${TypeName}Field(obj: jobject, fieldID: jfieldID, value: ${Type}) {
+    public func Set${TypeName}Field(obj: jobject, _ fieldID: jfieldID, _ value: ${Type}) {
         let env = self._env
         env.memory.memory.Set${TypeName}Field(env, obj, fieldID, value)
     }
 
-    public func GetStatic${TypeName}Field(clazz: jclass, fieldID: jfieldID) -> ${Type} {
+    public func GetStatic${TypeName}Field(targetClass: jclass, _ fieldID: jfieldID) -> ${Type} {
         let env = self._env
-        return env.memory.memory.GetStatic${TypeName}Field(env, clazz, fieldID)
+        return env.memory.memory.GetStatic${TypeName}Field(env, targetClass, fieldID)
     }
 
-    public func SetStatic${TypeName}Field(clazz: jclass, fieldID: jfieldID, value: ${Type}) {
+    public func SetStatic${TypeName}Field(targetClass: jclass, _ fieldID: jfieldID, _ value: ${Type}) {
         let env = self._env
-        env.memory.memory.SetStatic${TypeName}Field(env, clazz, fieldID, value)
+        env.memory.memory.SetStatic${TypeName}Field(env, targetClass, fieldID, value)
     }
 % end
 }

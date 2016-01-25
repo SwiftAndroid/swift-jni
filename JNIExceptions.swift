@@ -26,9 +26,9 @@ public extension JNI {
         return env.memory.memory.Throw(env, obj)
     }
 
-    public func ThrowNew(clazz: jclass, message: String) -> jint {
+    public func ThrowNew(targetClass: jclass, _ message: String) -> jint {
         let env = self._env
-        return env.memory.memory.ThrowNew(env, clazz, message)
+        return env.memory.memory.ThrowNew(env, targetClass, message)
     }
 
     public func FatalError(msg: String) {

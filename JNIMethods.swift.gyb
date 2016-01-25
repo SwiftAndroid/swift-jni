@@ -40,18 +40,18 @@ public extension JNI {
 
 %for (TypeName, type) in jTypes:
 
-  public func Call${TypeName}Method(obj: jobject, methodID: jmethodID, args: jvalue...) -> ${type} {
-    return Call${TypeName}MethodA(obj, methodID: methodID, args: args)
+  public func Call${TypeName}Method(obj: jobject, _ methodID: jmethodID, _ args: jvalue...) -> ${type} {
+    return Call${TypeName}MethodA(obj, _ methodID: methodID, _ args: args)
   }
 
   @available(*, unavailable, message="CVaListPointers are not supported, use `Call${TypeName}Method` or `Call${TypeName}MethodA` instead")
-  public func Call${TypeName}MethodV(obj: jobject, methodID: jmethodID, args: CVaListPointer) -> ${type} {
+  public func Call${TypeName}MethodV(obj: jobject, _ methodID: jmethodID, _ args: CVaListPointer) -> ${type} {
     // let env = self._env
     // return env.memory.memory.Call${TypeName}MethodV(env, obj, methodID, args)
     return ${type}()
   }
 
-  public func Call${TypeName}MethodA(obj: jobject, methodID: jmethodID, args: [jvalue]) -> ${type} {
+  public func Call${TypeName}MethodA(obj: jobject, _ methodID: jmethodID, _ args: [jvalue]) -> ${type} {
     let env = self._env
     var mutableArgs = args
     return env.memory.memory.Call${TypeName}MethodA(env, obj, methodID, &mutableArgs)
@@ -64,18 +64,18 @@ public extension JNI {
 % # Nonvirtual Java method calls
 %for (TypeName, type) in jTypes:
 
-  public func CallNonvirtual${TypeName}Method(obj: jobject, targetClass: jclass, methodID: jmethodID, args: jvalue...) -> ${type} {
-    return self.CallNonvirtual${TypeName}MethodA(obj, targetClass: targetClass, methodID: methodID, args: args)
+  public func CallNonvirtual${TypeName}Method(obj: jobject, _ targetClass: jclass, _ methodID: jmethodID, _ args: jvalue...) -> ${type} {
+    return self.CallNonvirtual${TypeName}MethodA(obj, _ targetClass: targetClass, _ methodID: methodID, _ args: args)
   }
 
   @available(*, unavailable, message="CVaListPointers are not supported, use `CallNonvirtual${TypeName}Method` or `CallNonvirtual${TypeName}MethodA` instead")
-  public func CallNonvirtual${TypeName}MethodV(obj: jobject, targetClass: jclass, methodID: jmethodID, args: CVaListPointer) -> ${type} {
+  public func CallNonvirtual${TypeName}MethodV(obj: jobject, _ targetClass: jclass, _ methodID: jmethodID, _ args: CVaListPointer) -> ${type} {
     // let env = self._env
     // return env.memory.memory.CallNonvirtual${TypeName}MethodV(env, obj, methodID, args)
     return ${type}()
   }
 
-  public func CallNonvirtual${TypeName}MethodA(obj: jobject, targetClass: jclass, methodID: jmethodID, args: [jvalue]) -> ${type} {
+  public func CallNonvirtual${TypeName}MethodA(obj: jobject, _ targetClass: jclass, _ methodID: jmethodID, _ args: [jvalue]) -> ${type} {
     let env = self._env
     var mutableArgs = args
     return env.memory.memory.CallNonvirtual${TypeName}MethodA(env, obj, targetClass, methodID, &mutableArgs)
@@ -87,25 +87,25 @@ public extension JNI {
 
 %# Static Java method calls
 
-  public func GetStaticMethodID(targetClass: jclass, name: String, sig: String) -> jmethodID {
+  public func GetStaticMethodID(targetClass: jclass, _ name: String, _ sig: String) -> jmethodID {
     let env = self._env
     return env.memory.memory.GetStaticMethodID(env, targetClass, name, sig)
   }
 
 %for (TypeName, type) in jTypes:
 
-  public func CallStatic${TypeName}Method(targetClass: jclass, methodID: jmethodID, args: jvalue...) -> ${type} {
-    return CallStatic${TypeName}MethodA(targetClass, methodID: methodID, args: args)
+  public func CallStatic${TypeName}Method(targetClass: jclass, _ methodID: jmethodID, _ args: jvalue...) -> ${type} {
+    return CallStatic${TypeName}MethodA(targetClass, _ methodID: methodID, _ args: args)
   }
 
   @available(*, unavailable, message="CVaListPointers are not supported, use `CallStatic${TypeName}Method` or `CallStatic${TypeName}MethodA` instead")
-  public func CallStatic${TypeName}MethodV(targetClass: jclass, methodID: jmethodID, args: CVaListPointer) -> ${type} {
+  public func CallStatic${TypeName}MethodV(targetClass: jclass, _ methodID: jmethodID, _ args: CVaListPointer) -> ${type} {
     // let env = self._env
     // return env.memory.memory.CallStatic${TypeName}MethodV(env, class, methodID, args)
     return ${type}()
   }
 
-  public func CallStatic${TypeName}MethodA(targetClass: jclass, methodID: jmethodID, args: [jvalue]) -> ${type} {
+  public func CallStatic${TypeName}MethodA(targetClass: jclass, _ methodID: jmethodID, _ args: [jvalue]) -> ${type} {
     let env = self._env
     var mutableArgs = args
     return env.memory.memory.CallStatic${TypeName}MethodA(env, targetClass, methodID, &mutableArgs)

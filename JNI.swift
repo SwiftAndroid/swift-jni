@@ -45,14 +45,14 @@ public extension JNI {
         return env.memory.memory.GetJavaVM(env, vm)
     }
 
-    public func RegisterNatives(clazz: jclass, methods: UnsafePointer<JNINativeMethod>, nMethods: jint) -> jint {
+    public func RegisterNatives(targetClass: jclass, _ methods: UnsafePointer<JNINativeMethod>, _ nMethods: jint) -> jint {
         let env = self._env
-        return env.memory.memory.RegisterNatives(env, clazz, methods, nMethods)
+        return env.memory.memory.RegisterNatives(env, targetClass, methods, nMethods)
     }
 
-    public func UnregisterNatives(clazz: jclass) -> jint {
+    public func UnregisterNatives(targetClass: jclass) -> jint {
         let env = self._env
-        return env.memory.memory.UnregisterNatives(env, clazz)
+        return env.memory.memory.UnregisterNatives(env, targetClass)
     }
 
     public func MonitorEnter(obj: jobject) -> jint {

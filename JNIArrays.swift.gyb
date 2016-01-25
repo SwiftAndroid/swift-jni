@@ -26,17 +26,17 @@ public extension JNI {
     }
 
 % # You can only set / get one object element at a time
-    public func NewObjectArray(length: jsize, elementClass: jclass, initialElement: jobject) -> jobjectArray {
+    public func NewObjectArray(length: jsize, _ elementClass: jclass, _ initialElement: jobject) -> jobjectArray {
         let env = self._env
         return env.memory.memory.NewObjectArray(env, length, elementClass, initialElement)
     }
 
-    public func GetObjectArrayElement(array: jobjectArray, index: jsize) -> jobject {
+    public func GetObjectArrayElement(array: jobjectArray, _ index: jsize) -> jobject {
         let env = self._env
         return env.memory.memory.GetObjectArrayElement(env, array, index)
     }
 
-    public func SetObjectArrayElement(array: jobjectArray, index: jsize, value: jobject) {
+    public func SetObjectArrayElement(array: jobjectArray, _ index: jsize, _ value: jobject) {
         let env = self._env
         env.memory.memory.SetObjectArrayElement(env, array, index, value)
     }
@@ -50,22 +50,22 @@ public extension JNI {
         return env.memory.memory.New${TypeName}Array(env, length)
     }
 
-    public func Get${TypeName}ArrayElements(array: ${type}Array, isCopy: UnsafeMutablePointer<jboolean>) -> UnsafeMutablePointer<${type}> {
+    public func Get${TypeName}ArrayElements(array: ${type}Array, _ isCopy: UnsafeMutablePointer<jboolean>) -> UnsafeMutablePointer<${type}> {
        let env = self._env
        return env.memory.memory.Get${TypeName}ArrayElements(env, array, isCopy)
     }
 
-    public func Release${TypeName}ArrayElements(array: ${type}Array, elems: UnsafeMutablePointer<${type}>, mode: jint) {
+    public func Release${TypeName}ArrayElements(array: ${type}Array, _ elems: UnsafeMutablePointer<${type}>, _ mode: jint) {
        let env = self._env
        env.memory.memory.Release${TypeName}ArrayElements(env, array, elems, mode)
     }
 
-    public func Get${TypeName}ArrayRegion(array: ${type}Array, start: jsize, len: jsize, buf: UnsafeMutablePointer<${type}>) {
+    public func Get${TypeName}ArrayRegion(array: ${type}Array, _ start: jsize, _ len: jsize, _ buf: UnsafeMutablePointer<${type}>) {
         let env = self._env
         env.memory.memory.Get${TypeName}ArrayRegion(env, array, start, len, buf)
     }
 
-    public func Set${TypeName}ArrayRegion(array: ${type}Array, start: jsize, len: jsize, buf: UnsafePointer<${type}>) {
+    public func Set${TypeName}ArrayRegion(array: ${type}Array, _ start: jsize, _ len: jsize, _ buf: UnsafePointer<${type}>) {
         let env = self._env
         env.memory.memory.Set${TypeName}ArrayRegion(env, array, start, len, buf)
     }
@@ -75,17 +75,17 @@ public extension JNI {
 
 /// High performance JNI extensions
 public extension JNI {
-    public func GetPrimitiveArrayCritical(array: jarray, isCopy: UnsafeMutablePointer<jboolean>) -> UnsafeMutablePointer<Void> {
+    public func GetPrimitiveArrayCritical(array: jarray, _ isCopy: UnsafeMutablePointer<jboolean>) -> UnsafeMutablePointer<Void> {
         let env = self._env
         return env.memory.memory.GetPrimitiveArrayCritical(env, array, isCopy)
     }
 
-    public func ReleasePrimitiveArrayCritical(array: jarray, carray: UnsafeMutablePointer<Void>, mode: jint) {
+    public func ReleasePrimitiveArrayCritical(array: jarray, _ carray: UnsafeMutablePointer<Void>, _ mode: jint) {
         let env = self._env
         env.memory.memory.ReleasePrimitiveArrayCritical(env, array, carray, mode)
     }
 
-    public func NewDirectByteBuffer(address: UnsafeMutablePointer<Void>, capacity: jlong) -> jobject {
+    public func NewDirectByteBuffer(address: UnsafeMutablePointer<Void>, _ capacity: jlong) -> jobject {
         let env = self._env
         return env.memory.memory.NewDirectByteBuffer(env, address, capacity)
     }
