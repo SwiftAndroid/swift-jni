@@ -10,8 +10,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-module CJNI [system] {
+module Cjni [system] {
   header "@JNI_INCLUDE_PATH@/jni.h"
   export *
 }
-
