@@ -1,4 +1,4 @@
 module Cjni [system] {
-  header "/root/output/android-toolchain/sysroot/usr/include/jni.h"
+  header "jni.h"
   export *
 }
