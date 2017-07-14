@@ -12,7 +12,7 @@ public class JNI {
         // so use this mutable _tmpPointer as an intermediate:
         var _tmpPointer: UnsafeMutableRawPointer?
         let threadStatus = jvm.GetEnv(_jvm, &_tmpPointer, JavaInt(JNI_VERSION_1_6))
-        var _env = _tmpPointer!.bindMemory(to: JNIEnv.self, capacity: 1)
+        var _env = _tmpPointer?.bindMemory(to: JNIEnv.self, capacity: 1)
 
         switch threadStatus.bigEndian {
         case JNI_OK: break // if we're already attached, do nothing
@@ -24,13 +24,12 @@ public class JNI {
         default: break
         }
 
-        return _env
+        return _env!
     }
 
 
     // Normally we init the jni global ourselves in JNI_OnLoad
-    public init?(jvm: UnsafeMutablePointer<JavaVM?>) {
-        if jvm == nil { return nil }
+    public init?(jvm: UnsafeMutablePointer<JavaVM>) {
         self._jvm = jvm
     }
 }
@@ -38,31 +37,31 @@ public class JNI {
 public extension JNI {
     public func GetVersion() -> JavaInt {
         let env = self._env
-        return env.pointee!.pointee.GetVersion(env)
+        return env.pointee.pointee.GetVersion(env)
     }
 
-    public func GetJavaVM(vm: UnsafeMutablePointer<UnsafeMutablePointer<JavaVM?>?>) -> JavaInt {
+    public func GetJavaVM(vm: UnsafeMutablePointer<UnsafeMutablePointer<JavaVM>>) -> JavaInt {
         let env = self._env
-        return env.pointee!.pointee.GetJavaVM(env, vm)
+        return env.pointee.pointee.GetJavaVM(env, vm)
     }
 
     public func RegisterNatives(targetClass: JavaClass, _ methods: UnsafePointer<JNINativeMethod>, _ nMethods: JavaInt) -> JavaInt {
         let env = self._env
-        return env.pointee!.pointee.RegisterNatives(env, targetClass, methods, nMethods)
+        return env.pointee.pointee.RegisterNatives(env, targetClass, methods, nMethods)
     }
 
     public func UnregisterNatives(targetClass: JavaClass) -> JavaInt {
         let env = self._env
-        return env.pointee!.pointee.UnregisterNatives(env, targetClass)
+        return env.pointee.pointee.UnregisterNatives(env, targetClass)
     }
 
     public func MonitorEnter(obj: JavaObject) -> JavaInt {
         let env = self._env
-        return env.pointee!.pointee.MonitorEnter(env, obj)
+        return env.pointee.pointee.MonitorEnter(env, obj)
     }
 
     public func MonitorExit(obj: JavaObject) -> JavaInt {
         let env = self._env
-        return env.pointee!.pointee.MonitorExit(env, obj)
+        return env.pointee.pointee.MonitorExit(env, obj)
     }
 }

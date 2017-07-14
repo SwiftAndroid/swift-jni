@@ -125,7 +125,7 @@ typedef _jobject *jweak;
 /*
  * Reference types, in C.
  */
-typedef void *_Nullable jobject CF_SWIFT_NAME(JavaObject);
+typedef void * _Nullable jobject CF_SWIFT_NAME(JavaObject);
 typedef jobject jclass CF_SWIFT_NAME(JavaClass);
 typedef jobject jstring CF_SWIFT_NAME(JavaString);
 typedef jobject jarray CF_SWIFT_NAME(JavaArray);
@@ -144,10 +144,10 @@ typedef jobject jweak CF_SWIFT_NAME(JavaWeakReference);
 #endif /* not __cplusplus */
 
 struct _jfieldID;                             /* opaque structure */
-typedef struct _jfieldID *_Nullable jfieldID; /* field IDs */
+typedef struct _jfieldID * _Nullable jfieldID; /* field IDs */
 
 struct _jmethodID;                                                          /* opaque structure */
-typedef struct _jmethodID *_Nullable jmethodID CF_SWIFT_NAME(JavaMethodID); /* method IDs */
+typedef struct _jmethodID * _Nullable jmethodID CF_SWIFT_NAME(JavaMethodID); /* method IDs */
 
 struct JNIInvokeInterface;
 
@@ -172,21 +172,21 @@ typedef enum CF_SWIFT_NAME(JavaObjectRefType) jobjectRefType {
 
 typedef struct
 {
-    const char *_Nonnull name;
-    const char *_Nonnull signature;
-    void *_Nonnull fnPtr;
+    const char * _Nonnull name;
+    const char * _Nonnull signature;
+    void * _Nonnull fnPtr;
 } JNINativeMethod;
 
 struct _JNIEnv;
 struct _JavaVM;
-typedef const struct JNINativeInterface *_Nonnull C_JNIEnv;
+typedef const struct JNINativeInterface * _Nonnull C_JNIEnv;
 
 #if defined(__cplusplus)
 typedef _JNIEnv JNIEnv;
 typedef _JavaVM JavaVM;
 #else
-typedef const struct JNINativeInterface *_Nonnull JNIEnv;
-typedef const struct JNIInvokeInterface *_Nonnull JavaVM;
+typedef const struct JNINativeInterface * _Nonnull JNIEnv;
+typedef const struct JNIInvokeInterface * _Nonnull JavaVM;
 #endif
 
 /*
@@ -199,274 +199,274 @@ struct JNINativeInterface
     void *_Null_unspecified reserved2;
     void *_Null_unspecified reserved3;
 
-    jint (*_Nonnull GetVersion)(JNIEnv *_Nonnull);
+    jint (* _Nonnull GetVersion)(JNIEnv * _Nonnull);
 
-    jclass (*_Nonnull DefineClass)(JNIEnv *_Nonnull, const char *_Nonnull, jobject, const jbyte *_Nonnull, jsize) SWIFT_UNAVAILABLE(Not implemented on Android);
-    jclass (*_Nonnull FindClass)(JNIEnv *_Nonnull, const char *_Nonnull);
+    jclass (* _Nonnull DefineClass)(JNIEnv * _Nonnull, const char * _Nonnull, jobject, const jbyte * _Nonnull, jsize) SWIFT_UNAVAILABLE(Not implemented on Android);
+    jclass (* _Nonnull FindClass)(JNIEnv * _Nonnull, const char * _Nonnull);
 
-    jmethodID (*_Nonnull FromReflectedMethod)(JNIEnv *_Nonnull, jobject);
-    jfieldID (*_Nonnull FromReflectedField)(JNIEnv *_Nonnull, jobject);
+    jmethodID (* _Nonnull FromReflectedMethod)(JNIEnv * _Nonnull, jobject);
+    jfieldID (* _Nonnull FromReflectedField)(JNIEnv * _Nonnull, jobject);
     /* spec doesn't show jboolean parameter */
-    jobject (*_Nonnull ToReflectedMethod)(JNIEnv *_Nonnull, jclass, jmethodID, jboolean);
+    jobject (* _Nonnull ToReflectedMethod)(JNIEnv * _Nonnull, jclass, jmethodID, jboolean);
 
-    jclass (*_Nonnull GetSuperclass)(JNIEnv *_Nonnull, jclass);
-    jboolean (*_Nonnull IsAssignableFrom)(JNIEnv *_Nonnull, jclass, jclass);
+    jclass (* _Nonnull GetSuperclass)(JNIEnv * _Nonnull, jclass);
+    jboolean (* _Nonnull IsAssignableFrom)(JNIEnv * _Nonnull, jclass, jclass);
 
     /* spec doesn't show jboolean parameter */
-    jobject (*_Nonnull ToReflectedField)(JNIEnv *_Nonnull, jclass, jfieldID, jboolean);
+    jobject (* _Nonnull ToReflectedField)(JNIEnv * _Nonnull, jclass, jfieldID, jboolean);
 
-    jint (*_Nonnull Throw)(JNIEnv *_Nonnull, jthrowable);
-    jint (*_Nonnull ThrowNew)(JNIEnv *, jclass, const char *_Nonnull);
-    jthrowable (*_Nonnull ExceptionOccurred)(JNIEnv *_Nonnull);
-    void (*_Nonnull ExceptionDescribe)(JNIEnv *_Nonnull);
-    void (*_Nonnull ExceptionClear)(JNIEnv *_Nonnull);
-    void (*_Nonnull FatalError)(JNIEnv *_Nonnull, const char *_Nonnull);
+    jint (* _Nonnull Throw)(JNIEnv * _Nonnull, jthrowable);
+    jint (* _Nonnull ThrowNew)(JNIEnv * _Nonnull, jclass, const char * _Nonnull);
+    jthrowable (* _Nonnull ExceptionOccurred)(JNIEnv * _Nonnull);
+    void (* _Nonnull ExceptionDescribe)(JNIEnv * _Nonnull);
+    void (* _Nonnull ExceptionClear)(JNIEnv * _Nonnull);
+    void (* _Nonnull FatalError)(JNIEnv * _Nonnull, const char * _Nonnull);
 
-    jint (*_Nonnull PushLocalFrame)(JNIEnv *_Nonnull, jint);
-    jobject (*_Nonnull PopLocalFrame)(JNIEnv *_Nonnull, jobject);
+    jint (* _Nonnull PushLocalFrame)(JNIEnv * _Nonnull, jint);
+    jobject (* _Nonnull PopLocalFrame)(JNIEnv * _Nonnull, jobject);
 
-    jobject (*_Nonnull NewGlobalRef)(JNIEnv *_Nonnull, jobject);
-    void (*_Nonnull DeleteGlobalRef)(JNIEnv *_Nonnull, jobject);
-    void (*_Nonnull DeleteLocalRef)(JNIEnv *_Nonnull, jobject);
-    jboolean (*_Nonnull IsSameObject)(JNIEnv *_Nonnull, jobject, jobject);
+    jobject (* _Nonnull NewGlobalRef)(JNIEnv * _Nonnull, jobject);
+    void (* _Nonnull DeleteGlobalRef)(JNIEnv * _Nonnull, jobject);
+    void (* _Nonnull DeleteLocalRef)(JNIEnv * _Nonnull, jobject);
+    jboolean (* _Nonnull IsSameObject)(JNIEnv * _Nonnull, jobject, jobject);
 
-    jobject (*_Nonnull NewLocalRef)(JNIEnv *_Nonnull, jobject);
-    jint (*_Nonnull EnsureLocalCapacity)(JNIEnv *_Nonnull, jint);
+    jobject (* _Nonnull NewLocalRef)(JNIEnv * _Nonnull, jobject);
+    jint (* _Nonnull EnsureLocalCapacity)(JNIEnv * _Nonnull, jint);
 
-    jobject (*_Nonnull AllocObject)(JNIEnv *_Nonnull, jclass);
-    jobject (*_Nonnull NewObject)(JNIEnv *_Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'newObject' instead);
-    jobject (*_Nonnull NewObjectV)(JNIEnv *_Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'newObject' instead);
-    jobject (*_Nonnull NewObjectA)(JNIEnv *_Nonnull, jclass, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(newObject);
+    jobject (* _Nonnull AllocObject)(JNIEnv * _Nonnull, jclass);
+    jobject (* _Nonnull NewObject)(JNIEnv * _Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'newObject' instead);
+    jobject (* _Nonnull NewObjectV)(JNIEnv * _Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'newObject' instead);
+    jobject (* _Nonnull NewObjectA)(JNIEnv * _Nonnull, jclass, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(NewObject);
 
-    jclass (*_Nonnull GetObjectClass)(JNIEnv *_Nonnull, jobject);
-    jboolean (*_Nonnull IsInstanceOf)(JNIEnv *_Nonnull, jobject, jclass);
-    jmethodID (*_Nonnull GetMethodID)(JNIEnv *_Nonnull, jclass, const char *_Nonnull, const char *_Nonnull);
+    jclass (* _Nonnull GetObjectClass)(JNIEnv * _Nonnull, jobject);
+    jboolean (* _Nonnull IsInstanceOf)(JNIEnv * _Nonnull, jobject, jclass);
+    jmethodID (* _Nonnull GetMethodID)(JNIEnv * _Nonnull, jclass, const char * _Nonnull, const char * _Nonnull);
 
-    jobject (*_Nonnull CallObjectMethod)(JNIEnv *_Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE(use 'call' instead);
-    jobject (*_Nonnull CallObjectMethodV)(JNIEnv *_Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'call' instead);
-    jobject (*_Nonnull CallObjectMethodA)(JNIEnv *_Nonnull, jobject, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(call);
-    jboolean (*_Nonnull CallBooleanMethod)(JNIEnv *_Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE(use 'call' instead);
-    jboolean (*_Nonnull CallBooleanMethodV)(JNIEnv *_Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'call' instead);
-    jboolean (*_Nonnull CallBooleanMethodA)(JNIEnv *_Nonnull, jobject, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(call);
-    jbyte (*_Nonnull CallByteMethod)(JNIEnv *_Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE(use 'call' instead);
-    jbyte (*_Nonnull CallByteMethodV)(JNIEnv *_Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'call' instead);
-    jbyte (*_Nonnull CallByteMethodA)(JNIEnv *_Nonnull, jobject, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(call);
-    jchar (*_Nonnull CallCharMethod)(JNIEnv *_Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE(use 'call' instead);
-    jchar (*_Nonnull CallCharMethodV)(JNIEnv *_Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'call' instead);
-    jchar (*_Nonnull CallCharMethodA)(JNIEnv *_Nonnull, jobject, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(call);
-    jshort (*_Nonnull CallShortMethod)(JNIEnv *_Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE(use 'call' instead);
-    jshort (*_Nonnull CallShortMethodV)(JNIEnv *_Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'call' instead);
-    jshort (*_Nonnull CallShortMethodA)(JNIEnv *_Nonnull, jobject, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(call);
-    jint (*_Nonnull CallIntMethod)(JNIEnv *_Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE(use 'call' instead);
-    jint (*_Nonnull CallIntMethodV)(JNIEnv *_Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'call' instead);
-    jint (*_Nonnull CallIntMethodA)(JNIEnv *_Nonnull, jobject, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(call);
-    jlong (*_Nonnull CallLongMethod)(JNIEnv *_Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE(use 'call' instead);
-    jlong (*_Nonnull CallLongMethodV)(JNIEnv *_Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'call' instead);
-    jlong (*_Nonnull CallLongMethodA)(JNIEnv *_Nonnull, jobject, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(call);
-    jfloat (*_Nonnull CallFloatMethod)(JNIEnv *_Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE(use 'call' instead);
-    jfloat (*_Nonnull CallFloatMethodV)(JNIEnv *_Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'call' instead);
-    jfloat (*_Nonnull CallFloatMethodA)(JNIEnv *_Nonnull, jobject, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(call);
-    jdouble (*_Nonnull CallDoubleMethod)(JNIEnv *_Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE(use 'call' instead);
-    jdouble (*_Nonnull CallDoubleMethodV)(JNIEnv *_Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'call' instead);
-    jdouble (*_Nonnull CallDoubleMethodA)(JNIEnv *_Nonnull, jobject, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(call);
-    void (*_Nonnull CallVoidMethod)(JNIEnv *_Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE(use 'call' instead);
-    void (*_Nonnull CallVoidMethodV)(JNIEnv *_Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'call' instead);
-    void (*_Nonnull CallVoidMethodA)(JNIEnv *_Nonnull, jobject, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(call);
+    jobject (* _Nonnull CallObjectMethod)(JNIEnv * _Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jobject (* _Nonnull CallObjectMethodV)(JNIEnv * _Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jobject (* _Nonnull CallObjectMethodA)(JNIEnv * _Nonnull, jobject, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(CallObjectMethod);
+    jboolean (* _Nonnull CallBooleanMethod)(JNIEnv * _Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jboolean (* _Nonnull CallBooleanMethodV)(JNIEnv * _Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jboolean (* _Nonnull CallBooleanMethodA)(JNIEnv * _Nonnull, jobject, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(CallBooleanMethod);
+    jbyte (* _Nonnull CallByteMethod)(JNIEnv * _Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jbyte (* _Nonnull CallByteMethodV)(JNIEnv * _Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jbyte (* _Nonnull CallByteMethodA)(JNIEnv * _Nonnull, jobject, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(CallByteMethod);
+    jchar (* _Nonnull CallCharMethod)(JNIEnv * _Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jchar (* _Nonnull CallCharMethodV)(JNIEnv * _Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jchar (* _Nonnull CallCharMethodA)(JNIEnv * _Nonnull, jobject, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(CallCharMethod);
+    jshort (* _Nonnull CallShortMethod)(JNIEnv * _Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jshort (* _Nonnull CallShortMethodV)(JNIEnv * _Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jshort (* _Nonnull CallShortMethodA)(JNIEnv * _Nonnull, jobject, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(CallShortMethod);
+    jint (* _Nonnull CallIntMethod)(JNIEnv * _Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jint (* _Nonnull CallIntMethodV)(JNIEnv * _Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jint (* _Nonnull CallIntMethodA)(JNIEnv * _Nonnull, jobject, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(CallIntMethod);
+    jlong (* _Nonnull CallLongMethod)(JNIEnv * _Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jlong (* _Nonnull CallLongMethodV)(JNIEnv * _Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jlong (* _Nonnull CallLongMethodA)(JNIEnv * _Nonnull, jobject, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(CallLongMethod);
+    jfloat (* _Nonnull CallFloatMethod)(JNIEnv * _Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jfloat (* _Nonnull CallFloatMethodV)(JNIEnv * _Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jfloat (* _Nonnull CallFloatMethodA)(JNIEnv * _Nonnull, jobject, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(CallFloatMethod);
+    jdouble (* _Nonnull CallDoubleMethod)(JNIEnv * _Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jdouble (* _Nonnull CallDoubleMethodV)(JNIEnv * _Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jdouble (* _Nonnull CallDoubleMethodA)(JNIEnv * _Nonnull, jobject, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(CallDoubleMethod);
+    void (* _Nonnull CallVoidMethod)(JNIEnv * _Nonnull, jobject, jmethodID, ...) SWIFT_UNAVAILABLE();
+    void (* _Nonnull CallVoidMethodV)(JNIEnv * _Nonnull, jobject, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    void (* _Nonnull CallVoidMethodA)(JNIEnv * _Nonnull, jobject, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(CallVoidMethod);
 
-    jobject (*_Nonnull CallNonvirtualObjectMethod)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jobject (*_Nonnull CallNonvirtualObjectMethodV)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jobject (*_Nonnull CallNonvirtualObjectMethodA)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(callNonvirtual);
-    jboolean (*_Nonnull CallNonvirtualBooleanMethod)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jboolean (*_Nonnull CallNonvirtualBooleanMethodV)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jboolean (*_Nonnull CallNonvirtualBooleanMethodA)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(callNonvirtual);
-    jbyte (*_Nonnull CallNonvirtualByteMethod)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jbyte (*_Nonnull CallNonvirtualByteMethodV)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jbyte (*_Nonnull CallNonvirtualByteMethodA)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(callNonvirtual);
-    jchar (*_Nonnull CallNonvirtualCharMethod)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jchar (*_Nonnull CallNonvirtualCharMethodV)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jchar (*_Nonnull CallNonvirtualCharMethodA)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(callNonvirtual);
-    jshort (*_Nonnull CallNonvirtualShortMethod)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jshort (*_Nonnull CallNonvirtualShortMethodV)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jshort (*_Nonnull CallNonvirtualShortMethodA)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(callNonvirtual);
-    jint (*_Nonnull CallNonvirtualIntMethod)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jint (*_Nonnull CallNonvirtualIntMethodV)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jint (*_Nonnull CallNonvirtualIntMethodA)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(callNonvirtual);
-    jlong (*_Nonnull CallNonvirtualLongMethod)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jlong (*_Nonnull CallNonvirtualLongMethodV)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jlong (*_Nonnull CallNonvirtualLongMethodA)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(callNonvirtual);
-    jfloat (*_Nonnull CallNonvirtualFloatMethod)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jfloat (*_Nonnull CallNonvirtualFloatMethodV)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jfloat (*_Nonnull CallNonvirtualFloatMethodA)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(callNonvirtual);
-    jdouble (*_Nonnull CallNonvirtualDoubleMethod)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jdouble (*_Nonnull CallNonvirtualDoubleMethodV)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    jdouble (*_Nonnull CallNonvirtualDoubleMethodA)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(callNonvirtual);
-    void (*_Nonnull CallNonvirtualVoidMethod)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    void (*_Nonnull CallNonvirtualVoidMethodV)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
-    void (*_Nonnull CallNonvirtualVoidMethodA)(JNIEnv *_Nonnull, jobject, jclass, jmethodID, const jvalue *_Nonnull) CF_SWIFT_NAME(callNonvirtual);
+    jobject (* _Nonnull CallNonvirtualObjectMethod)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jobject (* _Nonnull CallNonvirtualObjectMethodV)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jobject (* _Nonnull CallNonvirtualObjectMethodA)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(callNonvirtual);
+    jboolean (* _Nonnull CallNonvirtualBooleanMethod)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jboolean (* _Nonnull CallNonvirtualBooleanMethodV)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jboolean (* _Nonnull CallNonvirtualBooleanMethodA)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(callNonvirtual);
+    jbyte (* _Nonnull CallNonvirtualByteMethod)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jbyte (* _Nonnull CallNonvirtualByteMethodV)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jbyte (* _Nonnull CallNonvirtualByteMethodA)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(callNonvirtual);
+    jchar (* _Nonnull CallNonvirtualCharMethod)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jchar (* _Nonnull CallNonvirtualCharMethodV)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jchar (* _Nonnull CallNonvirtualCharMethodA)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(callNonvirtual);
+    jshort (* _Nonnull CallNonvirtualShortMethod)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jshort (* _Nonnull CallNonvirtualShortMethodV)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jshort (* _Nonnull CallNonvirtualShortMethodA)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(callNonvirtual);
+    jint (* _Nonnull CallNonvirtualIntMethod)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jint (* _Nonnull CallNonvirtualIntMethodV)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jint (* _Nonnull CallNonvirtualIntMethodA)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(callNonvirtual);
+    jlong (* _Nonnull CallNonvirtualLongMethod)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jlong (* _Nonnull CallNonvirtualLongMethodV)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jlong (* _Nonnull CallNonvirtualLongMethodA)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(callNonvirtual);
+    jfloat (* _Nonnull CallNonvirtualFloatMethod)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jfloat (* _Nonnull CallNonvirtualFloatMethodV)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jfloat (* _Nonnull CallNonvirtualFloatMethodA)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(callNonvirtual);
+    jdouble (* _Nonnull CallNonvirtualDoubleMethod)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jdouble (* _Nonnull CallNonvirtualDoubleMethodV)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    jdouble (* _Nonnull CallNonvirtualDoubleMethodA)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(callNonvirtual);
+    void (* _Nonnull CallNonvirtualVoidMethod)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, ...) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    void (* _Nonnull CallNonvirtualVoidMethodV)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE(use 'callNonvirtual' instead);
+    void (* _Nonnull CallNonvirtualVoidMethodA)(JNIEnv * _Nonnull, jobject, jclass, jmethodID, const jvalue * _Nonnull) CF_SWIFT_NAME(callNonvirtual);
 
-    jfieldID (*_Nonnull GetFieldID)(JNIEnv *_Nonnull, jclass, const char *_Nonnull, const char *_Nonnull);
+    jfieldID (* _Nonnull GetFieldID)(JNIEnv * _Nonnull, jclass, const char * _Nonnull, const char * _Nonnull);
 
-    jobject (*_Nonnull GetObjectField)(JNIEnv *_Nonnull, jobject, jfieldID);
-    jboolean (*_Nonnull GetBooleanField)(JNIEnv *_Nonnull, jobject, jfieldID);
-    jbyte (*_Nonnull GetByteField)(JNIEnv *_Nonnull, jobject, jfieldID);
-    jchar (*_Nonnull GetCharField)(JNIEnv *_Nonnull, jobject, jfieldID);
-    jshort (*_Nonnull GetShortField)(JNIEnv *_Nonnull, jobject, jfieldID);
-    jint (*_Nonnull GetIntField)(JNIEnv *_Nonnull, jobject, jfieldID);
-    jlong (*_Nonnull GetLongField)(JNIEnv *_Nonnull, jobject, jfieldID);
-    jfloat (*_Nonnull GetFloatField)(JNIEnv *_Nonnull, jobject, jfieldID);
-    jdouble (*_Nonnull GetDoubleField)(JNIEnv *_Nonnull, jobject, jfieldID);
+    jobject (* _Nonnull GetObjectField)(JNIEnv * _Nonnull, jobject, jfieldID);
+    jboolean (* _Nonnull GetBooleanField)(JNIEnv * _Nonnull, jobject, jfieldID);
+    jbyte (* _Nonnull GetByteField)(JNIEnv * _Nonnull, jobject, jfieldID);
+    jchar (* _Nonnull GetCharField)(JNIEnv * _Nonnull, jobject, jfieldID);
+    jshort (* _Nonnull GetShortField)(JNIEnv * _Nonnull, jobject, jfieldID);
+    jint (* _Nonnull GetIntField)(JNIEnv * _Nonnull, jobject, jfieldID);
+    jlong (* _Nonnull GetLongField)(JNIEnv * _Nonnull, jobject, jfieldID);
+    jfloat (* _Nonnull GetFloatField)(JNIEnv * _Nonnull, jobject, jfieldID);
+    jdouble (* _Nonnull GetDoubleField)(JNIEnv * _Nonnull, jobject, jfieldID);
 
-    void (*_Nonnull SetObjectField)(JNIEnv *_Nonnull, jobject, jfieldID, jobject);
-    void (*_Nonnull SetBooleanField)(JNIEnv *_Nonnull, jobject, jfieldID, jboolean);
-    void (*_Nonnull SetByteField)(JNIEnv *_Nonnull, jobject, jfieldID, jbyte);
-    void (*_Nonnull SetCharField)(JNIEnv *_Nonnull, jobject, jfieldID, jchar);
-    void (*_Nonnull SetShortField)(JNIEnv *_Nonnull, jobject, jfieldID, jshort);
-    void (*_Nonnull SetIntField)(JNIEnv *_Nonnull, jobject, jfieldID, jint);
-    void (*_Nonnull SetLongField)(JNIEnv *_Nonnull, jobject, jfieldID, jlong);
-    void (*_Nonnull SetFloatField)(JNIEnv *_Nonnull, jobject, jfieldID, jfloat);
-    void (*_Nonnull SetDoubleField)(JNIEnv *_Nonnull, jobject, jfieldID, jdouble);
+    void (* _Nonnull SetObjectField)(JNIEnv * _Nonnull, jobject, jfieldID, jobject);
+    void (* _Nonnull SetBooleanField)(JNIEnv * _Nonnull, jobject, jfieldID, jboolean);
+    void (* _Nonnull SetByteField)(JNIEnv * _Nonnull, jobject, jfieldID, jbyte);
+    void (* _Nonnull SetCharField)(JNIEnv * _Nonnull, jobject, jfieldID, jchar);
+    void (* _Nonnull SetShortField)(JNIEnv * _Nonnull, jobject, jfieldID, jshort);
+    void (* _Nonnull SetIntField)(JNIEnv * _Nonnull, jobject, jfieldID, jint);
+    void (* _Nonnull SetLongField)(JNIEnv * _Nonnull, jobject, jfieldID, jlong);
+    void (* _Nonnull SetFloatField)(JNIEnv * _Nonnull, jobject, jfieldID, jfloat);
+    void (* _Nonnull SetDoubleField)(JNIEnv * _Nonnull, jobject, jfieldID, jdouble);
 
-    jmethodID (*_Nonnull GetStaticMethodID)(JNIEnv *_Nonnull, jclass, const char *_Nonnull, const char *_Nonnull);
+    jmethodID (* _Nonnull GetStaticMethodID)(JNIEnv * _Nonnull, jclass, const char * _Nonnull, const char * _Nonnull);
 
-    jobject (*_Nonnull CallStaticObjectMethod)(JNIEnv *_Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
-    jobject (*_Nonnull CallStaticObjectMethodV)(JNIEnv *_Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
-    jobject (*_Nonnull CallStaticObjectMethodA)(JNIEnv *_Nonnull, jclass, jmethodID, const jvalue *_Nonnull);
-    jboolean (*_Nonnull CallStaticBooleanMethod)(JNIEnv *_Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
-    jboolean (*_Nonnull CallStaticBooleanMethodV)(JNIEnv *_Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
-    jboolean (*_Nonnull CallStaticBooleanMethodA)(JNIEnv *_Nonnull, jclass, jmethodID, const jvalue *_Nonnull);
-    jbyte (*_Nonnull CallStaticByteMethod)(JNIEnv *_Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
-    jbyte (*_Nonnull CallStaticByteMethodV)(JNIEnv *_Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
-    jbyte (*_Nonnull CallStaticByteMethodA)(JNIEnv *_Nonnull, jclass, jmethodID, const jvalue *_Nonnull);
-    jchar (*_Nonnull CallStaticCharMethod)(JNIEnv *_Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
-    jchar (*_Nonnull CallStaticCharMethodV)(JNIEnv *_Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
-    jchar (*_Nonnull CallStaticCharMethodA)(JNIEnv *_Nonnull, jclass, jmethodID, const jvalue *_Nonnull);
-    jshort (*_Nonnull CallStaticShortMethod)(JNIEnv *_Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
-    jshort (*_Nonnull CallStaticShortMethodV)(JNIEnv *_Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
-    jshort (*_Nonnull CallStaticShortMethodA)(JNIEnv *_Nonnull, jclass, jmethodID, const jvalue *_Nonnull);
-    jint (*_Nonnull CallStaticIntMethod)(JNIEnv *_Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
-    jint (*_Nonnull CallStaticIntMethodV)(JNIEnv *_Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
-    jint (*_Nonnull CallStaticIntMethodA)(JNIEnv *_Nonnull, jclass, jmethodID, const jvalue *_Nonnull);
-    jlong (*_Nonnull CallStaticLongMethod)(JNIEnv *_Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
-    jlong (*_Nonnull CallStaticLongMethodV)(JNIEnv *_Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
-    jlong (*_Nonnull CallStaticLongMethodA)(JNIEnv *_Nonnull, jclass, jmethodID, const jvalue *_Nonnull);
-    jfloat (*_Nonnull CallStaticFloatMethod)(JNIEnv *_Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
-    jfloat (*_Nonnull CallStaticFloatMethodV)(JNIEnv *_Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
-    jfloat (*_Nonnull CallStaticFloatMethodA)(JNIEnv *_Nonnull, jclass, jmethodID, const jvalue *_Nonnull);
-    jdouble (*_Nonnull CallStaticDoubleMethod)(JNIEnv *_Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
-    jdouble (*_Nonnull CallStaticDoubleMethodV)(JNIEnv *_Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
-    jdouble (*_Nonnull CallStaticDoubleMethodA)(JNIEnv *_Nonnull, jclass, jmethodID, const jvalue *_Nonnull);
-    void (*_Nonnull CallStaticVoidMethod)(JNIEnv *_Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
-    void (*_Nonnull CallStaticVoidMethodV)(JNIEnv *_Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
-    void (*_Nonnull CallStaticVoidMethodA)(JNIEnv *_Nonnull, jclass, jmethodID, const jvalue *_Nonnull);
+    jobject (* _Nonnull CallStaticObjectMethod)(JNIEnv * _Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jobject (* _Nonnull CallStaticObjectMethodV)(JNIEnv * _Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jobject (* _Nonnull CallStaticObjectMethodA)(JNIEnv * _Nonnull, jclass, jmethodID, const jvalue * _Nonnull);
+    jboolean (* _Nonnull CallStaticBooleanMethod)(JNIEnv * _Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jboolean (* _Nonnull CallStaticBooleanMethodV)(JNIEnv * _Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jboolean (* _Nonnull CallStaticBooleanMethodA)(JNIEnv * _Nonnull, jclass, jmethodID, const jvalue * _Nonnull);
+    jbyte (* _Nonnull CallStaticByteMethod)(JNIEnv * _Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jbyte (* _Nonnull CallStaticByteMethodV)(JNIEnv * _Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jbyte (* _Nonnull CallStaticByteMethodA)(JNIEnv * _Nonnull, jclass, jmethodID, const jvalue * _Nonnull);
+    jchar (* _Nonnull CallStaticCharMethod)(JNIEnv * _Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jchar (* _Nonnull CallStaticCharMethodV)(JNIEnv * _Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jchar (* _Nonnull CallStaticCharMethodA)(JNIEnv * _Nonnull, jclass, jmethodID, const jvalue * _Nonnull);
+    jshort (* _Nonnull CallStaticShortMethod)(JNIEnv * _Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jshort (* _Nonnull CallStaticShortMethodV)(JNIEnv * _Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jshort (* _Nonnull CallStaticShortMethodA)(JNIEnv * _Nonnull, jclass, jmethodID, const jvalue * _Nonnull);
+    jint (* _Nonnull CallStaticIntMethod)(JNIEnv * _Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jint (* _Nonnull CallStaticIntMethodV)(JNIEnv * _Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jint (* _Nonnull CallStaticIntMethodA)(JNIEnv * _Nonnull, jclass, jmethodID, const jvalue * _Nonnull);
+    jlong (* _Nonnull CallStaticLongMethod)(JNIEnv * _Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jlong (* _Nonnull CallStaticLongMethodV)(JNIEnv * _Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jlong (* _Nonnull CallStaticLongMethodA)(JNIEnv * _Nonnull, jclass, jmethodID, const jvalue * _Nonnull);
+    jfloat (* _Nonnull CallStaticFloatMethod)(JNIEnv * _Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jfloat (* _Nonnull CallStaticFloatMethodV)(JNIEnv * _Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jfloat (* _Nonnull CallStaticFloatMethodA)(JNIEnv * _Nonnull, jclass, jmethodID, const jvalue * _Nonnull);
+    jdouble (* _Nonnull CallStaticDoubleMethod)(JNIEnv * _Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
+    jdouble (* _Nonnull CallStaticDoubleMethodV)(JNIEnv * _Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    jdouble (* _Nonnull CallStaticDoubleMethodA)(JNIEnv * _Nonnull, jclass, jmethodID, const jvalue * _Nonnull);
+    void (* _Nonnull CallStaticVoidMethod)(JNIEnv * _Nonnull, jclass, jmethodID, ...) SWIFT_UNAVAILABLE();
+    void (* _Nonnull CallStaticVoidMethodV)(JNIEnv * _Nonnull, jclass, jmethodID, va_list) SWIFT_UNAVAILABLE();
+    void (* _Nonnull CallStaticVoidMethodA)(JNIEnv * _Nonnull, jclass, jmethodID, const jvalue * _Nonnull);
 
-    jfieldID (*_Nonnull GetStaticFieldID)(JNIEnv *_Nonnull, jclass, const char *_Nonnull, const char *_Nonnull);
+    jfieldID (* _Nonnull GetStaticFieldID)(JNIEnv * _Nonnull, jclass, const char * _Nonnull, const char * _Nonnull);
 
-    jobject (*_Nonnull GetStaticObjectField)(JNIEnv *_Nonnull, jclass, jfieldID);
-    jboolean (*_Nonnull GetStaticBooleanField)(JNIEnv *_Nonnull, jclass, jfieldID);
-    jbyte (*_Nonnull GetStaticByteField)(JNIEnv *_Nonnull, jclass, jfieldID);
-    jchar (*_Nonnull GetStaticCharField)(JNIEnv *_Nonnull, jclass, jfieldID);
-    jshort (*_Nonnull GetStaticShortField)(JNIEnv *_Nonnull, jclass, jfieldID);
-    jint (*_Nonnull GetStaticIntField)(JNIEnv *_Nonnull, jclass, jfieldID);
-    jlong (*_Nonnull GetStaticLongField)(JNIEnv *_Nonnull, jclass, jfieldID);
-    jfloat (*_Nonnull GetStaticFloatField)(JNIEnv *_Nonnull, jclass, jfieldID);
-    jdouble (*_Nonnull GetStaticDoubleField)(JNIEnv *_Nonnull, jclass, jfieldID);
+    jobject (* _Nonnull GetStaticObjectField)(JNIEnv * _Nonnull, jclass, jfieldID);
+    jboolean (* _Nonnull GetStaticBooleanField)(JNIEnv * _Nonnull, jclass, jfieldID);
+    jbyte (* _Nonnull GetStaticByteField)(JNIEnv * _Nonnull, jclass, jfieldID);
+    jchar (* _Nonnull GetStaticCharField)(JNIEnv * _Nonnull, jclass, jfieldID);
+    jshort (* _Nonnull GetStaticShortField)(JNIEnv * _Nonnull, jclass, jfieldID);
+    jint (* _Nonnull GetStaticIntField)(JNIEnv * _Nonnull, jclass, jfieldID);
+    jlong (* _Nonnull GetStaticLongField)(JNIEnv * _Nonnull, jclass, jfieldID);
+    jfloat (* _Nonnull GetStaticFloatField)(JNIEnv * _Nonnull, jclass, jfieldID);
+    jdouble (* _Nonnull GetStaticDoubleField)(JNIEnv * _Nonnull, jclass, jfieldID);
 
-    void (*_Nonnull SetStaticObjectField)(JNIEnv *_Nonnull, jclass, jfieldID, jobject);
-    void (*_Nonnull SetStaticBooleanField)(JNIEnv *_Nonnull, jclass, jfieldID, jboolean);
-    void (*_Nonnull SetStaticByteField)(JNIEnv *_Nonnull, jclass, jfieldID, jbyte);
-    void (*_Nonnull SetStaticCharField)(JNIEnv *_Nonnull, jclass, jfieldID, jchar);
-    void (*_Nonnull SetStaticShortField)(JNIEnv *_Nonnull, jclass, jfieldID, jshort);
-    void (*_Nonnull SetStaticIntField)(JNIEnv *_Nonnull, jclass, jfieldID, jint);
-    void (*_Nonnull SetStaticLongField)(JNIEnv *_Nonnull, jclass, jfieldID, jlong);
-    void (*_Nonnull SetStaticFloatField)(JNIEnv *_Nonnull, jclass, jfieldID, jfloat);
-    void (*_Nonnull SetStaticDoubleField)(JNIEnv *_Nonnull, jclass, jfieldID, jdouble);
+    void (* _Nonnull SetStaticObjectField)(JNIEnv * _Nonnull, jclass, jfieldID, jobject);
+    void (* _Nonnull SetStaticBooleanField)(JNIEnv * _Nonnull, jclass, jfieldID, jboolean);
+    void (* _Nonnull SetStaticByteField)(JNIEnv * _Nonnull, jclass, jfieldID, jbyte);
+    void (* _Nonnull SetStaticCharField)(JNIEnv * _Nonnull, jclass, jfieldID, jchar);
+    void (* _Nonnull SetStaticShortField)(JNIEnv * _Nonnull, jclass, jfieldID, jshort);
+    void (* _Nonnull SetStaticIntField)(JNIEnv * _Nonnull, jclass, jfieldID, jint);
+    void (* _Nonnull SetStaticLongField)(JNIEnv * _Nonnull, jclass, jfieldID, jlong);
+    void (* _Nonnull SetStaticFloatField)(JNIEnv * _Nonnull, jclass, jfieldID, jfloat);
+    void (* _Nonnull SetStaticDoubleField)(JNIEnv * _Nonnull, jclass, jfieldID, jdouble);
 
-    jstring (*_Nonnull NewString)(JNIEnv *_Nonnull, const jchar *, jsize);
-    jsize (*_Nonnull GetStringLength)(JNIEnv *_Nonnull, jstring);
-    const jchar *(*_Nonnull GetStringChars)(JNIEnv *_Nonnull, jstring, jboolean *_Nonnull);
-    void (*_Nonnull ReleaseStringChars)(JNIEnv *_Nonnull, jstring, const jchar *_Nonnull);
-    jstring (*_Nonnull NewStringUTF)(JNIEnv *_Nonnull, const char *_Nonnull);
-    jsize (*_Nonnull GetStringUTFLength)(JNIEnv *_Nonnull, jstring);
+    jstring (* _Nonnull NewString)(JNIEnv * _Nonnull, const jchar * _Nonnull, jsize);
+    jsize (* _Nonnull GetStringLength)(JNIEnv * _Nonnull, jstring);
+    const jchar *(* _Nonnull GetStringChars)(JNIEnv * _Nonnull, jstring, jboolean * _Nonnull);
+    void (* _Nonnull ReleaseStringChars)(JNIEnv * _Nonnull, jstring, const jchar * _Nonnull);
+    jstring (* _Nonnull NewStringUTF)(JNIEnv * _Nonnull, const char * _Nonnull);
+    jsize (* _Nonnull GetStringUTFLength)(JNIEnv * _Nonnull, jstring);
     /* JNI spec says this returns const jbyte*, but that's inconsistent */
-    const char *(*_Nonnull GetStringUTFChars)(JNIEnv *_Nonnull, jstring, jboolean *_Nonnull);
-    void (*_Nonnull ReleaseStringUTFChars)(JNIEnv *_Nonnull, jstring, const char *_Nonnull);
-    jsize (*_Nonnull GetArrayLength)(JNIEnv *_Nonnull, jarray);
-    jobjectArray (*_Nonnull NewObjectArray)(JNIEnv *_Nonnull, jsize, jclass, jobject);
-    jobject (*_Nonnull GetObjectArrayElement)(JNIEnv *_Nonnull, jobjectArray, jsize);
-    void (*_Nonnull SetObjectArrayElement)(JNIEnv *_Nonnull, jobjectArray, jsize, jobject);
+    const char *(* _Nonnull GetStringUTFChars)(JNIEnv * _Nonnull, jstring, jboolean * _Nonnull);
+    void (* _Nonnull ReleaseStringUTFChars)(JNIEnv * _Nonnull, jstring, const char * _Nonnull);
+    jsize (* _Nonnull GetArrayLength)(JNIEnv * _Nonnull, jarray);
+    jobjectArray (* _Nonnull NewObjectArray)(JNIEnv * _Nonnull, jsize, jclass, jobject);
+    jobject (* _Nonnull GetObjectArrayElement)(JNIEnv * _Nonnull, jobjectArray, jsize);
+    void (* _Nonnull SetObjectArrayElement)(JNIEnv * _Nonnull, jobjectArray, jsize, jobject);
 
-    jbooleanArray (*_Nonnull NewBooleanArray)(JNIEnv *_Nonnull, jsize);
-    jbyteArray (*_Nonnull NewByteArray)(JNIEnv *_Nonnull, jsize);
-    jcharArray (*_Nonnull NewCharArray)(JNIEnv *_Nonnull, jsize);
-    jshortArray (*_Nonnull NewShortArray)(JNIEnv *_Nonnull, jsize);
-    jintArray (*_Nonnull NewIntArray)(JNIEnv *_Nonnull, jsize);
-    jlongArray (*_Nonnull NewLongArray)(JNIEnv *_Nonnull, jsize);
-    jfloatArray (*_Nonnull NewFloatArray)(JNIEnv *_Nonnull, jsize);
-    jdoubleArray (*_Nonnull NewDoubleArray)(JNIEnv *_Nonnull, jsize);
+    jbooleanArray (* _Nonnull NewBooleanArray)(JNIEnv * _Nonnull, jsize);
+    jbyteArray (* _Nonnull NewByteArray)(JNIEnv * _Nonnull, jsize);
+    jcharArray (* _Nonnull NewCharArray)(JNIEnv * _Nonnull, jsize);
+    jshortArray (* _Nonnull NewShortArray)(JNIEnv * _Nonnull, jsize);
+    jintArray (* _Nonnull NewIntArray)(JNIEnv * _Nonnull, jsize);
+    jlongArray (* _Nonnull NewLongArray)(JNIEnv * _Nonnull, jsize);
+    jfloatArray (* _Nonnull NewFloatArray)(JNIEnv * _Nonnull, jsize);
+    jdoubleArray (* _Nonnull NewDoubleArray)(JNIEnv * _Nonnull, jsize);
 
-    jboolean *_Nullable (*_Nonnull GetBooleanArrayElements)(JNIEnv *_Nonnull, jbooleanArray, jboolean *_Nonnull) CF_SWIFT_NAME(getArrayElements);
-    jbyte *_Nullable (*_Nonnull GetByteArrayElements)(JNIEnv *_Nonnull, jbyteArray, jboolean *_Nonnull) CF_SWIFT_NAME(getArrayElements);
-    jchar *_Nullable (*_Nonnull GetCharArrayElements)(JNIEnv *_Nonnull, jcharArray, jboolean *_Nonnull) CF_SWIFT_NAME(getArrayElements);
-    jshort *_Nullable (*_Nonnull GetShortArrayElements)(JNIEnv *_Nonnull, jshortArray, jboolean *_Nonnull) CF_SWIFT_NAME(getArrayElements);
-    jint *_Nullable (*_Nonnull GetIntArrayElements)(JNIEnv *_Nonnull, jintArray, jboolean *_Nonnull) CF_SWIFT_NAME(getArrayElements);
-    jlong *_Nullable (*_Nonnull GetLongArrayElements)(JNIEnv *_Nonnull, jlongArray, jboolean *_Nonnull) CF_SWIFT_NAME(getArrayElements);
-    jfloat *_Nullable (*_Nonnull GetFloatArrayElements)(JNIEnv *_Nonnull, jfloatArray, jboolean *_Nonnull) CF_SWIFT_NAME(getArrayElements);
-    jdouble *_Nullable (*_Nonnull GetDoubleArrayElements)(JNIEnv *_Nonnull, jdoubleArray, jboolean *_Nonnull) CF_SWIFT_NAME(getArrayElements);
+    jboolean * _Nullable (* _Nonnull GetBooleanArrayElements)(JNIEnv * _Nonnull, jbooleanArray, jboolean * _Nonnull);
+    jbyte * _Nullable (* _Nonnull GetByteArrayElements)(JNIEnv * _Nonnull, jbyteArray, jboolean * _Nonnull);
+    jchar * _Nullable (* _Nonnull GetCharArrayElements)(JNIEnv * _Nonnull, jcharArray, jboolean * _Nonnull);
+    jshort * _Nullable (* _Nonnull GetShortArrayElements)(JNIEnv * _Nonnull, jshortArray, jboolean * _Nonnull);
+    jint * _Nullable (* _Nonnull GetIntArrayElements)(JNIEnv * _Nonnull, jintArray, jboolean * _Nonnull);
+    jlong * _Nullable (* _Nonnull GetLongArrayElements)(JNIEnv * _Nonnull, jlongArray, jboolean * _Nonnull);
+    jfloat * _Nullable (* _Nonnull GetFloatArrayElements)(JNIEnv * _Nonnull, jfloatArray, jboolean * _Nonnull);
+    jdouble * _Nullable (* _Nonnull GetDoubleArrayElements)(JNIEnv * _Nonnull, jdoubleArray, jboolean * _Nonnull);
 
-    void (*_Nonnull ReleaseBooleanArrayElements)(JNIEnv *_Nonnull, jbooleanArray, jboolean *, jint) CF_SWIFT_NAME(releaseArrayElements);
-    void (*_Nonnull ReleaseByteArrayElements)(JNIEnv *_Nonnull, jbyteArray, jbyte *, jint) CF_SWIFT_NAME(releaseArrayElements);
-    void (*_Nonnull ReleaseCharArrayElements)(JNIEnv *_Nonnull, jcharArray, jchar *, jint) CF_SWIFT_NAME(releaseArrayElements);
-    void (*_Nonnull ReleaseShortArrayElements)(JNIEnv *_Nonnull, jshortArray, jshort *, jint) CF_SWIFT_NAME(releaseArrayElements);
-    void (*_Nonnull ReleaseIntArrayElements)(JNIEnv *_Nonnull, jintArray, jint *, jint) CF_SWIFT_NAME(releaseArrayElements);
-    void (*_Nonnull ReleaseLongArrayElements)(JNIEnv *_Nonnull, jlongArray, jlong *, jint) CF_SWIFT_NAME(releaseArrayElements);
-    void (*_Nonnull ReleaseFloatArrayElements)(JNIEnv *_Nonnull, jfloatArray, jfloat *, jint) CF_SWIFT_NAME(releaseArrayElements);
-    void (*_Nonnull ReleaseDoubleArrayElements)(JNIEnv *_Nonnull, jdoubleArray, jdouble *, jint) CF_SWIFT_NAME(releaseArrayElements);
+    void (* _Nonnull ReleaseBooleanArrayElements)(JNIEnv * _Nonnull, jbooleanArray, jboolean *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
+    void (* _Nonnull ReleaseByteArrayElements)(JNIEnv * _Nonnull, jbyteArray, jbyte *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
+    void (* _Nonnull ReleaseCharArrayElements)(JNIEnv * _Nonnull, jcharArray, jchar *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
+    void (* _Nonnull ReleaseShortArrayElements)(JNIEnv * _Nonnull, jshortArray, jshort *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
+    void (* _Nonnull ReleaseIntArrayElements)(JNIEnv * _Nonnull, jintArray, jint *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
+    void (* _Nonnull ReleaseLongArrayElements)(JNIEnv * _Nonnull, jlongArray, jlong *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
+    void (* _Nonnull ReleaseFloatArrayElements)(JNIEnv * _Nonnull, jfloatArray, jfloat *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
+    void (* _Nonnull ReleaseDoubleArrayElements)(JNIEnv * _Nonnull, jdoubleArray, jdouble *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
 
-    void (*_Nonnull GetBooleanArrayRegion)(JNIEnv *_Nonnull, jbooleanArray, jsize, jsize, jboolean *_Nonnull) CF_SWIFT_NAME(getArrayRegion);
-    void (*_Nonnull GetByteArrayRegion)(JNIEnv *_Nonnull, jbyteArray, jsize, jsize, jbyte *_Nonnull) CF_SWIFT_NAME(getArrayRegion);
-    void (*_Nonnull GetCharArrayRegion)(JNIEnv *_Nonnull, jcharArray, jsize, jsize, jchar *_Nonnull) CF_SWIFT_NAME(getArrayRegion);
-    void (*_Nonnull GetShortArrayRegion)(JNIEnv *_Nonnull, jshortArray, jsize, jsize, jshort *_Nonnull) CF_SWIFT_NAME(getArrayRegion);
-    void (*_Nonnull GetIntArrayRegion)(JNIEnv *_Nonnull, jintArray, jsize, jsize, jint *_Nonnull) CF_SWIFT_NAME(getArrayRegion);
-    void (*_Nonnull GetLongArrayRegion)(JNIEnv *_Nonnull, jlongArray, jsize, jsize, jlong *_Nonnull) CF_SWIFT_NAME(getArrayRegion);
-    void (*_Nonnull GetFloatArrayRegion)(JNIEnv *_Nonnull, jfloatArray, jsize, jsize, jfloat *_Nonnull) CF_SWIFT_NAME(getArrayRegion);
-    void (*_Nonnull GetDoubleArrayRegion)(JNIEnv *_Nonnull, jdoubleArray, jsize, jsize, jdouble *_Nonnull) CF_SWIFT_NAME(getArrayRegion);
+    void (* _Nonnull GetBooleanArrayRegion)(JNIEnv * _Nonnull, jbooleanArray, jsize, jsize, jboolean * _Nonnull);
+    void (* _Nonnull GetByteArrayRegion)(JNIEnv * _Nonnull, jbyteArray, jsize, jsize, jbyte * _Nonnull);
+    void (* _Nonnull GetCharArrayRegion)(JNIEnv * _Nonnull, jcharArray, jsize, jsize, jchar * _Nonnull);
+    void (* _Nonnull GetShortArrayRegion)(JNIEnv * _Nonnull, jshortArray, jsize, jsize, jshort * _Nonnull);
+    void (* _Nonnull GetIntArrayRegion)(JNIEnv * _Nonnull, jintArray, jsize, jsize, jint * _Nonnull);
+    void (* _Nonnull GetLongArrayRegion)(JNIEnv * _Nonnull, jlongArray, jsize, jsize, jlong * _Nonnull);
+    void (* _Nonnull GetFloatArrayRegion)(JNIEnv * _Nonnull, jfloatArray, jsize, jsize, jfloat * _Nonnull);
+    void (* _Nonnull GetDoubleArrayRegion)(JNIEnv * _Nonnull, jdoubleArray, jsize, jsize, jdouble * _Nonnull);
 
     /* spec shows these without const; some jni.h do, some don't */
-    void (*_Nonnull SetBooleanArrayRegion)(JNIEnv *_Nonnull, jbooleanArray, jsize, jsize, const jboolean *_Nonnull) CF_SWIFT_NAME(setArrayRegion);
-    void (*_Nonnull SetByteArrayRegion)(JNIEnv *_Nonnull, jbyteArray, jsize, jsize, const jbyte *_Nonnull) CF_SWIFT_NAME(setArrayRegion);
-    void (*_Nonnull SetCharArrayRegion)(JNIEnv *_Nonnull, jcharArray, jsize, jsize, const jchar *_Nonnull) CF_SWIFT_NAME(setArrayRegion);
-    void (*_Nonnull SetShortArrayRegion)(JNIEnv *_Nonnull, jshortArray, jsize, jsize, const jshort *_Nonnull) CF_SWIFT_NAME(setArrayRegion);
-    void (*_Nonnull SetIntArrayRegion)(JNIEnv *_Nonnull, jintArray, jsize, jsize, const jint *_Nonnull) CF_SWIFT_NAME(setArrayRegion);
-    void (*_Nonnull SetLongArrayRegion)(JNIEnv *_Nonnull, jlongArray, jsize, jsize, const jlong *_Nonnull) CF_SWIFT_NAME(setArrayRegion);
-    void (*_Nonnull SetFloatArrayRegion)(JNIEnv *_Nonnull, jfloatArray, jsize, jsize, const jfloat *_Nonnull) CF_SWIFT_NAME(setArrayRegion);
-    void (*_Nonnull SetDoubleArrayRegion)(JNIEnv *_Nonnull, jdoubleArray, jsize, jsize, const jdouble *_Nonnull) CF_SWIFT_NAME(setArrayRegion);
+    void (* _Nonnull SetBooleanArrayRegion)(JNIEnv * _Nonnull, jbooleanArray, jsize, jsize, const jboolean * _Nonnull) CF_SWIFT_NAME(SetArrayRegion);
+    void (* _Nonnull SetByteArrayRegion)(JNIEnv * _Nonnull, jbyteArray, jsize, jsize, const jbyte * _Nonnull) CF_SWIFT_NAME(SetArrayRegion);
+    void (* _Nonnull SetCharArrayRegion)(JNIEnv * _Nonnull, jcharArray, jsize, jsize, const jchar * _Nonnull) CF_SWIFT_NAME(SetArrayRegion);
+    void (* _Nonnull SetShortArrayRegion)(JNIEnv * _Nonnull, jshortArray, jsize, jsize, const jshort * _Nonnull) CF_SWIFT_NAME(SetArrayRegion);
+    void (* _Nonnull SetIntArrayRegion)(JNIEnv * _Nonnull, jintArray, jsize, jsize, const jint * _Nonnull) CF_SWIFT_NAME(SetArrayRegion);
+    void (* _Nonnull SetLongArrayRegion)(JNIEnv * _Nonnull, jlongArray, jsize, jsize, const jlong * _Nonnull) CF_SWIFT_NAME(SetArrayRegion);
+    void (* _Nonnull SetFloatArrayRegion)(JNIEnv * _Nonnull, jfloatArray, jsize, jsize, const jfloat * _Nonnull) CF_SWIFT_NAME(SetArrayRegion);
+    void (* _Nonnull SetDoubleArrayRegion)(JNIEnv * _Nonnull, jdoubleArray, jsize, jsize, const jdouble * _Nonnull) CF_SWIFT_NAME(SetArrayRegion);
 
-    jint (*_Nonnull RegisterNatives)(JNIEnv *_Nonnull, jclass, const JNINativeMethod *, jint);
-    jint (*_Nonnull UnregisterNatives)(JNIEnv *_Nonnull, jclass);
-    jint (*_Nonnull MonitorEnter)(JNIEnv *_Nonnull, jobject);
-    jint (*_Nonnull MonitorExit)(JNIEnv *_Nonnull, jobject);
-    jint (*_Nonnull GetJavaVM)(JNIEnv *_Nonnull, JavaVM **_Nonnull);
+    jint (* _Nonnull RegisterNatives)(JNIEnv * _Nonnull, jclass, const JNINativeMethod *, jint);
+    jint (* _Nonnull UnregisterNatives)(JNIEnv * _Nonnull, jclass);
+    jint (* _Nonnull MonitorEnter)(JNIEnv * _Nonnull, jobject);
+    jint (* _Nonnull MonitorExit)(JNIEnv * _Nonnull, jobject);
+    jint (* _Nonnull GetJavaVM)(JNIEnv * _Nonnull, JavaVM * _Nonnull* _Nonnull);
 
-    void (*_Nonnull GetStringRegion)(JNIEnv *_Nonnull, jstring, jsize, jsize, jchar *_Nonnull);
-    void (*_Nonnull GetStringUTFRegion)(JNIEnv *_Nonnull, jstring, jsize, jsize, char *_Nonnull);
+    void (* _Nonnull GetStringRegion)(JNIEnv * _Nonnull, jstring, jsize, jsize, jchar * _Nonnull);
+    void (* _Nonnull GetStringUTFRegion)(JNIEnv * _Nonnull, jstring, jsize, jsize, char * _Nonnull);
 
-    void *(*_Nonnull GetPrimitiveArrayCritical)(JNIEnv *_Nonnull, jarray, jboolean *_Nonnull);
-    void (*_Nonnull ReleasePrimitiveArrayCritical)(JNIEnv *_Nonnull, jarray, void *, jint);
+    void *(* _Nonnull GetPrimitiveArrayCritical)(JNIEnv * _Nonnull, jarray, jboolean * _Nonnull);
+    void (* _Nonnull ReleasePrimitiveArrayCritical)(JNIEnv * _Nonnull, jarray, void *, jint);
 
-    const jchar *(*_Nonnull GetStringCritical)(JNIEnv *_Nonnull, jstring, jboolean *_Nonnull);
-    void (*_Nonnull ReleaseStringCritical)(JNIEnv *_Nonnull, jstring, const jchar *_Nonnull);
+    const jchar *(* _Nonnull GetStringCritical)(JNIEnv * _Nonnull, jstring, jboolean * _Nonnull);
+    void (* _Nonnull ReleaseStringCritical)(JNIEnv * _Nonnull, jstring, const jchar * _Nonnull);
 
-    jweak (*_Nonnull NewWeakGlobalRef)(JNIEnv *_Nonnull, jobject);
-    void (*_Nonnull DeleteWeakGlobalRef)(JNIEnv *_Nonnull, jweak);
+    jweak (* _Nonnull NewWeakGlobalRef)(JNIEnv * _Nonnull, jobject);
+    void (* _Nonnull DeleteWeakGlobalRef)(JNIEnv * _Nonnull, jweak);
 
-    jboolean (*_Nonnull ExceptionCheck)(JNIEnv *_Nonnull);
+    jboolean (* _Nonnull ExceptionCheck)(JNIEnv * _Nonnull);
 
-    jobject (*_Nonnull NewDirectByteBuffer)(JNIEnv *_Nonnull, void *_Nonnull, jlong);
-    void *_Nullable (*_Nonnull GetDirectBufferAddress)(JNIEnv *_Nonnull, jobject);
-    jlong (*_Nonnull GetDirectBufferCapacity)(JNIEnv *_Nonnull, jobject);
+    jobject (* _Nonnull NewDirectByteBuffer)(JNIEnv * _Nonnull, void * _Nonnull, jlong);
+    void * _Nullable (* _Nonnull GetDirectBufferAddress)(JNIEnv * _Nonnull, jobject);
+    jlong (* _Nonnull GetDirectBufferCapacity)(JNIEnv * _Nonnull, jobject);
 
     /* added in JNI 1.6 */
-    jobjectRefType (*_Nonnull GetObjectRefType)(JNIEnv *_Nonnull, jobject);
+    jobjectRefType (* _Nonnull GetObjectRefType)(JNIEnv * _Nonnull, jobject);
 };
 
 /*
@@ -478,7 +478,7 @@ struct JNINativeInterface
 struct _JNIEnv
 {
     /* do not rename this; it does not seem to be entirely opaque */
-    const struct JNINativeInterface *_Nonnull functions;
+    const struct JNINativeInterface * _Nonnull functions;
 
 #if defined(__cplusplus)
 
@@ -487,7 +487,7 @@ struct _JNIEnv
         return functions->GetVersion(this);
     }
 
-    jclass DefineClass(const char *_Nonnullname, jobject loader, const jbyte *buf,
+    jclass DefineClass(const char * _Nonnullname, jobject loader, const jbyte *buf,
                        jsize bufLen)
     {
         return functions->DefineClass(this, name, loader, buf, bufLen);
@@ -617,7 +617,7 @@ struct _JNIEnv
         return functions->NewObjectV(this, clazz, methodID, args);
     }
 
-    jobject NewObjectA(jclass clazz, jmethodID methodID, const jvalue *_Nonnull args)
+    jobject NewObjectA(jclass clazz, jmethodID methodID, const jvalue * _Nonnull args)
     {
         return functions->NewObjectA(this, clazz, methodID, args);
     }
@@ -656,7 +656,7 @@ struct _JNIEnv
     }
 #define CALL_TYPE_METHODA(_jtype, _jname)                                   \
     \ _jtype Call##_jname##MethodA(jobject obj, jmethodID methodID,         \
-                                   const jvalue *_Nonnull args)             \
+                                   const jvalue * _Nonnull args)             \
     {                                                                       \
         return functions->Call##_jname##MethodA(this, obj, methodID, args); \
     }
@@ -687,7 +687,7 @@ struct _JNIEnv
     {
         functions->CallVoidMethodV(this, obj, methodID, args);
     }
-    void CallVoidMethodA(jobject obj, jmethodID methodID, const jvalue *_Nonnull args)
+    void CallVoidMethodA(jobject obj, jmethodID methodID, const jvalue * _Nonnull args)
     {
         functions->CallVoidMethodA(this, obj, methodID, args);
     }
@@ -713,7 +713,7 @@ struct _JNIEnv
     }
 #define CALL_NONVIRT_TYPE_METHODA(_jtype, _jname)                                             \
     \ _jtype CallNonvirtual##_jname##MethodA(jobject obj, jclass clazz,                       \
-                                             jmethodID methodID, const jvalue *_Nonnull args) \
+                                             jmethodID methodID, const jvalue * _Nonnull args) \
     {                                                                                         \
         return functions->CallNonvirtual##_jname##MethodA(this, obj, clazz,                   \
                                                           methodID, args);                    \
@@ -748,7 +748,7 @@ struct _JNIEnv
         functions->CallNonvirtualVoidMethodV(this, obj, clazz, methodID, args);
     }
     void CallNonvirtualVoidMethodA(jobject obj, jclass clazz,
-                                   jmethodID methodID, const jvalue *_Nonnull args)
+                                   jmethodID methodID, const jvalue * _Nonnull args)
     {
         functions->CallNonvirtualVoidMethodA(this, obj, clazz, methodID, args);
     }
@@ -862,7 +862,7 @@ struct _JNIEnv
     }
 #define CALL_STATIC_TYPE_METHODA(_jtype, _jname)                             \
     \ _jtype CallStatic##_jname##MethodA(jclass clazz, jmethodID methodID,   \
-                                         const jvalue *_Nonnull args)        \
+                                         const jvalue * _Nonnull args)        \
     {                                                                        \
         return functions->CallStatic##_jname##MethodA(this, clazz, methodID, \
                                                       args);                 \
@@ -894,7 +894,7 @@ struct _JNIEnv
     {
         functions->CallStaticVoidMethodV(this, clazz, methodID, args);
     }
-    void CallStaticVoidMethodA(jclass clazz, jmethodID methodID, const jvalue *_Nonnull args)
+    void CallStaticVoidMethodA(jclass clazz, jmethodID methodID, const jvalue * _Nonnull args)
     {
         functions->CallStaticVoidMethodA(this, clazz, methodID, args);
     }
@@ -1336,11 +1336,11 @@ struct JNIInvokeInterface
     void *reserved1;
     void *reserved2;
 
-    jint (*_Nonnull DestroyJavaVM)(JavaVM *_Nonnull);
-    jint (*_Nonnull AttachCurrentThread)(JavaVM *, JNIEnv **, void *_Nonnull);
-    jint (*_Nonnull DetachCurrentThread)(JavaVM *_Nonnull);
-    jint (*_Nonnull GetEnv)(JavaVM *, void **, jint);
-    jint (*_Nonnull AttachCurrentThreadAsDaemon)(JavaVM *, JNIEnv **, void *_Nonnull);
+    jint (* _Nonnull DestroyJavaVM)(JavaVM * _Nonnull);
+    jint (* _Nonnull AttachCurrentThread)(JavaVM *, JNIEnv **, void * _Nullable);
+    jint (* _Nonnull DetachCurrentThread)(JavaVM * _Nonnull);
+    jint (* _Nonnull GetEnv)(JavaVM *, void **, jint);
+    jint (* _Nonnull AttachCurrentThreadAsDaemon)(JavaVM *, JNIEnv **, void * _Nonnull);
 };
 
 /*

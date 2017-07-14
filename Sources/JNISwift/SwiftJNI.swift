@@ -4,7 +4,7 @@ import Dispatch
 public var jni: JNI! // this gets set "OnLoad" so should always exist
 
 @_silgen_name("JNI_OnLoad")
-public func JNI_OnLoad(jvm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutablePointer<Void>) -> JavaInt {
+public func JNI_OnLoad(jvm: UnsafeMutablePointer<JavaVM>, reserved: UnsafeMutableRawPointer) -> JavaInt {
 
     guard let localJNI = JNI(jvm: jvm) else {
          fatalError("Couldn't initialise JNI")
@@ -12,19 +12,19 @@ public func JNI_OnLoad(jvm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutab
 
     jni = localJNI // set the global for use elsewhere
 
-    #if os(Android)
+    #if os(Android) && swift(>=4)
         // FIXME: Only available in Swift 4.0
-        // DispatchQueue.setThreadDetachCallback(JNI_DetachCurrentThread)
+        DispatchQueue.setThreadDetachCallback(JNI_DetachCurrentThread)
     #endif
 
     return JNI_VERSION_1_6
 }
 
 public func JNI_DetachCurrentThread() {
-    jni._jvm.pointee?.pointee.DetachCurrentThread(jni._jvm)
+    _ = jni._jvm.pointee.pointee.DetachCurrentThread(jni._jvm)
 }
 
-extension JavaBoolean : BooleanLiteralConvertible {
+extension JavaBoolean : ExpressibleByBooleanLiteral {
     public init(booleanLiteral value: Bool) {
         self = value ? JavaBoolean(JNI_TRUE) : JavaBoolean(JNI_FALSE)
     }
@@ -42,7 +42,7 @@ extension JNI {
     public func ThrowNew(message: String) {
         let _env = self._env
         let env = _env.pointee.pointee
-        env.ThrowNew(_env, env.FindClass(_env, "java/lang/Exception"), message)
+        _ = env.ThrowNew(_env, env.FindClass(_env, "java/lang/Exception"), message)
     }
 
     /// - Note: This shouldn't need to be cleaned up because we're not taking ownership of the reference
@@ -81,13 +81,13 @@ extension JNI {
     }
 
     // TODO: make parameters take [JavaParameter], being a swifty version of [JavaParameter] with reference counting etc.
-    public func CallVoidMethodA(object: JavaObject, methodID method: JavaMethodID, parameters: [JavaParameter]) {
+    public func CallVoidMethod(object: JavaObject, methodID method: JavaMethodID, parameters: [JavaParameter]) {
         let _env = self._env
         var methodArgs = parameters
-        _env.pointee.pointee.CallVoidMethodA(_env, object, method, &methodArgs)
+        _env.pointee.pointee.CallVoidMethod(_env, object, method, &methodArgs)
     }
 
-    public func CallStaticIntMethodA(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) -> JavaInt {
+    public func CallStaticIntMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) -> JavaInt {
         let _env = self._env
         var methodArgs = parameters
         return _env.pointee.pointee.CallStaticIntMethodA(_env, javaClass, method, &methodArgs)
@@ -95,13 +95,13 @@ extension JNI {
 
     // MARK: Arrays
 
-    public func GetArrayLength(array: jarray) -> Int {
+    public func GetArrayLength(array: JavaArray) -> Int {
         let _env = self._env
         let result = _env.pointee.pointee.GetArrayLength(_env, array)
         return Int(result)
     }
 
-    public func NewIntArray(count: Int) -> jarray? {
+    public func NewIntArray(count: Int) -> JavaArray? {
         let _env = self._env
         let result = _env.pointee.pointee.NewIntArray(_env, jsize(count))
         return (result != nil) ? result : .none
@@ -123,10 +123,10 @@ extension JNI {
     public func SetIntArrayRegion(array: JavaIntArray, startIndex: Int = 0, from sourceElements: [Int]) {
         let _env = self._env
         var newElements = sourceElements.map { JavaInt($0) } // make mutable copy
-        _env.pointee.pointee.SetIntArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
+        _env.pointee.pointee.SetArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
     }
 
-    public func NewFloatArray(count: Int) -> jarray? {
+    public func NewFloatArray(count: Int) -> JavaArray? {
         let _env = self._env
         let result = _env.pointee.pointee.NewFloatArray(_env, jsize(count))
         return (result != nil) ? result : .none
@@ -148,7 +148,7 @@ extension JNI {
     public func SetFloatArrayRegion(array: JavaFloatArray, startIndex: Int = 0, from sourceElements: [Float]) {
         let _env = self._env
         var newElements = sourceElements.map { JavaFloat($0) } // make mutable copy
-        _env.pointee.pointee.SetFloatArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
+        _env.pointee.pointee.SetArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
     }
 }
 
@@ -226,7 +226,7 @@ public struct JavaCallback {
     }
 
     public func apply(args: [JavaParameter]) {
-        jni.CallVoidMethodA(object: jobj, methodID: methodID, parameters: args)
+        jni.CallVoidMethod(object: jobj, methodID: methodID, parameters: args)
     }
 
     /// Send variadic parameters to the func that takes an array
