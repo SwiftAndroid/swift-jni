@@ -1,64 +1,64 @@
 import CJNI
 
 public extension JNI {
-    public func NewGlobalRef(obj: jobject) -> jobject {
+    public func NewGlobalRef(obj: JavaObject) -> JavaObject {
         let env = self._env
-        return env.pointee!.pointee.NewGlobalRef(env, obj)!
+        return env.pointee.pointee.NewGlobalRef(env, obj)!
     }
 
-    public func DeleteGlobalRef(globalRef: jobject) {
+    public func DeleteGlobalRef(globalRef: JavaObject) {
         let env = self._env
-        env.pointee!.pointee.DeleteGlobalRef(env, globalRef)
+        env.pointee.pointee.DeleteGlobalRef(env, globalRef)
     }
 
-    public func NewLocalRef(ref: jobject) -> jobject {
+    public func NewLocalRef(ref: JavaObject) -> JavaObject {
         let env = self._env
-        return env.pointee!.pointee.NewLocalRef(env, ref)!
-    }
-    
-    public func DeleteLocalRef(localRef: jobject) {
-        let env = self._env
-        env.pointee!.pointee.DeleteLocalRef(env, localRef)
+        return env.pointee.pointee.NewLocalRef(env, ref)!
     }
 
-    public func PushLocalFrame(capacity: jint) -> jint {
+    public func DeleteLocalRef(localRef: JavaObject) {
         let env = self._env
-        return env.pointee!.pointee.PushLocalFrame(env, capacity)
+        env.pointee.pointee.DeleteLocalRef(env, localRef)
     }
 
-    public func PopLocalFrame(result: jobject) -> jobject {
+    public func PushLocalFrame(capacity: JavaInt) -> JavaInt {
         let env = self._env
-        return env.pointee!.pointee.PopLocalFrame(env, result)!
+        return env.pointee.pointee.PushLocalFrame(env, capacity)
     }
 
-    public func EnsureLocalCapacity(capacity: jint) -> jint {
+    public func PopLocalFrame(result: JavaObject) -> JavaObject {
         let env = self._env
-        return env.pointee!.pointee.EnsureLocalCapacity(env, capacity)
+        return env.pointee.pointee.PopLocalFrame(env, result)!
     }
 
-    public func IsSameObject(ref1: jobject, _ ref2: jobject) -> jboolean {
+    public func EnsureLocalCapacity(capacity: JavaInt) -> JavaInt {
         let env = self._env
-        return env.pointee!.pointee.IsSameObject(env, ref1, ref2)
+        return env.pointee.pointee.EnsureLocalCapacity(env, capacity)
     }
 
-    public func IsInstanceOf(obj: jobject, _ targetClass: jclass) -> jboolean {
+    public func IsSameObject(ref1: JavaObject, _ ref2: JavaObject) -> JavaBoolean {
         let env = self._env
-        return env.pointee!.pointee.IsInstanceOf(env, obj, targetClass)
+        return env.pointee.pointee.IsSameObject(env, ref1, ref2)
     }
 
-    public func NewWeakGlobalRef(obj: jobject) -> jweak {
+    public func IsInstanceOf(obj: JavaObject, _ targetClass: JavaClass) -> JavaBoolean {
         let env = self._env
-        return env.pointee!.pointee.NewWeakGlobalRef(env, obj)!
+        return env.pointee.pointee.IsInstanceOf(env, obj, targetClass)
     }
 
-    public func DeleteWeakGlobalRef(obj: jweak) {
+    public func NewWeakGlobalRef(obj: JavaObject) -> JavaWeakReference {
         let env = self._env
-        env.pointee!.pointee.DeleteWeakGlobalRef(env, obj)
+        return env.pointee.pointee.NewWeakGlobalRef(env, obj)!
+    }
+
+    public func DeleteWeakGlobalRef(obj: JavaWeakReference) {
+        let env = self._env
+        env.pointee.pointee.DeleteWeakGlobalRef(env, obj)
     }
 
     /* added in 1: JNI.6 */
-    public func GetObjectRefType(obj: jobject) -> jobjectRefType {
+    public func GetObjectRefType(obj: JavaObject) -> JavaObjectRefType {
         let env = self._env
-        return env.pointee!.pointee.GetObjectRefType(env, obj)
+        return env.pointee.pointee.GetObjectRefType(env, obj)
     }
 }

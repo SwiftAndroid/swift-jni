@@ -1,0 +1,261 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		032F84951F18BC2300E24174 /* jni.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jni.h; sourceTree = "<group>"; };
+		032F84961F18BC2300E24174 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		032F84971F18BC2300E24174 /* jni.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jni.c; sourceTree = "<group>"; };
+		032F84991F18BC2300E24174 /* JNI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JNI.swift; sourceTree = "<group>"; };
+		032F849A1F18BC2300E24174 /* JNIClassManipulation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JNIClassManipulation.swift; sourceTree = "<group>"; };
+		032F849B1F18BC2300E24174 /* JNIExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JNIExceptions.swift; sourceTree = "<group>"; };
+		032F849C1F18BC2300E24174 /* JNIMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JNIMethods.swift; sourceTree = "<group>"; };
+		032F849D1F18BC2300E24174 /* JNIObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JNIObjects.swift; sourceTree = "<group>"; };
+		032F849E1F18BC2300E24174 /* JNIRefs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JNIRefs.swift; sourceTree = "<group>"; };
+		032F849F1F18BC2300E24174 /* JNIStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JNIStrings.swift; sourceTree = "<group>"; };
+		032F84A01F18BC2300E24174 /* SwiftJNI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftJNI.swift; sourceTree = "<group>"; };
+		032F84A21F18BD1E00E24174 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../Package.swift; sourceTree = "<group>"; };
+		032F84A31F18BD1E00E24174 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		032F84A41F18BDE000E24174 /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		032F84871F18BBF700E24174 = {
+			isa = PBXGroup;
+			children = (
+				032F84A41F18BDE000E24174 /* build.sh */,
+				032F84A21F18BD1E00E24174 /* Package.swift */,
+				032F84A31F18BD1E00E24174 /* README.md */,
+				032F84921F18BC2300E24174 /* Sources */,
+			);
+			sourceTree = "<group>";
+		};
+		032F84921F18BC2300E24174 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				032F84931F18BC2300E24174 /* CJNI */,
+				032F84981F18BC2300E24174 /* JNISwift */,
+			);
+			name = Sources;
+			path = ../Sources;
+			sourceTree = "<group>";
+		};
+		032F84931F18BC2300E24174 /* CJNI */ = {
+			isa = PBXGroup;
+			children = (
+				032F84941F18BC2300E24174 /* include */,
+				032F84971F18BC2300E24174 /* jni.c */,
+			);
+			path = CJNI;
+			sourceTree = "<group>";
+		};
+		032F84941F18BC2300E24174 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				032F84951F18BC2300E24174 /* jni.h */,
+				032F84961F18BC2300E24174 /* module.modulemap */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		032F84981F18BC2300E24174 /* JNISwift */ = {
+			isa = PBXGroup;
+			children = (
+				032F84991F18BC2300E24174 /* JNI.swift */,
+				032F849A1F18BC2300E24174 /* JNIClassManipulation.swift */,
+				032F849B1F18BC2300E24174 /* JNIExceptions.swift */,
+				032F849C1F18BC2300E24174 /* JNIMethods.swift */,
+				032F849D1F18BC2300E24174 /* JNIObjects.swift */,
+				032F849E1F18BC2300E24174 /* JNIRefs.swift */,
+				032F849F1F18BC2300E24174 /* JNIStrings.swift */,
+				032F84A01F18BC2300E24174 /* SwiftJNI.swift */,
+			);
+			path = JNISwift;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		032F848C1F18BBF700E24174 /* JNISwift */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = build.sh;
+			buildConfigurationList = 032F848F1F18BBF700E24174 /* Build configuration list for PBXLegacyTarget "JNISwift" */;
+			buildPhases = (
+			);
+			buildToolPath = /bin/bash;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = JNISwift;
+			passBuildSettingsInEnvironment = 1;
+			productName = JNISwift;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		032F84881F18BBF700E24174 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = flowkey;
+				TargetAttributes = {
+					032F848C1F18BBF700E24174 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = FTSYMMN5B5;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 032F848B1F18BBF700E24174 /* Build configuration list for PBXProject "JNISwift" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 032F84871F18BBF700E24174;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				032F848C1F18BBF700E24174 /* JNISwift */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		032F848D1F18BBF700E24174 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		032F848E1F18BBF700E24174 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+			};
+			name = Release;
+		};
+		032F84901F18BBF700E24174 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FTSYMMN5B5;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		032F84911F18BBF700E24174 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FTSYMMN5B5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		032F848B1F18BBF700E24174 /* Build configuration list for PBXProject "JNISwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				032F848D1F18BBF700E24174 /* Debug */,
+				032F848E1F18BBF700E24174 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		032F848F1F18BBF700E24174 /* Build configuration list for PBXLegacyTarget "JNISwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				032F84901F18BBF700E24174 /* Debug */,
+				032F84911F18BBF700E24174 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 032F84881F18BBF700E24174 /* Project object */;
+}

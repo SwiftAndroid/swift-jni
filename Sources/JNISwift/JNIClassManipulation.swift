@@ -1,43 +1,43 @@
 import CJNI
 
 public extension JNI {
-	public func DefineClass(name: String, _ loader: jobject, _ buffer: UnsafePointer<jbyte>, _ bufferLength: jsize) -> jclass {
+	// public func DefineClass(name: String, _ loader: JavaObject, _ buffer: UnsafePointer<JavaByte>, _ bufferLength: jsize) -> JavaClass {
+	//     let env = self._env
+    //     return env.pointee.pointee.DefineClass(env, name, loader, buffer, bufferLength)!
+	// }
+
+	public func FindClass(name: String) -> JavaClass {
 	    let env = self._env
-        return env.pointee!.pointee.DefineClass(env, name, loader, buffer, bufferLength)!
+        return env.pointee.pointee.FindClass(env, name)!
 	}
 
-	public func FindClass(name: String) -> jclass {
+	public func FromReflectedMethod(method: JavaObject) -> JavaMethodID {
 	    let env = self._env
-        return env.pointee!.pointee.FindClass(env, name)!
+        return env.pointee.pointee.FromReflectedMethod(env, method)!
 	}
 
-	public func FromReflectedMethod(method: jobject) -> jmethodID {
+	public func FromReflectedField(field: JavaObject) -> jfieldID {
 	    let env = self._env
-        return env.pointee!.pointee.FromReflectedMethod(env, method)!
+        return env.pointee.pointee.FromReflectedField(env, field)!
 	}
 
-	public func FromReflectedField(field: jobject) -> jfieldID {
+	public func ToReflectedMethod(targetClass: JavaClass, _ methodID: JavaMethodID, _ isStatic: JavaBoolean) -> JavaObject {
 	    let env = self._env
-        return env.pointee!.pointee.FromReflectedField(env, field)!
+        return env.pointee.pointee.ToReflectedMethod(env, targetClass, methodID, isStatic)!
 	}
 
-	public func ToReflectedMethod(targetClass: jclass, _ methodID: jmethodID, _ isStatic: jboolean) -> jobject {
+	public func GetSuperclass(targetClass: JavaClass) -> JavaClass {
 	    let env = self._env
-        return env.pointee!.pointee.ToReflectedMethod(env, targetClass, methodID, isStatic)!
+        return env.pointee.pointee.GetSuperclass(env, targetClass)!
 	}
 
-	public func GetSuperclass(targetClass: jclass) -> jclass {
+	public func IsAssignableFrom(classA: JavaClass, _ classB: JavaClass) -> JavaBoolean {
 	    let env = self._env
-        return env.pointee!.pointee.GetSuperclass(env, targetClass)!
+	    return env.pointee.pointee.IsAssignableFrom(env, classA, classB)
 	}
 
-	public func IsAssignableFrom(classA: jclass, _ classB: jclass) -> jboolean {
+	public func ToReflectedField(targetClass: JavaClass, _ fieldID: jfieldID, _ isStatic: JavaBoolean) -> JavaObject {
 	    let env = self._env
-	    return env.pointee!.pointee.IsAssignableFrom(env, classA, classB)
-	}
-
-	public func ToReflectedField(targetClass: jclass, _ fieldID: jfieldID, _ isStatic: jboolean) -> jobject {
-	    let env = self._env
-        return env.pointee!.pointee.ToReflectedField(env, targetClass, fieldID, isStatic)!
+        return env.pointee.pointee.ToReflectedField(env, targetClass, fieldID, isStatic)!
 	}
 }

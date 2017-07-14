@@ -163,7 +163,7 @@ typedef union CF_SWIFT_NAME(JavaParameter) jvalue {
     jobject l CF_SWIFT_NAME(object);
 } jvalue;
 
-typedef enum jobjectRefType {
+typedef enum CF_SWIFT_NAME(JavaObjectRefType) jobjectRefType {
     JNIInvalidRefType = 0,
     JNILocalRefType = 1,
     JNIGlobalRefType = 2,

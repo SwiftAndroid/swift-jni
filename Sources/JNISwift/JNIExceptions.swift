@@ -1,38 +1,38 @@
 import CJNI
 
 public extension JNI {
-    public func ExceptionCheck() -> jboolean {
+    public func ExceptionCheck() -> JavaBoolean {
         let env = self._env
-        return env.pointee!.pointee.ExceptionCheck(env)
+        return env.pointee.pointee.ExceptionCheck(env)
     }
 
     public func ExceptionDescribe() {
         let env = self._env
-        env.pointee!.pointee.ExceptionDescribe(env)
+        env.pointee.pointee.ExceptionDescribe(env)
     }
 
     public func ExceptionClear() {
         let env = self._env
-        env.pointee!.pointee.ExceptionClear(env)
+        env.pointee.pointee.ExceptionClear(env)
     }
 
-    public func ExceptionOccurred() -> jthrowable {
+    public func ExceptionOccurred() -> JavaThrowable {
         let env = self._env
-        return env.pointee!.pointee.ExceptionOccurred(env)!
+        return env.pointee.pointee.ExceptionOccurred(env)!
     }
 
-    public func Throw(obj: jthrowable) -> jint {
+    public func Throw(obj: JavaThrowable) -> JavaInt {
         let env = self._env
-        return env.pointee!.pointee.Throw(env, obj)
+        return env.pointee.pointee.Throw(env, obj)
     }
 
-    public func ThrowNew(targetClass: jclass, _ message: String) -> jint {
+    public func ThrowNew(targetClass: JavaClass, _ message: String) -> JavaInt {
         let env = self._env
-        return env.pointee!.pointee.ThrowNew(env, targetClass, message)
+        return env.pointee.pointee.ThrowNew(env, targetClass, message)
     }
 
     public func FatalError(msg: String) {
         let env = self._env
-        env.pointee!.pointee.FatalError(env, msg)
+        env.pointee.pointee.FatalError(env, msg)
     }
 }
