@@ -1,5 +1,5 @@
 import CJNI
-import Dispatch
+// import Dispatch
 
 public var jni: JNI! // this gets set "OnLoad" so should always exist
 
