@@ -93,12 +93,26 @@ extension JNI {
         return _env.pointee.pointee.CallStaticIntMethodA(_env, javaClass, method, &methodArgs)
     }
 
+    public func CallStaticVoidMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) {
+        let _env = self._env
+        var methodArgs = parameters
+        _env.pointee.pointee.CallStaticVoidMethodA(_env, javaClass, method, &methodArgs)
+    }
+
     // MARK: Arrays
 
     public func GetArrayLength(array: JavaArray) -> Int {
         let _env = self._env
         let result = _env.pointee.pointee.GetArrayLength(_env, array)
         return Int(result)
+    }
+
+    public func GetObjectArrayElement(array: JavaArray, index: Int) -> JavaObject {
+        let _env = self._env
+        let result = _env.pointee.pointee.GetObjectArrayElement(_env, array, jsize(index))
+
+        if result == nil { FatalError(msg: "could not get object array element") }
+        return result!
     }
 
     public func NewIntArray(count: Int) -> JavaArray? {
