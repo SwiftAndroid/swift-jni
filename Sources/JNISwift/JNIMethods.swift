@@ -1,6 +1,6 @@
 import CJNI
 
-protocol JavaParameterConvertible {
+public protocol JavaParameterConvertible {
     typealias JavaMethod = ((JavaParameterConvertible...) throws -> Self)
     static var asJNIParameterString: String { get }
     func toJavaParameter() -> JavaParameter
@@ -8,16 +8,28 @@ protocol JavaParameterConvertible {
 }
 
 extension Bool: JavaParameterConvertible {
-    static var asJNIParameterString: String { return "z" }
+    public static var asJNIParameterString: String { return "z" }
 
-    func toJavaParameter() -> JavaParameter {
+    public func toJavaParameter() -> JavaParameter {
         return JavaParameter(bool: (self) ? 1 : 0)
     }
 
-    static func fromStaticMethod(calling: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) -> Bool {
+    public static func fromStaticMethod(calling: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) -> Bool {
         return true // jni.CallStaticBooleanMethod(nil, nil, args) == 1
     }
 }
+
+//extension Void: JavaParameterConvertible {
+//    public static var asJNIParameterString: String { return "V" }
+//
+//    public func toJavaParameter() -> JavaParameter {
+//        return JavaParameter.init(object: nil)
+//    }
+//
+//    public static func fromStaticMethod(calling: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) -> Bool {
+//        jni.CallStaticVoidMethod(javaClass: javaClass, method: calling, parameters: args)
+//    }
+//}
 
 struct InvalidParameters: Error {}
 
@@ -31,7 +43,13 @@ extension Array where Element == JavaParameterConvertible {
     }
 }
 
-func javaStaticMethod<T: JavaParameterConvertible>(_ method: String, on javaClass: JavaClass, arguments: JavaParameterConvertible...) throws -> T {
+
+//
+//public func javaStaticMethod<T: JavaParameterConvertible>(_ method: String, on javaClass: JavaClass) throws -> T {
+//    javaStaticMethod(method, on: javaClass, arguments: JavaParameterConvertible...)
+//}
+
+public func javaStaticMethod<T: JavaParameterConvertible>(_ method: String, on javaClass: JavaClass, arguments: JavaParameterConvertible...) throws -> T {
 
     let methodSignature = arguments.methodSignature(returnType: T.self)
     guard let methodID = jni.GetStaticMethodID(javaClass: javaClass, methodName: method, methodSignature: methodSignature) else { throw InvalidParameters() }
@@ -41,10 +59,10 @@ func javaStaticMethod<T: JavaParameterConvertible>(_ method: String, on javaClas
 }
 
 
-func callMyJavaStaticMethod() throws -> Bool {
-    let obj = JavaObject.allocate(bytes: 1, alignedTo: 1)
-    return try javaStaticMethod("asd", on: obj, arguments: true)
-}
+//func callMyJavaStaticMethod() throws -> Bool {
+//    let class = JavaObject.allocate(bytes: 1, alignedTo: 1)
+//    return try javaStaticMethod("asd", on: obj, arguments: true)
+//}
 
 
 extension Array where Element == JavaParameterConvertible.Type {
