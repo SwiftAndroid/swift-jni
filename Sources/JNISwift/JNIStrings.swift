@@ -21,9 +21,9 @@ public extension JNI {
 	    env.pointee.pointee.ReleaseStringChars(env, string, chars)
 	}
 
-	public func NewStringUTF(bytes: String) -> JavaString {
+	public func NewStringUTF(_ string: String) -> JavaString {
 	    let env = self._env
-        return env.pointee.pointee.NewStringUTF(env, bytes)!
+        return env.pointee.pointee.NewStringUTF(env, string)!
 	}
 
 	public func GetStringUTFLength(string: JavaString) -> jsize {

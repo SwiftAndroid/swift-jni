@@ -1,9 +1,9 @@
 import CJNI
 
 public extension JNI {
-    public func ExceptionCheck() -> JavaBoolean {
+    public func ExceptionCheck() -> Bool {
         let env = self._env
-        return env.pointee.pointee.ExceptionCheck(env)
+        return env.pointee.pointee.ExceptionCheck(env) == true
     }
 
     public func ExceptionDescribe() {

@@ -1,18 +1,17 @@
 import CJNI
-import Dispatch
+//import Dispatch
 
 public var jni: JNI! // this gets set "OnLoad" so should always exist
 
 @_silgen_name("JNI_OnLoad")
 public func JNI_OnLoad(jvm: UnsafeMutablePointer<JavaVM>, reserved: UnsafeMutableRawPointer) -> JavaInt {
-
     guard let localJNI = JNI(jvm: jvm) else {
          fatalError("Couldn't initialise JNI")
     }
 
     jni = localJNI // set the global for use elsewhere
 
-    #if os(Android) && swift(>=4)
+    #if !os(Android) && swift(>=4)
         // FIXME: Only available in Swift 4.0
         DispatchQueue.setThreadDetachCallback(JNI_DetachCurrentThread)
     #endif
@@ -45,11 +44,12 @@ extension JNI {
         _ = env.ThrowNew(_env, env.FindClass(_env, "java/lang/Exception"), message)
     }
 
-    /// - Note: This shouldn't need to be cleaned up because we're not taking ownership of the reference
-    public func GetStringUTFChars(string: JavaString) -> UnsafePointer<CChar> {
+    public func GetString(from javaString: JavaString) -> String {
         let _env = self._env
-        var didCopyStringChars = JavaBoolean() // XXX: this gets set below, check it!
-        return _env.pointee.pointee.GetStringUTFChars(_env, string, &didCopyStringChars)!
+        let chars = _env.pointee.pointee.GetStringUTFChars(_env, javaString, nil)
+        let string = String(cString: chars)
+        _env.pointee.pointee.ReleaseStringUTFChars(_env, javaString, chars)
+        return string
     }
 
     // MARK: References
@@ -57,7 +57,7 @@ extension JNI {
     public func NewGlobalRef(object: JavaObject) -> JavaObject? {
         let _env = self._env
         let result = _env.pointee.pointee.NewGlobalRef(_env, object)
-        return (result != nil) ? result : .none
+        return result
     }
 
     // MARK: Classes and Methods
@@ -65,46 +65,85 @@ extension JNI {
     public func FindClass(className: String) -> JavaClass? {
         let _env = self._env
         let result = _env.pointee.pointee.FindClass(_env, className)
-        return (result != nil) ? result : .none
+        return result
     }
 
-    public func GetMethodID(javaClass: JavaClass, methodName: UnsafePointer<CChar>, methodSignature: UnsafePointer<CChar>) -> JavaMethodID? {
+    public func GetMethodID(for object: JavaObject, methodName: String, methodSignature: String) throws -> JavaMethodID? {
         let _env = self._env
-        let result = _env.pointee.pointee.GetMethodID(_env, javaClass, methodName, methodSignature)
-        return (result != nil) ? result : .none
+        print("\(object)")
+
+        print("Getting class of given object")
+        let objectClass = _env.pointee.pointee.GetObjectClass(_env, object)
+        try checkAndThrowOnJNIError()
+
+        print("About to do JNI call for '\(methodName)\' with signature '\(methodSignature)'")
+        let result = _env.pointee.pointee.GetMethodID(_env, objectClass!, methodName, methodSignature)
+        print("Got MethodID result for '\(methodName)' with signature '\(methodSignature)'")
+        try checkAndThrowOnJNIError()
+        return result
     }
 
-    public func GetStaticMethodID(javaClass: JavaClass, methodName: UnsafePointer<CChar>, methodSignature: UnsafePointer<CChar>) -> JavaMethodID? {
+    public func GetStaticMethodID(for javaClass: JavaClass, methodName: String, methodSignature: String) throws -> JavaMethodID? {
         let _env = self._env
+        print("\(javaClass)")
+        print("About to do JNI call for '\(methodName)\' with signature '\(methodSignature)'")
         let result = _env.pointee.pointee.GetStaticMethodID(_env, javaClass, methodName, methodSignature)
-        return (result != nil) ? result : .none
+        print("Got MethodID result for '\(methodName)' with signature '\(methodSignature)'")
+        try checkAndThrowOnJNIError()
+        return result
     }
 
-    // TODO: make parameters take [JavaParameter], being a swifty version of [JavaParameter] with reference counting etc.
-    public func CallVoidMethod(object: JavaObject, methodID method: JavaMethodID, parameters: [JavaParameter]) {
+    public func CallVoidMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) {
         let _env = self._env
         var methodArgs = parameters
         _env.pointee.pointee.CallVoidMethod(_env, object, method, &methodArgs)
     }
 
-    public func CallStaticIntMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) -> JavaInt {
+    public func CallObjectMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaObject {
         let _env = self._env
         var methodArgs = parameters
-        return _env.pointee.pointee.CallStaticIntMethodA(_env, javaClass, method, &methodArgs)
+        let result = _env.pointee.pointee.CallObjectMethod(_env, object, method, &methodArgs)!
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    public func CallStaticObjectMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> JavaObject {
+        let _env = self._env
+        var methodArgs = parameters
+        let result = _env.pointee.pointee.CallStaticObjectMethodA(_env, javaClass, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+        return result! // we checked for error in the line above
+    }
+
+    public func CallStaticBooleanMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> Bool {
+        let _env = self._env
+        var methodArgs = parameters
+        let result = _env.pointee.pointee.CallStaticBooleanMethodA(_env, javaClass, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+        return result == true
+    }
+
+    public func CallStaticIntMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> JavaInt {
+        let _env = self._env
+        var methodArgs = parameters
+        let result = _env.pointee.pointee.CallStaticIntMethodA(_env, javaClass, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+        return result
     }
 
     // MARK: Arrays
 
-    public func GetArrayLength(array: JavaArray) -> Int {
+    public func GetLength(_ array: JavaArray) -> Int {
         let _env = self._env
         let result = _env.pointee.pointee.GetArrayLength(_env, array)
         return Int(result)
     }
 
-    public func NewIntArray(count: Int) -> JavaArray? {
+    public func NewIntArray(count: Int) throws -> JavaArray? {
         let _env = self._env
         let result = _env.pointee.pointee.NewIntArray(_env, jsize(count))
-        return (result != nil) ? result : .none
+        try checkAndThrowOnJNIError()
+        return result
     }
 
     public func GetIntArrayRegion(array: JavaIntArray, startIndex: Int = 0, numElements: Int = -1) -> [Int] {
@@ -112,7 +151,7 @@ extension JNI {
         var count = numElements
 
         if numElements < 0 {
-            count = GetArrayLength(array: array)
+            count = GetLength(array)
         }
 
         var result = [JavaInt](repeating: 0, count: count)
@@ -126,10 +165,11 @@ extension JNI {
         _env.pointee.pointee.SetArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
     }
 
-    public func NewFloatArray(count: Int) -> JavaArray? {
+    public func NewFloatArray(count: Int) throws -> JavaArray? {
         let _env = self._env
         let result = _env.pointee.pointee.NewFloatArray(_env, jsize(count))
-        return (result != nil) ? result : .none
+        try checkAndThrowOnJNIError()
+        return result
     }
 
     public func GetFloatArrayRegion(array: JavaFloatArray, startIndex: Int = 0, numElements: Int = -1) -> [Float] {
@@ -137,7 +177,7 @@ extension JNI {
         var count = numElements
 
         if numElements < 0 {
-            count = GetArrayLength(array: array)
+            count = GetLength(array)
         }
 
         var result = [JavaFloat](repeating: 0, count: count)
@@ -149,6 +189,35 @@ extension JNI {
         let _env = self._env
         var newElements = sourceElements.map { JavaFloat($0) } // make mutable copy
         _env.pointee.pointee.SetArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
+    }
+
+    public func GetStrings(from array: JavaObjectArray) throws -> [String] {
+        let _env = self._env
+        let count = jni.GetLength(array)
+        print("Array contains \(count) strings")
+
+        let strings: [String] = try (0 ..< count).map { i in
+            let jString: JavaString? = _env.pointee.pointee.GetObjectArrayElement(_env, array, jsize(i))
+            let chars = _env.pointee.pointee.GetStringUTFChars(_env, jString, nil)
+            try checkAndThrowOnJNIError()
+            defer { _env.pointee.pointee.ReleaseStringUTFChars(_env, jString, chars) }
+
+            return String(cString: chars)
+        }
+
+        return strings
+    }
+}
+
+func checkAndThrowOnJNIError() throws {
+    if jni.ExceptionCheck() { throw JNIError() }
+}
+
+/// Prints information about the error to the console and clears the pending exception so we can continue making JNI calls
+struct JNIError: Error {
+    init() {
+        jni.ExceptionDescribe()
+        jni.ExceptionClear()
     }
 }
 
@@ -215,7 +284,8 @@ public struct JavaCallback {
 
         guard
             let javaClass = jni.GetObjectClass(obj: globalJobj),
-            let methodID = jni.GetMethodID(javaClass: javaClass, methodName: methodName, methodSignature: methodSignature)
+            let methodIDwithoutError = try? jni.GetMethodID(for: javaClass, methodName: methodName, methodSignature: methodSignature),
+            let methodID = methodIDwithoutError
             else {
                 // XXX: We should throw here and keep throwing til it gets back to Java
                 fatalError("Failed to make JavaCallback")
@@ -226,7 +296,7 @@ public struct JavaCallback {
     }
 
     public func apply(args: [JavaParameter]) {
-        jni.CallVoidMethod(object: jobj, methodID: methodID, parameters: args)
+        jni.CallVoidMethod(methodID, on: jobj, parameters: args)
     }
 
     /// Send variadic parameters to the func that takes an array
