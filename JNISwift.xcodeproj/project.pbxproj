@@ -7,48 +7,47 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03A41FFF1F1F6385005DFF60 /* JavaParameterConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A41FFE1F1F6385005DFF60 /* JavaParameterConvertible.swift */; };
-		03A420011F1F8022005DFF60 /* Array+JavaParameterConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A420001F1F8022005DFF60 /* Array+JavaParameterConvertible.swift */; };
-		OBJ_32 /* JNI.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* JNI.swift */; };
-		OBJ_33 /* JNIClassManipulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* JNIClassManipulation.swift */; };
-		OBJ_34 /* JNIExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* JNIExceptions.swift */; };
-		OBJ_35 /* JNIMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* JNIMethods.swift */; };
-		OBJ_36 /* JNIObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* JNIObjects.swift */; };
-		OBJ_37 /* JNIRefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* JNIRefs.swift */; };
-		OBJ_38 /* JNIStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* JNIStrings.swift */; };
-		OBJ_39 /* SwiftJNI.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* SwiftJNI.swift */; };
-		OBJ_41 /* CJNI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* CJNI.framework */; };
-		OBJ_49 /* jni.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* jni.c */; };
+		03B38DF51F1FCA9B00B9CDA9 /* Array+JavaParameterConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B38DF41F1FC98800B9CDA9 /* Array+JavaParameterConvertible.swift */; };
+		03B38DF61F1FCA9F00B9CDA9 /* JavaParameterConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B38DF31F1FC98800B9CDA9 /* JavaParameterConvertible.swift */; };
+		OBJ_32 /* JNI.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* JNI.swift */; };
+		OBJ_33 /* JNIClassManipulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* JNIClassManipulation.swift */; };
+		OBJ_34 /* JNIExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* JNIExceptions.swift */; };
+		OBJ_35 /* JNIMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* JNIMethods.swift */; };
+		OBJ_36 /* JNIObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* JNIObjects.swift */; };
+		OBJ_37 /* JNIRefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* JNIRefs.swift */; };
+		OBJ_38 /* JNIStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* JNIStrings.swift */; };
+		OBJ_39 /* SwiftJNI.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* SwiftJNI.swift */; };
+		OBJ_41 /* CJNI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "JNISwift::CJNI::Product" /* CJNI.framework */; };
+		OBJ_48 /* jni.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* jni.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		03A0C4AD1F1CD7FC004358A6 /* PBXContainerItemProxy */ = {
+		5C1D2F2E1F1E277B0006682E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = OBJ_43;
+			remoteGlobalIDString = "JNISwift::CJNI";
 			remoteInfo = CJNI;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		030CBFD31F1CD84200352724 /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
-		03A41FFE1F1F6385005DFF60 /* JavaParameterConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaParameterConvertible.swift; sourceTree = "<group>"; };
-		03A420001F1F8022005DFF60 /* Array+JavaParameterConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+JavaParameterConvertible.swift"; sourceTree = "<group>"; };
-		OBJ_10 /* JNIClassManipulation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIClassManipulation.swift; sourceTree = "<group>"; };
-		OBJ_11 /* JNIExceptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIExceptions.swift; sourceTree = "<group>"; };
-		OBJ_12 /* JNIMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIMethods.swift; sourceTree = "<group>"; };
-		OBJ_13 /* JNIObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIObjects.swift; sourceTree = "<group>"; };
-		OBJ_14 /* JNIRefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIRefs.swift; sourceTree = "<group>"; };
-		OBJ_15 /* JNIStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIStrings.swift; sourceTree = "<group>"; };
-		OBJ_16 /* SwiftJNI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftJNI.swift; sourceTree = "<group>"; };
-		OBJ_18 /* jni.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = jni.c; sourceTree = "<group>"; };
-		OBJ_20 /* jni.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jni.h; sourceTree = "<group>"; };
-		OBJ_21 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = "/Users/erik/flowDev/swiftDev/swift-jni/Sources/CJNI/include/module.modulemap"; sourceTree = "<group>"; };
-		OBJ_25 /* JNISwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JNISwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_26 /* CJNI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CJNI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		03B38DF31F1FC98800B9CDA9 /* JavaParameterConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaParameterConvertible.swift; sourceTree = "<group>"; };
+		03B38DF41F1FC98800B9CDA9 /* Array+JavaParameterConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+JavaParameterConvertible.swift"; sourceTree = "<group>"; };
+		"JNISwift::CJNI::Product" /* CJNI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CJNI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"JNISwift::JNISwift::Product" /* JNISwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JNISwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_11 /* jni.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jni.h; sourceTree = "<group>"; };
+		OBJ_12 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = "/Users/geordiejay/dev/flowkey/smartphone/RNPlayerComponent/NativePlayerIOS/FlowkeyPlayerSDL/Packages/UIKit/Packages/swift-jni/Sources/CJNI/include/module.modulemap"; sourceTree = "<group>"; };
+		OBJ_14 /* JNI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNI.swift; sourceTree = "<group>"; };
+		OBJ_15 /* JNIClassManipulation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIClassManipulation.swift; sourceTree = "<group>"; };
+		OBJ_16 /* JNIExceptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIExceptions.swift; sourceTree = "<group>"; };
+		OBJ_17 /* JNIMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIMethods.swift; sourceTree = "<group>"; };
+		OBJ_18 /* JNIObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIObjects.swift; sourceTree = "<group>"; };
+		OBJ_19 /* JNIRefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIRefs.swift; sourceTree = "<group>"; };
+		OBJ_20 /* JNIStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIStrings.swift; sourceTree = "<group>"; };
+		OBJ_21 /* SwiftJNI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftJNI.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		OBJ_9 /* JNI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNI.swift; sourceTree = "<group>"; };
+		OBJ_9 /* jni.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = jni.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +59,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_50 /* Frameworks */ = {
+		OBJ_49 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
@@ -70,24 +69,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		OBJ_17 /* CJNI */ = {
+		OBJ_10 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_18 /* jni.c */,
-				OBJ_19 /* include */,
-			);
-			name = CJNI;
-			path = Sources/CJNI;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_19 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_20 /* jni.h */,
-				OBJ_21 /* module.modulemap */,
+				OBJ_11 /* jni.h */,
+				OBJ_12 /* module.modulemap */,
 			);
 			path = include;
 			sourceTree = "<group>";
+		};
+		OBJ_13 /* JNISwift */ = {
+			isa = PBXGroup;
+			children = (
+				03B38DF41F1FC98800B9CDA9 /* Array+JavaParameterConvertible.swift */,
+				03B38DF31F1FC98800B9CDA9 /* JavaParameterConvertible.swift */,
+				OBJ_14 /* JNI.swift */,
+				OBJ_15 /* JNIClassManipulation.swift */,
+				OBJ_16 /* JNIExceptions.swift */,
+				OBJ_17 /* JNIMethods.swift */,
+				OBJ_18 /* JNIObjects.swift */,
+				OBJ_19 /* JNIRefs.swift */,
+				OBJ_20 /* JNIStrings.swift */,
+				OBJ_21 /* SwiftJNI.swift */,
+			);
+			name = JNISwift;
+			path = Sources/JNISwift;
+			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_22 /* Tests */ = {
 			isa = PBXGroup;
@@ -99,8 +106,8 @@
 		OBJ_24 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_25 /* JNISwift.framework */,
-				OBJ_26 /* CJNI.framework */,
+				"JNISwift::JNISwift::Product" /* JNISwift.framework */,
+				"JNISwift::CJNI::Product" /* CJNI.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -108,7 +115,6 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
-				030CBFD31F1CD84200352724 /* build.sh */,
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
 				OBJ_22 /* Tests */,
@@ -119,51 +125,42 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_8 /* JNISwift */,
-				OBJ_17 /* CJNI */,
+				OBJ_8 /* CJNI */,
+				OBJ_13 /* JNISwift */,
 			);
 			name = Sources;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_8 /* JNISwift */ = {
+		OBJ_8 /* CJNI */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_9 /* JNI.swift */,
-				OBJ_10 /* JNIClassManipulation.swift */,
-				OBJ_11 /* JNIExceptions.swift */,
-				OBJ_12 /* JNIMethods.swift */,
-				OBJ_13 /* JNIObjects.swift */,
-				OBJ_14 /* JNIRefs.swift */,
-				OBJ_15 /* JNIStrings.swift */,
-				OBJ_16 /* SwiftJNI.swift */,
-				03A41FFE1F1F6385005DFF60 /* JavaParameterConvertible.swift */,
-				03A420001F1F8022005DFF60 /* Array+JavaParameterConvertible.swift */,
+				OBJ_9 /* jni.c */,
+				OBJ_10 /* include */,
 			);
-			name = JNISwift;
-			path = Sources/JNISwift;
+			name = CJNI;
+			path = Sources/CJNI;
 			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
-/* Begin PBXLegacyTarget section */
-		030CBFD41F1CD93C00352724 /* JNISwift_SR */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = build.sh;
-			buildConfigurationList = 030CBFD51F1CD93C00352724 /* Build configuration list for PBXLegacyTarget "JNISwift_SR" */;
+/* Begin PBXNativeTarget section */
+		"JNISwift::CJNI" /* CJNI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_44 /* Build configuration list for PBXNativeTarget "CJNI" */;
 			buildPhases = (
+				OBJ_47 /* Sources */,
+				OBJ_49 /* Frameworks */,
 			);
-			buildToolPath = /bin/bash;
-			buildWorkingDirectory = "";
+			buildRules = (
+			);
 			dependencies = (
 			);
-			name = JNISwift_SR;
-			passBuildSettingsInEnvironment = 1;
-			productName = JNISwift_SR;
+			name = CJNI;
+			productName = CJNI;
+			productReference = "JNISwift::CJNI::Product" /* CJNI.framework */;
+			productType = "com.apple.product-type.framework";
 		};
-/* End PBXLegacyTarget section */
-
-/* Begin PBXNativeTarget section */
-		OBJ_27 /* JNISwift */ = {
+		"JNISwift::JNISwift" /* JNISwift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_28 /* Build configuration list for PBXNativeTarget "JNISwift" */;
 			buildPhases = (
@@ -177,24 +174,7 @@
 			);
 			name = JNISwift;
 			productName = JNISwift;
-			productReference = OBJ_25 /* JNISwift.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		OBJ_43 /* CJNI */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_44 /* Build configuration list for PBXNativeTarget "CJNI" */;
-			buildPhases = (
-				OBJ_47 /* ShellScript */,
-				OBJ_48 /* Sources */,
-				OBJ_50 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = CJNI;
-			productName = CJNI;
-			productReference = OBJ_26 /* CJNI.framework */;
+			productReference = "JNISwift::JNISwift::Product" /* JNISwift.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -204,13 +184,6 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 9999;
-				TargetAttributes = {
-					030CBFD41F1CD93C00352724 = {
-						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = FTSYMMN5B5;
-						ProvisioningStyle = Automatic;
-					};
-				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "JNISwift" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -224,24 +197,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				OBJ_27 /* JNISwift */,
-				OBJ_43 /* CJNI */,
-				030CBFD41F1CD93C00352724 /* JNISwift_SR */,
+				"JNISwift::JNISwift" /* JNISwift */,
+				"JNISwift::CJNI" /* CJNI */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		OBJ_47 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"${PROJECT_TEMP_DIR}/SymlinkLibs\"\nln -sf \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" \"${PROJECT_TEMP_DIR}/SymlinkLibs/lib${EXECUTABLE_NAME}.dylib\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		OBJ_31 /* Sources */ = {
@@ -249,23 +209,23 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_32 /* JNI.swift in Sources */,
+				03B38DF51F1FCA9B00B9CDA9 /* Array+JavaParameterConvertible.swift in Sources */,
 				OBJ_33 /* JNIClassManipulation.swift in Sources */,
 				OBJ_34 /* JNIExceptions.swift in Sources */,
-				03A420011F1F8022005DFF60 /* Array+JavaParameterConvertible.swift in Sources */,
 				OBJ_35 /* JNIMethods.swift in Sources */,
 				OBJ_36 /* JNIObjects.swift in Sources */,
-				03A41FFF1F1F6385005DFF60 /* JavaParameterConvertible.swift in Sources */,
 				OBJ_37 /* JNIRefs.swift in Sources */,
 				OBJ_38 /* JNIStrings.swift in Sources */,
 				OBJ_39 /* SwiftJNI.swift in Sources */,
+				03B38DF61F1FCA9F00B9CDA9 /* JavaParameterConvertible.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_48 /* Sources */ = {
+		OBJ_47 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_49 /* jni.c in Sources */,
+				OBJ_48 /* jni.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,101 +234,12 @@
 /* Begin PBXTargetDependency section */
 		OBJ_42 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = OBJ_43 /* CJNI */;
-			targetProxy = 03A0C4AD1F1CD7FC004358A6 /* PBXContainerItemProxy */;
+			target = "JNISwift::CJNI" /* CJNI */;
+			targetProxy = 5C1D2F2E1F1E277B0006682E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		030CBFD61F1CD93C00352724 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				DEBUGGING_SYMBOLS = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = FTSYMMN5B5;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		030CBFD71F1CD93C00352724 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = FTSYMMN5B5;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		OBJ_29 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -383,13 +254,13 @@
 				);
 				INFOPLIST_FILE = JNISwift.xcodeproj/JNISwift_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_TEMP_DIR)/SymlinkLibs/";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Sources/CJNI/include/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = JNISwift;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGET_NAME = JNISwift;
 			};
 			name = Debug;
@@ -412,7 +283,6 @@
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
 				USE_HEADERMAP = NO;
 			};
 			name = Debug;
@@ -431,13 +301,13 @@
 				);
 				INFOPLIST_FILE = JNISwift.xcodeproj/JNISwift_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_TEMP_DIR)/SymlinkLibs/";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Sources/CJNI/include/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = JNISwift;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGET_NAME = JNISwift;
 			};
 			name = Release;
@@ -458,7 +328,6 @@
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
 				USE_HEADERMAP = NO;
 			};
 			name = Release;
@@ -516,15 +385,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		030CBFD51F1CD93C00352724 /* Build configuration list for PBXLegacyTarget "JNISwift_SR" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				030CBFD61F1CD93C00352724 /* Debug */,
-				030CBFD71F1CD93C00352724 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
 		OBJ_2 /* Build configuration list for PBXProject "JNISwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
