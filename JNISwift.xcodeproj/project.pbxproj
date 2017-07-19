@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03A41FFF1F1F6385005DFF60 /* JavaParameterConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A41FFE1F1F6385005DFF60 /* JavaParameterConvertible.swift */; };
+		03A420011F1F8022005DFF60 /* Array+JavaParameterConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A420001F1F8022005DFF60 /* Array+JavaParameterConvertible.swift */; };
 		OBJ_32 /* JNI.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* JNI.swift */; };
 		OBJ_33 /* JNIClassManipulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* JNIClassManipulation.swift */; };
 		OBJ_34 /* JNIExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* JNIExceptions.swift */; };
@@ -31,6 +33,8 @@
 
 /* Begin PBXFileReference section */
 		030CBFD31F1CD84200352724 /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
+		03A41FFE1F1F6385005DFF60 /* JavaParameterConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaParameterConvertible.swift; sourceTree = "<group>"; };
+		03A420001F1F8022005DFF60 /* Array+JavaParameterConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+JavaParameterConvertible.swift"; sourceTree = "<group>"; };
 		OBJ_10 /* JNIClassManipulation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIClassManipulation.swift; sourceTree = "<group>"; };
 		OBJ_11 /* JNIExceptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIExceptions.swift; sourceTree = "<group>"; };
 		OBJ_12 /* JNIMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIMethods.swift; sourceTree = "<group>"; };
@@ -132,6 +136,8 @@
 				OBJ_14 /* JNIRefs.swift */,
 				OBJ_15 /* JNIStrings.swift */,
 				OBJ_16 /* SwiftJNI.swift */,
+				03A41FFE1F1F6385005DFF60 /* JavaParameterConvertible.swift */,
+				03A420001F1F8022005DFF60 /* Array+JavaParameterConvertible.swift */,
 			);
 			name = JNISwift;
 			path = Sources/JNISwift;
@@ -245,8 +251,10 @@
 				OBJ_32 /* JNI.swift in Sources */,
 				OBJ_33 /* JNIClassManipulation.swift in Sources */,
 				OBJ_34 /* JNIExceptions.swift in Sources */,
+				03A420011F1F8022005DFF60 /* Array+JavaParameterConvertible.swift in Sources */,
 				OBJ_35 /* JNIMethods.swift in Sources */,
 				OBJ_36 /* JNIObjects.swift in Sources */,
+				03A41FFF1F1F6385005DFF60 /* JavaParameterConvertible.swift in Sources */,
 				OBJ_37 /* JNIRefs.swift in Sources */,
 				OBJ_38 /* JNIStrings.swift in Sources */,
 				OBJ_39 /* SwiftJNI.swift in Sources */,
@@ -515,6 +523,7 @@
 				030CBFD71F1CD93C00352724 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		OBJ_2 /* Build configuration list for PBXProject "JNISwift" */ = {
 			isa = XCConfigurationList;
