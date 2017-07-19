@@ -93,6 +93,12 @@ extension JNI {
         return _env.pointee.pointee.CallStaticIntMethodA(_env, javaClass, method, &methodArgs)
     }
 
+    public func CallStaticBooleanMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) -> JavaBoolean {
+        let _env = self._env
+        var methodArgs = parameters
+        return _env.pointee.pointee.CallStaticBooleanMethodA(_env, javaClass, method, &methodArgs)
+    }
+
     public func CallStaticVoidMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) {
         let _env = self._env
         var methodArgs = parameters
