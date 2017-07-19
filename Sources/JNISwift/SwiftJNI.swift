@@ -49,7 +49,7 @@ extension JNI {
     public func GetStringUTFChars(string: JavaString) -> UnsafePointer<CChar> {
         let _env = self._env
         var didCopyStringChars = JavaBoolean() // XXX: this gets set below, check it!
-        return _env.pointee.pointee.GetStringUTFChars(_env, string, &didCopyStringChars)!
+        return _env.pointee.pointee.GetStringUTFChars(_env, string, &didCopyStringChars)
     }
 
     // MARK: References
@@ -107,7 +107,7 @@ extension JNI {
 
     // MARK: Arrays
 
-    public func GetArrayLength(array: JavaArray) -> Int {
+    public func GetLength(_ array: JavaArray) -> Int {
         let _env = self._env
         let result = _env.pointee.pointee.GetArrayLength(_env, array)
         return Int(result)
@@ -132,7 +132,7 @@ extension JNI {
         var count = numElements
 
         if numElements < 0 {
-            count = GetArrayLength(array: array)
+            count = GetLength(array)
         }
 
         var result = [JavaInt](repeating: 0, count: count)
@@ -157,7 +157,7 @@ extension JNI {
         var count = numElements
 
         if numElements < 0 {
-            count = GetArrayLength(array: array)
+            count = GetLength(array)
         }
 
         var result = [JavaFloat](repeating: 0, count: count)
@@ -169,6 +169,34 @@ extension JNI {
         let _env = self._env
         var newElements = sourceElements.map { JavaFloat($0) } // make mutable copy
         _env.pointee.pointee.SetArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
+    }
+
+    public func GetStrings(from array: JavaObjectArray) throws -> [String] {
+        let _env = self._env
+        let count = jni.GetLength(array)
+
+        let strings: [String] = try (0 ..< count).map { i in
+            let jString: JavaString? = _env.pointee.pointee.GetObjectArrayElement(_env, array, jsize(i))
+            let chars = _env.pointee.pointee.GetStringUTFChars(_env, jString, nil)
+            try checkAndThrowOnJNIError()
+            defer { _env.pointee.pointee.ReleaseStringUTFChars(_env, jString, chars) }
+
+            return String(cString: chars)
+        }
+
+        return strings
+    }
+}
+
+func checkAndThrowOnJNIError() throws {
+    if jni.ExceptionCheck() { throw JNIError() }
+}
+
+/// Prints information about the error to the console and clears the pending exception so we can continue making JNI calls
+struct JNIError: Error {
+    init() {
+        jni.ExceptionDescribe()
+        jni.ExceptionClear()
     }
 }
 
