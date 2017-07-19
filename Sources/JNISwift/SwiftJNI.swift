@@ -70,25 +70,17 @@ extension JNI {
 
     public func GetMethodID(for object: JavaObject, methodName: String, methodSignature: String) throws -> JavaMethodID? {
         let _env = self._env
-        print("\(object)")
-
-        print("Getting class of given object")
         let objectClass = _env.pointee.pointee.GetObjectClass(_env, object)
         try checkAndThrowOnJNIError()
 
-        print("About to do JNI call for '\(methodName)\' with signature '\(methodSignature)'")
         let result = _env.pointee.pointee.GetMethodID(_env, objectClass!, methodName, methodSignature)
-        print("Got MethodID result for '\(methodName)' with signature '\(methodSignature)'")
         try checkAndThrowOnJNIError()
         return result
     }
 
     public func GetStaticMethodID(for javaClass: JavaClass, methodName: String, methodSignature: String) throws -> JavaMethodID? {
         let _env = self._env
-        print("\(javaClass)")
-        print("About to do JNI call for '\(methodName)\' with signature '\(methodSignature)'")
         let result = _env.pointee.pointee.GetStaticMethodID(_env, javaClass, methodName, methodSignature)
-        print("Got MethodID result for '\(methodName)' with signature '\(methodSignature)'")
         try checkAndThrowOnJNIError()
         return result
     }
@@ -194,7 +186,6 @@ extension JNI {
     public func GetStrings(from array: JavaObjectArray) throws -> [String] {
         let _env = self._env
         let count = jni.GetLength(array)
-        print("Array contains \(count) strings")
 
         let strings: [String] = try (0 ..< count).map { i in
             let jString: JavaString? = _env.pointee.pointee.GetObjectArrayElement(_env, array, jsize(i))

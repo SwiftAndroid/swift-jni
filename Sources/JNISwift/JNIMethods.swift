@@ -81,45 +81,35 @@ public func callStatic<T: JavaParameterConvertible>(_ methodName: String, on jav
 
 
 public func callStatic(_ methodName: String, on javaClass: JavaClass, returningObjectType objectType: String) throws -> JavaObject {
-    print("Preparing to call static method \(methodName)")
     let methodSignature = "()L\(objectType.replacingFullstopsWithSlashes());"
 
-    print("Getting ID of \(methodName) with signature \(methodSignature)")
     guard let methodID = try jni.GetStaticMethodID(for: javaClass, methodName: methodName, methodSignature: methodSignature) else {
         throw InvalidParameters()
     }
 
-    print("Calling static method \(methodName)")
     return try jni.CallStaticObjectMethod(methodID, on: javaClass, parameters: [])
 }
 
 
 public func call(_ methodName: String, on object: JavaObject, returningObjectType objectType: String) throws -> JavaObject {
-    print("Preparing to call \(methodName)")
     let methodSignature = "()L\(objectType.replacingFullstopsWithSlashes());"
 
-    print("Getting ID of \(methodName) with signature \(methodSignature)")
     guard let methodID = try jni.GetMethodID(for: object, methodName: methodName, methodSignature: methodSignature) else {
         throw InvalidParameters()
     }
 
-    print("Calling \(methodName)")
     return try jni.CallObjectMethod(methodID, on: object, parameters: [])
 }
 
 
 public func call(_ methodName: String, on object: JavaObject, with arguments: [JavaParameterConvertible]) throws -> [String] {
-    print("Preparing to call \(methodName)")
     let argumentsSignature = arguments.reduce("", { $0 + type(of: $1).asJNIParameterString })
     let methodSignature = "(" + argumentsSignature + ")" + "[" + String.asJNIParameterString
 
-    print("Getting ID of \(methodName) with signature \(methodSignature)")
     guard let methodID = try jni.GetMethodID(for: object, methodName: methodName, methodSignature: methodSignature) else { throw InvalidParameters() }
 
     let javaParameters = arguments.map { $0.toJavaParameter() }
     let returnedArray = try jni.CallObjectMethod(methodID, on: object, parameters: javaParameters)
-    print("Got JavaArray")
 
-    print("Getting strings from JavaArray")
     return try jni.GetStrings(from: returnedArray)
 }
