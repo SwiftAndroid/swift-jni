@@ -6,25 +6,29 @@
 //
 
 extension Array where Element == JavaParameterConvertible {
-    func methodSignature(returnType: JavaParameterConvertible.Type) -> String {
-        let argumentTypes = self.reduce("", { (result, parameter) -> String in
-            return result + type(of: parameter).asJNIParameterString
-        })
-        return argumentTypes.asJNIParameterString(with: returnType)
+    func methodSignature(returnType: JavaParameterConvertible.Type? = nil) -> String {
+        return getMethodSignature(from: self, reducer: {
+            return $0 + type(of: $1).asJNIParameterString
+        }, returnType: returnType)
     }
 }
 
 extension Array where Element == JavaParameterConvertible.Type {
-    func methodSignature(returnType: JavaParameterConvertible.Type) -> String {
-        let argumentTypes = self.reduce("", { (result, type) -> String in
-            return result + type.asJNIParameterString
-        })
-        return argumentTypes.asJNIParameterString(with: returnType)
+    func methodSignature(returnType: JavaParameterConvertible.Type? = nil) -> String {
+        return getMethodSignature(from: self, reducer: {
+            return $0 + $1.asJNIParameterString
+        }, returnType: returnType)
     }
 }
 
+private func getMethodSignature<T>(from arr: [T], reducer: (String, T) -> String, returnType: JavaParameterConvertible.Type?) -> String {
+    let argumentTypes = arr.reduce("", reducer)
+    return argumentTypes.asJNIParameterString(with: returnType)
+}
+
 private extension String {
-    func asJNIParameterString(with returnType: JavaParameterConvertible.Type) -> String {
-        return "(" + self + ")" + returnType.asJNIParameterString
+    func asJNIParameterString(with returnType: JavaParameterConvertible.Type?) -> String {
+        let returnTypeString = returnType?.asJNIParameterString ?? "V"
+        return "(" + self + ")" + returnTypeString
     }
 }
