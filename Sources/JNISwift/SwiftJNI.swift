@@ -11,10 +11,9 @@ public func JNI_OnLoad(jvm: UnsafeMutablePointer<JavaVM>, reserved: UnsafeMutabl
 
     jni = localJNI // set the global for use elsewhere
 
-    #if !os(Android) && swift(>=4)
-        // FIXME: Only available in Swift 4.0
-        DispatchQueue.setThreadDetachCallback(JNI_DetachCurrentThread)
-    #endif
+    // #if !os(Android) && swift(>=4)
+    //     DispatchQueue.setThreadDetachCallback(JNI_DetachCurrentThread)
+    // #endif
 
     return JNI_VERSION_1_6
 }

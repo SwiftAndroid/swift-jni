@@ -1,13 +1,14 @@
-// swift-tools-version:3.1
+// swift-tools-version:4.0
 
 import PackageDescription
 
 let package = Package(
     name: "JNISwift",
+    products: [
+        .library(name: "JNISwift", type: .dynamic, targets: ["JNISwift"])
+    ],
     targets: [
-        Target(name: "JNISwift", dependencies: ["CJNI"]),
-        Target(name: "CJNI", dependencies: [])
+        .target(name: "JNISwift", dependencies: ["CJNI"]),
+        .target(name: "CJNI", dependencies: [])
     ]
 )
-
-products.append(Product(name: "JNISwift", type: .Library(.Dynamic), modules: ["JNISwift"]))

@@ -1,15 +1,5 @@
 import CJNI
 
-#if os(Android)
-@discardableResult
-@_silgen_name("__android_log_write")
-public func androidPrint(_ prio: Int32, _ tag: UnsafePointer<CChar>, _ text: UnsafePointer<CChar>) -> Int32
-
-func print(_ string: String) {
-    androidPrint(5, "SwiftJNI", string)
-}
-#endif
-
 struct InvalidParameters: Error {}
 
 public protocol JavaParameterConvertible {
