@@ -42,7 +42,6 @@
 		OBJ_19 /* JNIRefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIRefs.swift; sourceTree = "<group>"; };
 		OBJ_20 /* JNIStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIStrings.swift; sourceTree = "<group>"; };
 		OBJ_21 /* SwiftJNI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftJNI.swift; sourceTree = "<group>"; };
-		OBJ_23 /* JNISwift */ = {isa = PBXFileReference; lastKnownFileType = folder; path = JNISwift; sourceTree = SOURCE_ROOT; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_9 /* jni.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = jni.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,16 +106,14 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
 				OBJ_22 /* Tests */,
-				OBJ_23 /* JNISwift */,
 				OBJ_24 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -189,7 +186,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_24 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
