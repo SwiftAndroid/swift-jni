@@ -3,12 +3,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "JNISwift",
+    name: "JNI",
     products: [
-        .library(name: "JNISwift", type: .dynamic, targets: ["JNISwift"])
+        .library(name: "JNI", type: .dynamic, targets: ["CJNI", "JNI"])
     ],
     targets: [
-        .target(name: "JNISwift", dependencies: ["CJNI"]),
-        .target(name: "CJNI", dependencies: [])
+        .target(name: "JNI", dependencies: ["CJNI"]),
+        .target(name: "CJNI")
     ]
 )

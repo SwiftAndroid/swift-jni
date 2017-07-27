@@ -1,5 +1,5 @@
 import CJNI
-//import Dispatch
+// import Dispatch
 
 public var jni: JNI! // this gets set "OnLoad" so should always exist
 
@@ -82,10 +82,11 @@ extension JNI {
         return result
     }
 
-    public func CallVoidMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) {
+    public func CallVoidMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws {
         let _env = self._env
         var methodArgs = parameters
         _env.pointee.pointee.CallVoidMethod(_env, object, method, &methodArgs)
+        try checkAndThrowOnJNIError()
     }
 
     public func CallObjectMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaObject {
@@ -118,6 +119,18 @@ extension JNI {
         let result = _env.pointee.pointee.CallStaticIntMethodA(_env, javaClass, method, &methodArgs)
         try checkAndThrowOnJNIError()
         return result
+    }
+
+    public func CallStaticBooleanMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) -> JavaBoolean {
+        let _env = self._env
+        var methodArgs = parameters
+        return _env.pointee.pointee.CallStaticBooleanMethodA(_env, javaClass, method, &methodArgs)
+    }
+
+    public func CallStaticVoidMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) {
+        let _env = self._env
+        var methodArgs = parameters
+        _env.pointee.pointee.CallStaticVoidMethodA(_env, javaClass, method, &methodArgs)
     }
 
     // MARK: Arrays
@@ -284,7 +297,7 @@ public struct JavaCallback {
     }
 
     public func apply(args: [JavaParameter]) {
-        jni.CallVoidMethod(methodID, on: jobj, parameters: args)
+        try? jni.CallVoidMethod(methodID, on: jobj, parameters: args)
     }
 
     /// Send variadic parameters to the func that takes an array
