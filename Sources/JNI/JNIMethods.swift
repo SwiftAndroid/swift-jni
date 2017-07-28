@@ -20,7 +20,7 @@ extension JNI {
     }
 
     public func callStatic(_ methodName: String, on javaClass: JavaClass, arguments: [JavaParameterConvertible] = [], returningObjectType objectType: String) throws -> JavaObject {
-        let methodSignature = arguments.methodSignature(returnType: objectType)
+        let methodSignature = arguments.methodSignature(customReturnType: "L" + objectType + ";")
         let methodID = try jni.GetStaticMethodID(for: javaClass, methodName: methodName, methodSignature: methodSignature)
 
         return try jni.CallStaticObjectMethod(methodID, on: javaClass, parameters: arguments.asJavaParameters())
@@ -36,7 +36,7 @@ extension JNI {
     }
 
     public func call(_ methodName: String, on object: JavaObject, arguments: [JavaParameterConvertible] = [], returningObjectType objectType: String) throws -> JavaObject {
-        let methodSignature = arguments.methodSignature(returnType: objectType)
+        let methodSignature = arguments.methodSignature(customReturnType: "L" + objectType + ";")
         let methodID = try jni.GetMethodID(for: object, methodName: methodName, methodSignature: methodSignature)
 
         return try jni.CallObjectMethod(methodID, on: object, parameters: arguments.asJavaParameters())
