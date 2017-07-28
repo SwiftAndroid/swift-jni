@@ -39,7 +39,8 @@ extension Int: JavaParameterConvertible {
 }
 
 extension String: JavaParameterConvertible {
-    public static var asJNIParameterString: String { return "Ljava/lang/String;" }
+    private static let javaClassname = "java/lang/String"
+    public static let asJNIParameterString = "L\(javaClassname);"
 
     public func toJavaParameter() -> JavaParameter {
         let stringAsObject = jni.NewStringUTF(self)

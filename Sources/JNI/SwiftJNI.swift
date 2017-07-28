@@ -65,19 +65,25 @@ extension JNI {
         return result
     }
 
-    public func GetMethodID(for object: JavaObject, methodName: String, methodSignature: String) throws -> JavaMethodID? {
+    public func GetMethodID(for object: JavaObject, methodName: String, methodSignature: String) throws -> JavaMethodID {
         let _env = self._env
         let objectClass = _env.pointee.pointee.GetObjectClass(_env, object)
         try checkAndThrowOnJNIError()
 
-        let result = _env.pointee.pointee.GetMethodID(_env, objectClass!, methodName, methodSignature)
+        guard let result = _env.pointee.pointee.GetMethodID(_env, objectClass!, methodName, methodSignature) else {
+            throw InvalidMethodID()
+        }
+
         try checkAndThrowOnJNIError()
         return result
     }
 
-    public func GetStaticMethodID(for javaClass: JavaClass, methodName: String, methodSignature: String) throws -> JavaMethodID? {
+    public func GetStaticMethodID(for javaClass: JavaClass, methodName: String, methodSignature: String) throws -> JavaMethodID {
         let _env = self._env
-        let result = _env.pointee.pointee.GetStaticMethodID(_env, javaClass, methodName, methodSignature)
+        guard let result = _env.pointee.pointee.GetStaticMethodID(_env, javaClass, methodName, methodSignature) else {
+            throw InvalidMethodID()
+        }
+
         try checkAndThrowOnJNIError()
         return result
     }
@@ -285,8 +291,7 @@ public struct JavaCallback {
 
         guard
             let javaClass = jni.GetObjectClass(obj: globalJobj),
-            let methodIDwithoutError = try? jni.GetMethodID(for: javaClass, methodName: methodName, methodSignature: methodSignature),
-            let methodID = methodIDwithoutError
+            let methodID = try? jni.GetMethodID(for: javaClass, methodName: methodName, methodSignature: methodSignature)
             else {
                 // XXX: We should throw here and keep throwing til it gets back to Java
                 fatalError("Failed to make JavaCallback")

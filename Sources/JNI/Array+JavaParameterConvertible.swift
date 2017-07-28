@@ -38,4 +38,9 @@ extension Array where Element == JavaParameterConvertible {
         let returnTypeString = "L" + returnType.replacingFullstopsWithSlashes() + ";"
         return "(" + self.argumentSignature() + ")" + returnTypeString
     }
+
+    func methodSignature(customReturnType: String) -> String {
+        let returnTypeString = customReturnType.replacingFullstopsWithSlashes()
+        return "(" + self.argumentSignature() + ")" + returnTypeString
+    }
 }
