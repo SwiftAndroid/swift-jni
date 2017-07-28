@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "JNISwift::JNISwift"
-               BuildableName = "JNISwift.framework"
-               BlueprintName = "JNISwift"
-               ReferencedContainer = "container:JNISwift.xcodeproj">
+               BlueprintIdentifier = "JNI::JNI"
+               BuildableName = "JNI.framework"
+               BlueprintName = "JNI"
+               ReferencedContainer = "container:JNI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -28,10 +28,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "JNISwift::CJNI"
+               BlueprintIdentifier = "JNI::CJNI"
                BuildableName = "CJNI.framework"
                BlueprintName = "CJNI"
-               ReferencedContainer = "container:JNISwift.xcodeproj">
+               ReferencedContainer = "container:JNI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,10 +61,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "JNISwift::JNISwift"
-            BuildableName = "JNISwift.framework"
-            BlueprintName = "JNISwift"
-            ReferencedContainer = "container:JNISwift.xcodeproj">
+            BlueprintIdentifier = "JNI::JNI"
+            BuildableName = "JNI.framework"
+            BlueprintName = "JNI"
+            ReferencedContainer = "container:JNI.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>

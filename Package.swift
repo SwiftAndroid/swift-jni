@@ -5,10 +5,10 @@ import PackageDescription
 let package = Package(
     name: "JNI",
     products: [
-        .library(name: "JNI", type: .dynamic, targets: ["CJNI", "JNI"])
+        .library(name: "JNI", type: .dynamic, targets: ["JNI", "CJNI"])
     ],
     targets: [
-        .target(name: "JNI", dependencies: ["CJNI"]),
-        .target(name: "CJNI")
+        .target(name: "CJNI"),
+        .target(name: "JNI", dependencies: ["CJNI"])
     ]
 )

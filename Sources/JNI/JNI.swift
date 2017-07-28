@@ -1,4 +1,4 @@
-import CJNI
+@_exported import CJNI // "_exported" so we don't have to import both CJNI and JNI all the time
 
 public class JNI {
     /// Our reference to the Java Virtual Machine, to be set on init
