@@ -7,8 +7,6 @@
 
 import CJNI
 
-typealias JavaObjectClassName = String
-
 private extension String {
     func replacingFullstopsWithSlashes() -> String {
         let replacedCharacters = self.characters.map { ($0 == ".") ? "/" : $0 }
