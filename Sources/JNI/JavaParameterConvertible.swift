@@ -11,6 +11,7 @@ public protocol JavaParameterConvertible {
     static var asJNIParameterString: String { get }
     func toJavaParameter() -> JavaParameter
     static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> Self
+    static func fromStaticField(of javaClass: JavaClass, id: jfieldID) throws -> Self
 }
 
 extension Bool: JavaParameterConvertible {
@@ -18,6 +19,10 @@ extension Bool: JavaParameterConvertible {
 
     public func toJavaParameter() -> JavaParameter {
         return JavaParameter(bool: (self) ? 1 : 0)
+    }
+
+    public static func fromStaticField(of javaClass: JavaClass, id: jfieldID) throws -> Bool {
+        return jni.GetStaticBooleanField(of: javaClass, id: id) == 1
     }
 
     public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> Bool {
@@ -30,6 +35,10 @@ extension Int: JavaParameterConvertible {
 
     public func toJavaParameter() -> JavaParameter {
         return JavaParameter(int: JavaInt(self))
+    }
+
+    public static func fromStaticField(of javaClass: JavaClass, id: jfieldID) throws -> Int {
+        return Int(jni.GetStaticIntField(of: javaClass, id: id))
     }
 
     public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> Int {
@@ -45,6 +54,13 @@ extension String: JavaParameterConvertible {
     public func toJavaParameter() -> JavaParameter {
         let stringAsObject = jni.NewStringUTF(self)
         return JavaParameter(object: stringAsObject)
+    }
+
+    public static func fromStaticField(of javaClass: JavaClass, id: jfieldID) throws -> String {
+        guard let javaObject = jni.GetStaticObjectField(of: javaClass, id: id) else {
+            throw StaticFieldError.InvalidParameters
+        }
+        return jni.GetString(from: javaObject as JavaString)
     }
 
     public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> String {
