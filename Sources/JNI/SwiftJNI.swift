@@ -160,6 +160,23 @@ extension JNI {
         try checkAndThrowOnJNIError()
     }
 
+    // MARK: Fields
+
+    public func GetStaticBooleanField(of javaClass: JavaClass, id: jfieldID) -> JavaBoolean {
+        let _env = self._env
+        return _env.pointee.pointee.GetStaticBooleanField(_env, javaClass, id)
+    }
+
+    public func GetStaticIntField(of javaClass: JavaClass, id: jfieldID) -> JavaInt {
+        let _env = self._env
+        return _env.pointee.pointee.GetStaticIntField(_env, javaClass, id)
+    }
+
+    public func GetStaticObjectField(of javaClass: JavaClass, id: jfieldID) -> JavaObject? {
+        let _env = self._env
+        return _env.pointee.pointee.GetStaticObjectField(_env, javaClass, id)
+    }
+
     // MARK: Arrays
 
     public func GetLength(_ array: JavaArray) -> Int {
