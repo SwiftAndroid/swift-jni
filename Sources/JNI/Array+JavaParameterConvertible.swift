@@ -7,7 +7,7 @@
 
 import CJNI
 
-private extension String {
+extension String {
     func replacingFullstopsWithSlashes() -> String {
         let replacedCharacters = self.characters.map { ($0 == ".") ? "/" : $0 }
         return String(String.CharacterView(replacedCharacters))

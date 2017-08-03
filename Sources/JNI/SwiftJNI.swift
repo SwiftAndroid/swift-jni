@@ -49,21 +49,7 @@ extension JNI {
         return string
     }
 
-    // MARK: References
-
-    public func NewGlobalRef(object: JavaObject) -> JavaObject? {
-        let _env = self._env
-        let result = _env.pointee.pointee.NewGlobalRef(_env, object)
-        return result
-    }
-
     // MARK: Classes and Methods
-
-    public func FindClass(className: String) -> JavaClass? {
-        let _env = self._env
-        let result = _env.pointee.pointee.FindClass(_env, className)
-        return result
-    }
 
     public func GetMethodID(for object: JavaObject, methodName: String, methodSignature: String) throws -> JavaMethodID {
         let _env = self._env
@@ -95,6 +81,30 @@ extension JNI {
         try checkAndThrowOnJNIError()
     }
 
+    public func CallBooleanMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaBoolean {
+        let _env = self._env
+        var methodArgs = parameters
+        let result = _env.pointee.pointee.CallBooleanMethod(_env, object, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    public func CallIntMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaInt {
+        let _env = self._env
+        var methodArgs = parameters
+        let result = _env.pointee.pointee.CallIntMethod(_env, object, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    public func CallDoubleMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaDouble {
+        let _env = self._env
+        var methodArgs = parameters
+        let result = _env.pointee.pointee.CallDoubleMethod(_env, object, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
     public func CallObjectMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaObject {
         let _env = self._env
         var methodArgs = parameters
@@ -102,6 +112,8 @@ extension JNI {
         try checkAndThrowOnJNIError()
         return result
     }
+
+    // MARK: Static methods
 
     public func CallStaticObjectMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> JavaObject {
         let _env = self._env
@@ -127,16 +139,27 @@ extension JNI {
         return result
     }
 
-    public func CallStaticBooleanMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) -> JavaBoolean {
+    public func CallStaticDoubleMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> JavaDouble {
         let _env = self._env
         var methodArgs = parameters
-        return _env.pointee.pointee.CallStaticBooleanMethodA(_env, javaClass, method, &methodArgs)
+        let result = _env.pointee.pointee.CallStaticDoubleMethodA(_env, javaClass, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+        return result
     }
 
-    public func CallStaticVoidMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) {
+    public func CallStaticBooleanMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) throws -> JavaBoolean {
+        let _env = self._env
+        var methodArgs = parameters
+        let result = _env.pointee.pointee.CallStaticBooleanMethodA(_env, javaClass, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    public func CallStaticVoidMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) throws {
         let _env = self._env
         var methodArgs = parameters
         _env.pointee.pointee.CallStaticVoidMethodA(_env, javaClass, method, &methodArgs)
+        try checkAndThrowOnJNIError()
     }
 
     // MARK: Fields
@@ -149,6 +172,11 @@ extension JNI {
     public func GetStaticIntField(of javaClass: JavaClass, id: jfieldID) -> JavaInt {
         let _env = self._env
         return _env.pointee.pointee.GetStaticIntField(_env, javaClass, id)
+    }
+
+    public func GetStaticDoubleField(of javaClass: JavaClass, id: jfieldID) -> JavaDouble {
+        let _env = self._env
+        return _env.pointee.pointee.GetStaticDoubleField(_env, javaClass, id)
     }
 
     public func GetStaticObjectField(of javaClass: JavaClass, id: jfieldID) -> JavaObject? {
