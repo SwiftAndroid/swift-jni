@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "9999"
-   version = "1.8">
+   version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_27"
-               BuildableName = "JNISwift.framework"
-               BlueprintName = "JNISwift"
-               ReferencedContainer = "container:JNISwift.xcodeproj">
+               BlueprintIdentifier = "JNI::JNI"
+               BuildableName = "JNI.framework"
+               BlueprintName = "JNI"
+               ReferencedContainer = "container:JNI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -28,10 +28,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_43"
+               BlueprintIdentifier = "JNI::CJNI"
                BuildableName = "CJNI.framework"
                BlueprintName = "CJNI"
-               ReferencedContainer = "container:JNISwift.xcodeproj">
+               ReferencedContainer = "container:JNI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -51,6 +51,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -60,10 +61,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "OBJ_27"
-            BuildableName = "JNISwift.framework"
-            BlueprintName = "JNISwift"
-            ReferencedContainer = "container:JNISwift.xcodeproj">
+            BlueprintIdentifier = "JNI::JNI"
+            BuildableName = "JNI.framework"
+            BlueprintName = "JNI"
+            ReferencedContainer = "container:JNI.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>

@@ -11,10 +11,7 @@ public func JNI_OnLoad(jvm: UnsafeMutablePointer<JavaVM>, reserved: UnsafeMutabl
 
     jni = localJNI // set the global for use elsewhere
 
-    #if !os(Android) && swift(>=4)
-        // FIXME: Only available in Swift 4.0
-        DispatchQueue.setThreadDetachCallback(JNI_DetachCurrentThread)
-    #endif
+    //     DispatchQueue.setThreadDetachCallback(JNI_DetachCurrentThread)
 
     return JNI_VERSION_1_6
 }
@@ -52,43 +49,60 @@ extension JNI {
         return string
     }
 
-    // MARK: References
-
-    public func NewGlobalRef(object: JavaObject) -> JavaObject? {
-        let _env = self._env
-        let result = _env.pointee.pointee.NewGlobalRef(_env, object)
-        return result
-    }
-
     // MARK: Classes and Methods
 
-    public func FindClass(className: String) -> JavaClass? {
-        let _env = self._env
-        let result = _env.pointee.pointee.FindClass(_env, className)
-        return result
-    }
-
-    public func GetMethodID(for object: JavaObject, methodName: String, methodSignature: String) throws -> JavaMethodID? {
+    public func GetMethodID(for object: JavaObject, methodName: String, methodSignature: String) throws -> JavaMethodID {
         let _env = self._env
         let objectClass = _env.pointee.pointee.GetObjectClass(_env, object)
         try checkAndThrowOnJNIError()
 
-        let result = _env.pointee.pointee.GetMethodID(_env, objectClass!, methodName, methodSignature)
+        guard let result = _env.pointee.pointee.GetMethodID(_env, objectClass!, methodName, methodSignature) else {
+            throw InvalidMethodID()
+        }
+
         try checkAndThrowOnJNIError()
         return result
     }
 
-    public func GetStaticMethodID(for javaClass: JavaClass, methodName: String, methodSignature: String) throws -> JavaMethodID? {
+    public func GetStaticMethodID(for javaClass: JavaClass, methodName: String, methodSignature: String) throws -> JavaMethodID {
         let _env = self._env
-        let result = _env.pointee.pointee.GetStaticMethodID(_env, javaClass, methodName, methodSignature)
+        guard let result = _env.pointee.pointee.GetStaticMethodID(_env, javaClass, methodName, methodSignature) else {
+            throw InvalidMethodID()
+        }
+
         try checkAndThrowOnJNIError()
         return result
     }
 
-    public func CallVoidMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) {
+    public func CallVoidMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws {
         let _env = self._env
         var methodArgs = parameters
         _env.pointee.pointee.CallVoidMethod(_env, object, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+    }
+
+    public func CallBooleanMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaBoolean {
+        let _env = self._env
+        var methodArgs = parameters
+        let result = _env.pointee.pointee.CallBooleanMethod(_env, object, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    public func CallIntMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaInt {
+        let _env = self._env
+        var methodArgs = parameters
+        let result = _env.pointee.pointee.CallIntMethod(_env, object, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    public func CallDoubleMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaDouble {
+        let _env = self._env
+        var methodArgs = parameters
+        let result = _env.pointee.pointee.CallDoubleMethod(_env, object, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+        return result
     }
 
     public func CallObjectMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaObject {
@@ -98,6 +112,8 @@ extension JNI {
         try checkAndThrowOnJNIError()
         return result
     }
+
+    // MARK: Static methods
 
     public func CallStaticObjectMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> JavaObject {
         let _env = self._env
@@ -123,16 +139,27 @@ extension JNI {
         return result
     }
 
-    public func CallStaticBooleanMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) -> JavaBoolean {
+    public func CallStaticDoubleMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> JavaDouble {
         let _env = self._env
         var methodArgs = parameters
-        return _env.pointee.pointee.CallStaticBooleanMethodA(_env, javaClass, method, &methodArgs)
+        let result = _env.pointee.pointee.CallStaticDoubleMethodA(_env, javaClass, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+        return result
     }
 
-    public func CallStaticVoidMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) {
+    public func CallStaticBooleanMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) throws -> JavaBoolean {
+        let _env = self._env
+        var methodArgs = parameters
+        let result = _env.pointee.pointee.CallStaticBooleanMethodA(_env, javaClass, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    public func CallStaticVoidMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) throws {
         let _env = self._env
         var methodArgs = parameters
         _env.pointee.pointee.CallStaticVoidMethodA(_env, javaClass, method, &methodArgs)
+        try checkAndThrowOnJNIError()
     }
 
     // MARK: Arrays
@@ -287,8 +314,7 @@ public struct JavaCallback {
 
         guard
             let javaClass = jni.GetObjectClass(obj: globalJobj),
-            let methodIDwithoutError = try? jni.GetMethodID(for: javaClass, methodName: methodName, methodSignature: methodSignature),
-            let methodID = methodIDwithoutError
+            let methodID = try? jni.GetMethodID(for: javaClass, methodName: methodName, methodSignature: methodSignature)
             else {
                 // XXX: We should throw here and keep throwing til it gets back to Java
                 fatalError("Failed to make JavaCallback")
@@ -299,7 +325,7 @@ public struct JavaCallback {
     }
 
     public func apply(args: [JavaParameter]) {
-        jni.CallVoidMethod(methodID, on: jobj, parameters: args)
+        try? jni.CallVoidMethod(methodID, on: jobj, parameters: args)
     }
 
     /// Send variadic parameters to the func that takes an array

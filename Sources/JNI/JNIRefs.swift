@@ -1,9 +1,9 @@
 import CJNI
 
 public extension JNI {
-    public func NewGlobalRef(obj: JavaObject) -> JavaObject {
+    public func NewGlobalRef(_ object: JavaObject) -> JavaObject? {
         let env = self._env
-        return env.pointee.pointee.NewGlobalRef(env, obj)!
+        return env.pointee.pointee.NewGlobalRef(env, object)
     }
 
     public func DeleteGlobalRef(globalRef: JavaObject) {
@@ -11,9 +11,9 @@ public extension JNI {
         env.pointee.pointee.DeleteGlobalRef(env, globalRef)
     }
 
-    public func NewLocalRef(ref: JavaObject) -> JavaObject {
+    public func NewLocalRef(ref: JavaObject) -> JavaObject? {
         let env = self._env
-        return env.pointee.pointee.NewLocalRef(env, ref)!
+        return env.pointee.pointee.NewLocalRef(env, ref)
     }
 
     public func DeleteLocalRef(localRef: JavaObject) {

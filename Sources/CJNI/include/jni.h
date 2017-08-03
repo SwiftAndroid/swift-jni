@@ -383,7 +383,7 @@ struct JNINativeInterface
 
     jstring (* _Nonnull NewString)(JNIEnv * _Nonnull, const jchar * _Nonnull, jsize);
     jsize (* _Nonnull GetStringLength)(JNIEnv * _Nonnull, jstring);
-    const jchar *(* _Nonnull GetStringChars)(JNIEnv * _Nonnull, jstring, jboolean * _Nullable);
+    const jchar * _Nullable(* _Nonnull GetStringChars)(JNIEnv * _Nonnull, jstring, jboolean * _Nullable);
     void (* _Nonnull ReleaseStringChars)(JNIEnv * _Nonnull, jstring, const jchar * _Nonnull);
     jstring (* _Nonnull NewStringUTF)(JNIEnv * _Nonnull, const char * _Nonnull);
     jsize (* _Nonnull GetStringUTFLength)(JNIEnv * _Nonnull, jstring);
@@ -413,14 +413,14 @@ struct JNINativeInterface
     jfloat * _Nullable (* _Nonnull GetFloatArrayElements)(JNIEnv * _Nonnull, jfloatArray, jboolean * _Nonnull);
     jdouble * _Nullable (* _Nonnull GetDoubleArrayElements)(JNIEnv * _Nonnull, jdoubleArray, jboolean * _Nonnull);
 
-    void (* _Nonnull ReleaseBooleanArrayElements)(JNIEnv * _Nonnull, jbooleanArray, jboolean *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
-    void (* _Nonnull ReleaseByteArrayElements)(JNIEnv * _Nonnull, jbyteArray, jbyte *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
-    void (* _Nonnull ReleaseCharArrayElements)(JNIEnv * _Nonnull, jcharArray, jchar *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
-    void (* _Nonnull ReleaseShortArrayElements)(JNIEnv * _Nonnull, jshortArray, jshort *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
-    void (* _Nonnull ReleaseIntArrayElements)(JNIEnv * _Nonnull, jintArray, jint *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
-    void (* _Nonnull ReleaseLongArrayElements)(JNIEnv * _Nonnull, jlongArray, jlong *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
-    void (* _Nonnull ReleaseFloatArrayElements)(JNIEnv * _Nonnull, jfloatArray, jfloat *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
-    void (* _Nonnull ReleaseDoubleArrayElements)(JNIEnv * _Nonnull, jdoubleArray, jdouble *, jint) CF_SWIFT_NAME(ReleaseArrayElements);
+    void (* _Nonnull ReleaseBooleanArrayElements)(JNIEnv * _Nonnull, jbooleanArray, jboolean * _Nullable, jint) CF_SWIFT_NAME(ReleaseArrayElements);
+    void (* _Nonnull ReleaseByteArrayElements)(JNIEnv * _Nonnull, jbyteArray, jbyte * _Nullable, jint) CF_SWIFT_NAME(ReleaseArrayElements);
+    void (* _Nonnull ReleaseCharArrayElements)(JNIEnv * _Nonnull, jcharArray, jchar * _Nullable, jint) CF_SWIFT_NAME(ReleaseArrayElements);
+    void (* _Nonnull ReleaseShortArrayElements)(JNIEnv * _Nonnull, jshortArray, jshort * _Nullable, jint) CF_SWIFT_NAME(ReleaseArrayElements);
+    void (* _Nonnull ReleaseIntArrayElements)(JNIEnv * _Nonnull, jintArray, jint * _Nullable, jint) CF_SWIFT_NAME(ReleaseArrayElements);
+    void (* _Nonnull ReleaseLongArrayElements)(JNIEnv * _Nonnull, jlongArray, jlong * _Nullable, jint) CF_SWIFT_NAME(ReleaseArrayElements);
+    void (* _Nonnull ReleaseFloatArrayElements)(JNIEnv * _Nonnull, jfloatArray, jfloat * _Nullable, jint) CF_SWIFT_NAME(ReleaseArrayElements);
+    void (* _Nonnull ReleaseDoubleArrayElements)(JNIEnv * _Nonnull, jdoubleArray, jdouble * _Nullable, jint) CF_SWIFT_NAME(ReleaseArrayElements);
 
     void (* _Nonnull GetBooleanArrayRegion)(JNIEnv * _Nonnull, jbooleanArray, jsize, jsize, jboolean * _Nonnull);
     void (* _Nonnull GetByteArrayRegion)(JNIEnv * _Nonnull, jbyteArray, jsize, jsize, jbyte * _Nonnull);
@@ -441,7 +441,7 @@ struct JNINativeInterface
     void (* _Nonnull SetFloatArrayRegion)(JNIEnv * _Nonnull, jfloatArray, jsize, jsize, const jfloat * _Nonnull) CF_SWIFT_NAME(SetArrayRegion);
     void (* _Nonnull SetDoubleArrayRegion)(JNIEnv * _Nonnull, jdoubleArray, jsize, jsize, const jdouble * _Nonnull) CF_SWIFT_NAME(SetArrayRegion);
 
-    jint (* _Nonnull RegisterNatives)(JNIEnv * _Nonnull, jclass, const JNINativeMethod *, jint);
+    jint (* _Nonnull RegisterNatives)(JNIEnv * _Nonnull, jclass, const JNINativeMethod * _Nonnull, jint);
     jint (* _Nonnull UnregisterNatives)(JNIEnv * _Nonnull, jclass);
     jint (* _Nonnull MonitorEnter)(JNIEnv * _Nonnull, jobject);
     jint (* _Nonnull MonitorExit)(JNIEnv * _Nonnull, jobject);
@@ -450,11 +450,11 @@ struct JNINativeInterface
     void (* _Nonnull GetStringRegion)(JNIEnv * _Nonnull, jstring, jsize, jsize, jchar * _Nonnull);
     void (* _Nonnull GetStringUTFRegion)(JNIEnv * _Nonnull, jstring, jsize, jsize, char * _Nonnull);
 
-    void *(* _Nonnull GetPrimitiveArrayCritical)(JNIEnv * _Nonnull, jarray, jboolean * _Nonnull);
-    void (* _Nonnull ReleasePrimitiveArrayCritical)(JNIEnv * _Nonnull, jarray, void *, jint);
+    void * _Nullable(* _Nonnull GetPrimitiveArrayCritical)(JNIEnv * _Nonnull, jarray, jboolean * _Nonnull);
+    void (* _Nonnull ReleasePrimitiveArrayCritical)(JNIEnv * _Nonnull, jarray, void * _Nullable, jint);
 
-    const jchar *(* _Nonnull GetStringCritical)(JNIEnv * _Nonnull, jstring, jboolean * _Nonnull);
-    void (* _Nonnull ReleaseStringCritical)(JNIEnv * _Nonnull, jstring, const jchar * _Nonnull);
+    const jchar * _Nullable(* _Nonnull GetStringCritical)(JNIEnv * _Nonnull, jstring, jboolean * _Nonnull);
+    void (* _Nonnull ReleaseStringCritical)(JNIEnv * _Nonnull, jstring, const jchar * _Nullable);
 
     jweak (* _Nonnull NewWeakGlobalRef)(JNIEnv * _Nonnull, jobject);
     void (* _Nonnull DeleteWeakGlobalRef)(JNIEnv * _Nonnull, jweak);
@@ -1332,15 +1332,15 @@ struct _JNIEnv
  */
 struct JNIInvokeInterface
 {
-    void *reserved0;
-    void *reserved1;
-    void *reserved2;
+    void * _Null_unspecified reserved0;
+    void * _Null_unspecified reserved1;
+    void * _Null_unspecified reserved2;
 
     jint (* _Nonnull DestroyJavaVM)(JavaVM * _Nonnull);
-    jint (* _Nonnull AttachCurrentThread)(JavaVM *, JNIEnv **, void * _Nullable);
+    jint (* _Nonnull AttachCurrentThread)(JavaVM * _Nonnull, JNIEnv * _Nullable * _Nullable, void * _Nullable);
     jint (* _Nonnull DetachCurrentThread)(JavaVM * _Nonnull);
-    jint (* _Nonnull GetEnv)(JavaVM *, void **, jint);
-    jint (* _Nonnull AttachCurrentThreadAsDaemon)(JavaVM *, JNIEnv **, void * _Nonnull);
+    jint (* _Nonnull GetEnv)(JavaVM * _Nonnull, void * _Nullable * _Nullable, jint);
+    jint (* _Nonnull AttachCurrentThreadAsDaemon)(JavaVM * _Nonnull, JNIEnv * _Nullable * _Nullable, void * _Nullable);
 };
 
 /*
@@ -1348,7 +1348,7 @@ struct JNIInvokeInterface
  */
 struct _JavaVM
 {
-    const struct JNIInvokeInterface *functions;
+    const struct JNIInvokeInterface * _Nonnull functions;
 
 #if defined(__cplusplus)
     jint DestroyJavaVM()
@@ -1376,9 +1376,9 @@ struct _JavaVM
 
 struct JavaVMAttachArgs
 {
-    jint version;     /* must be >= JNI_VERSION_1_2 */
-    const char *name; /* NULL or name of thread as modified UTF-8 str */
-    jobject group;    /* global ref of a ThreadGroup object, or NULL */
+    jint version;     /** must be >= JNI_VERSION_1_2 */
+    const char * _Nullable name; /** NULL or name of thread as modified UTF-8 str */
+    jobject group;    /** global ref of a ThreadGroup object, or NULL */
 };
 typedef struct JavaVMAttachArgs JavaVMAttachArgs;
 
@@ -1388,8 +1388,8 @@ typedef struct JavaVMAttachArgs JavaVMAttachArgs;
  */
 typedef struct JavaVMOption
 {
-    const char *optionString;
-    void *extraInfo;
+    const char * _Nullable optionString;
+    void * _Nullable extraInfo;
 } JavaVMOption;
 
 typedef struct JavaVMInitArgs
@@ -1397,7 +1397,7 @@ typedef struct JavaVMInitArgs
     jint version; /* use JNI_VERSION_1_2 or later */
 
     jint nOptions;
-    JavaVMOption *options;
+    JavaVMOption * _Nonnull options;
     jboolean ignoreUnrecognized;
 } JavaVMInitArgs;
 
@@ -1423,8 +1423,8 @@ jint JNI_GetCreatedJavaVMs(JavaVM**, jsize, jsize* _Nonnull);
  * Prototypes for functions exported by loadable shared libs.  These are
  * called by JNI, not provided by JNI.
  */
-JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved);
-JNIEXPORT void JNICALL JNI_OnUnload(JavaVM *vm, void *reserved);
+JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM * _Nonnull vm, void * _Null_unspecified reserved);
+JNIEXPORT void JNICALL JNI_OnUnload(JavaVM * _Nonnull vm, void * _Null_unspecified reserved);
 
 #ifdef __cplusplus
 }
