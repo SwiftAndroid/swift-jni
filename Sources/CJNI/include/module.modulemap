@@ -1,0 +1,4 @@
+module CJNI {
+    header "jni.h"
+    export *
+}
