@@ -37,7 +37,6 @@
 		"JNI::CJNI::Product" /* CJNI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CJNI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"JNI::JNI::Product" /* JNI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JNI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_11 /* jni.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jni.h; sourceTree = "<group>"; };
-		OBJ_12 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = "/Users/geordiejay/dev/flowkey/smartphone/RNPlayerComponent/NativePlayerIOS/FlowkeyPlayerSDL/UIKit/swift-jni/Sources/CJNI/include/module.modulemap"; sourceTree = "<group>"; };
 		OBJ_14 /* Array+JavaParameterConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+JavaParameterConvertible.swift"; sourceTree = "<group>"; };
 		OBJ_15 /* JNI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNI.swift; sourceTree = "<group>"; };
 		OBJ_16 /* JNIClassManipulation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIClassManipulation.swift; sourceTree = "<group>"; };
@@ -75,7 +74,6 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_11 /* jni.h */,
-				OBJ_12 /* module.modulemap */,
 			);
 			path = include;
 			sourceTree = "<group>";
