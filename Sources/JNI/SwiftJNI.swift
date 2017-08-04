@@ -56,12 +56,10 @@ extension JNI {
         let objectClass = _env.pointee.pointee.GetObjectClass(_env, object)
         try checkAndThrowOnJNIError()
 
-        guard let result = _env.pointee.pointee.GetMethodID(_env, objectClass!, methodName, methodSignature) else {
-            throw InvalidMethodID()
-        }
-
+        let result = _env.pointee.pointee.GetMethodID(_env, objectClass!, methodName, methodSignature)
         try checkAndThrowOnJNIError()
-        return result
+
+        return result!
     }
 
     public func GetStaticMethodID(for javaClass: JavaClass, methodName: String, methodSignature: String) throws -> JavaMethodID {
