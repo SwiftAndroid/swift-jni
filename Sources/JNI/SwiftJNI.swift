@@ -164,6 +164,28 @@ extension JNI {
 
     // MARK: Fields
 
+    public func GetBooleanField(of javaObject: JavaObject, id: jfieldID) -> JavaBoolean {
+        let _env = self._env
+        return _env.pointee.pointee.GetBooleanField(_env, javaObject, id)
+    }
+
+    public func GetIntField(of javaObject: JavaObject, id: jfieldID) -> JavaInt {
+        let _env = self._env
+        return _env.pointee.pointee.GetIntField(_env, javaObject, id)
+    }
+
+    public func GetDoubleField(of javaObject: JavaObject, id: jfieldID) -> JavaDouble {
+        let _env = self._env
+        return _env.pointee.pointee.GetDoubleField(_env, javaObject, id)
+    }
+
+    public func GetObjectField(of javaObject: JavaObject, id: jfieldID) -> JavaObject? {
+        let _env = self._env
+        return _env.pointee.pointee.GetObjectField(_env, javaObject, id)
+    }
+
+    // MARK: Static Fields
+
     public func GetStaticBooleanField(of javaClass: JavaClass, id: jfieldID) -> JavaBoolean {
         let _env = self._env
         return _env.pointee.pointee.GetStaticBooleanField(_env, javaClass, id)
@@ -277,6 +299,17 @@ extension JNI {
         }
 
         return strings
+    }
+
+    public func GetObjectArrayElement(in array: JavaObjectArray, at index: Int) throws -> JavaObject {
+        let _env = self._env
+        let count = jni.GetLength(array)
+        if (index >= count) {
+            throw JNIError()
+        }
+        let jObj = _env.pointee.pointee.GetObjectArrayElement(_env, array, jsize(index))!
+        try checkAndThrowOnJNIError()
+        return jObj
     }
 }
 
