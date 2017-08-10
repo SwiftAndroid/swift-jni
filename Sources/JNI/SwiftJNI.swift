@@ -172,6 +172,11 @@ extension JNI {
         return _env.pointee.pointee.GetStaticIntField(_env, javaClass, id)
     }
 
+    public func GetStaticDoubleField(of javaClass: JavaClass, id: jfieldID) -> JavaDouble {
+        let _env = self._env
+        return _env.pointee.pointee.GetStaticDoubleField(_env, javaClass, id)
+    }
+
     public func GetStaticObjectField(of javaClass: JavaClass, id: jfieldID) -> JavaObject? {
         let _env = self._env
         return _env.pointee.pointee.GetStaticObjectField(_env, javaClass, id)
@@ -202,7 +207,7 @@ extension JNI {
 
         var result = [JavaByte](repeating: 0, count: count)
         _env.pointee.pointee.GetByteArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
-        return result.map { UInt8($0) }
+        return result.map { UInt8(bitPattern: $0) } // may not have the same numeric value, but
     }
 
     public func SetByteArrayRegion(array: JavaByteArray, startIndex: Int = 0, from sourceElements: [Int]) {

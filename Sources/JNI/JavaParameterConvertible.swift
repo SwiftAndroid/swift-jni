@@ -66,6 +66,10 @@ extension Double: JavaParameterConvertible {
         return JavaParameter(double: JavaDouble(self))
     }
 
+    public static func fromStaticField(of javaClass: JavaClass, id: jfieldID) throws -> Double {
+        return Double(jni.GetStaticDoubleField(of: javaClass, id: id))
+    }
+
     public static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> Double {
         return try jni.CallDoubleMethod(methodID, on: object, parameters: args)
     }
