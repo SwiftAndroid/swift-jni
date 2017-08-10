@@ -1,6 +1,7 @@
 import CJNI
 
 struct InvalidMethodID: Error {}
+struct ClassForObjectNotFound: Error {}
 
 extension JNI {
     // MARK: Static Methods
