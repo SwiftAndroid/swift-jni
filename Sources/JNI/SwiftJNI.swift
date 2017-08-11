@@ -162,24 +162,32 @@ extension JNI {
 
     // MARK: Fields
 
-    public func GetStaticBooleanField(of javaClass: JavaClass, id: jfieldID) -> JavaBoolean {
+    public func GetStaticBooleanField(of javaClass: JavaClass, id: jfieldID) throws -> JavaBoolean {
         let _env = self._env
-        return _env.pointee.pointee.GetStaticBooleanField(_env, javaClass, id)
+        let result =  _env.pointee.pointee.GetStaticBooleanField(_env, javaClass, id)
+        try checkAndThrowOnJNIError()
+        return result
     }
 
-    public func GetStaticIntField(of javaClass: JavaClass, id: jfieldID) -> JavaInt {
+    public func GetStaticIntField(of javaClass: JavaClass, id: jfieldID) throws -> JavaInt {
         let _env = self._env
-        return _env.pointee.pointee.GetStaticIntField(_env, javaClass, id)
+        let result = _env.pointee.pointee.GetStaticIntField(_env, javaClass, id)
+        try checkAndThrowOnJNIError()
+        return result
     }
 
-    public func GetStaticDoubleField(of javaClass: JavaClass, id: jfieldID) -> JavaDouble {
+    public func GetStaticDoubleField(of javaClass: JavaClass, id: jfieldID) throws -> JavaDouble {
         let _env = self._env
-        return _env.pointee.pointee.GetStaticDoubleField(_env, javaClass, id)
+        let result = _env.pointee.pointee.GetStaticDoubleField(_env, javaClass, id)
+        try checkAndThrowOnJNIError()
+        return result
     }
 
-    public func GetStaticObjectField(of javaClass: JavaClass, id: jfieldID) -> JavaObject? {
+    public func GetStaticObjectField(of javaClass: JavaClass, id: jfieldID) throws -> JavaObject {
         let _env = self._env
-        return _env.pointee.pointee.GetStaticObjectField(_env, javaClass, id)
+        guard let result = _env.pointee.pointee.GetStaticObjectField(_env, javaClass, id) else { throw JNIError() }
+        try checkAndThrowOnJNIError()
+        return result
     }
 
     // MARK: Arrays
