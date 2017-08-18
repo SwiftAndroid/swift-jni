@@ -56,12 +56,10 @@ extension JNI {
         let objectClass = _env.pointee.pointee.GetObjectClass(_env, object)
         try checkAndThrowOnJNIError()
 
-        guard let result = _env.pointee.pointee.GetMethodID(_env, objectClass!, methodName, methodSignature) else {
-            throw InvalidMethodID()
-        }
-
+        let result = _env.pointee.pointee.GetMethodID(_env, objectClass!, methodName, methodSignature)
         try checkAndThrowOnJNIError()
-        return result
+
+        return result!
     }
 
     public func GetStaticMethodID(for javaClass: JavaClass, methodName: String, methodSignature: String) throws -> JavaMethodID {
@@ -162,6 +160,36 @@ extension JNI {
         try checkAndThrowOnJNIError()
     }
 
+    // MARK: Fields
+
+    public func GetStaticBooleanField(of javaClass: JavaClass, id: jfieldID) throws -> JavaBoolean {
+        let _env = self._env
+        let result =  _env.pointee.pointee.GetStaticBooleanField(_env, javaClass, id)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    public func GetStaticIntField(of javaClass: JavaClass, id: jfieldID) throws -> JavaInt {
+        let _env = self._env
+        let result = _env.pointee.pointee.GetStaticIntField(_env, javaClass, id)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    public func GetStaticDoubleField(of javaClass: JavaClass, id: jfieldID) throws -> JavaDouble {
+        let _env = self._env
+        let result = _env.pointee.pointee.GetStaticDoubleField(_env, javaClass, id)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    public func GetStaticObjectField(of javaClass: JavaClass, id: jfieldID) throws -> JavaObject {
+        let _env = self._env
+        guard let result = _env.pointee.pointee.GetStaticObjectField(_env, javaClass, id) else { throw JNIError() }
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
     // MARK: Arrays
 
     public func GetLength(_ array: JavaArray) -> Int {
@@ -175,6 +203,25 @@ extension JNI {
         let result = _env.pointee.pointee.NewIntArray(_env, jsize(count))
         try checkAndThrowOnJNIError()
         return result
+    }
+
+    public func GetByteArrayRegion(array: JavaByteArray, startIndex: Int = 0, numElements: Int = -1) -> [UInt8] {
+        let _env = self._env
+        var count = numElements
+
+        if numElements < 0 {
+            count = GetLength(array)
+        }
+
+        var result = [JavaByte](repeating: 0, count: count)
+        _env.pointee.pointee.GetByteArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
+        return result.map { UInt8(bitPattern: $0) } // may not have the same numeric value, but
+    }
+
+    public func SetByteArrayRegion(array: JavaByteArray, startIndex: Int = 0, from sourceElements: [Int]) {
+        let _env = self._env
+        var newElements = sourceElements.map { JavaByte($0) } // make mutable copy
+        _env.pointee.pointee.SetArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
     }
 
     public func GetIntArrayRegion(array: JavaIntArray, startIndex: Int = 0, numElements: Int = -1) -> [Int] {
