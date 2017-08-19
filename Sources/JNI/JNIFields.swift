@@ -7,15 +7,13 @@
 
 import CJNI
 
-enum GetFieldError: Error {
-    case InvalidParameters
-}
+struct FieldIDNotFound: Error {}
 
 public extension JNI {
      public func GetStaticField<T: JavaParameterConvertible>(_ fieldName: String, on javaClass: JavaClass) throws -> T {
         let env = self._env
         guard let fieldID = env.pointee.pointee.GetStaticFieldID(env, javaClass, fieldName, T.asJNIParameterString) else {
-            throw GetFieldError.InvalidParameters
+            throw FieldIDNotFound()
         }
         return try T.fromStaticField(of: javaClass, id: fieldID)
     }
@@ -24,7 +22,7 @@ public extension JNI {
         let env = self._env
         guard let javaClass = GetObjectClass(obj: javaObject),
               let fieldID = env.pointee.pointee.GetFieldID(env, javaClass, fieldName, T.asJNIParameterString) else {
-            throw GetFieldError.InvalidParameters
+            throw FieldIDNotFound()
         }
         return try T.fromField(of: javaObject, id: fieldID)
     }

@@ -25,7 +25,7 @@ open class JNIObject {
             let instanceLocalRef = try? jni.callConstructor(on: javaClass, arguments: arguments),
             let instance = jni.NewGlobalRef(instanceLocalRef)
         else {
-            assertionFailure("Couldn't call constructor of \(className)")
+            assertionFailure("Error during call to constructor of \(className)")
             return nil
         }
 
