@@ -57,6 +57,7 @@ extension JNI {
         try checkAndThrowOnJNIError()
 
         let result = _env.pointee.pointee.GetMethodID(_env, objectClass!, methodName, methodSignature)
+        _env.pointee.pointee.DeleteLocalRef(_env, objectClass)
         try checkAndThrowOnJNIError()
 
         return result!
