@@ -12,7 +12,7 @@ public extension JNI {
         let env = self._env
         let fieldID = env.pointee.pointee.GetStaticFieldID(env, javaClass, fieldName, T.asJNIParameterString)
         try checkAndThrowOnJNIError()
-        return try T.fromStaticField(of: javaClass, id: fieldID!)
+        return try T.fromStaticField(fieldID!, of: javaClass)
     }
 
     public func GetField<T: JavaParameterConvertible>(_ fieldName: String, from javaObject: JavaObject) throws -> T {
