@@ -12,10 +12,9 @@ open class JNIObject {
     public init(_ className: String, arguments: [JavaParameterConvertible] = []) throws {
         let className = className.replacingFullstopsWithSlashes()
 
-        let javaClassLocalRef = jni.FindClass(name: className)
-        try checkAndThrowOnJNIError()
+        let javaClassLocalRef = try jni.FindClass(name: className)
 
-        let javaClass = jni.NewGlobalRef(javaClassLocalRef!)
+        let javaClass = jni.NewGlobalRef(javaClassLocalRef)
         try checkAndThrowOnJNIError()
 
         self.javaClass = javaClass!

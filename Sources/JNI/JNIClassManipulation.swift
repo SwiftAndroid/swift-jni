@@ -6,9 +6,11 @@ public extension JNI {
     //     return env.pointee.pointee.DefineClass(env, name, loader, buffer, bufferLength)!
 	// }
 
-	public func FindClass(name: String) -> JavaClass? {
+	public func FindClass(name: String) throws -> JavaClass {
 	    let env = self._env
-        return env.pointee.pointee.FindClass(env, name)
+        let result = env.pointee.pointee.FindClass(env, name)
+        try checkAndThrowOnJNIError()
+        return result!
 	}
 
 	public func FromReflectedMethod(method: JavaObject) -> JavaMethodID {
