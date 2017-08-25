@@ -144,7 +144,7 @@ typedef jobject jweak CF_SWIFT_NAME(JavaWeakReference);
 #endif /* not __cplusplus */
 
 struct _jfieldID;                             /* opaque structure */
-typedef struct _jfieldID * _Nullable jfieldID; /* field IDs */
+typedef struct _jfieldID * _Nullable jfieldID CF_SWIFT_NAME(JavaFieldID); /* field IDs */
 
 struct _jmethodID;                                                          /* opaque structure */
 typedef struct _jmethodID * _Nullable jmethodID CF_SWIFT_NAME(JavaMethodID); /* method IDs */
