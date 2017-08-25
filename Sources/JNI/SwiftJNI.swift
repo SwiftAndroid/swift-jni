@@ -56,12 +56,10 @@ extension JNI {
         let objectClass = _env.pointee.pointee.GetObjectClass(_env, object)
         try checkAndThrowOnJNIError()
 
-        guard let result = _env.pointee.pointee.GetMethodID(_env, objectClass!, methodName, methodSignature) else {
-            throw InvalidMethodID()
-        }
-
+        let result = _env.pointee.pointee.GetMethodID(_env, objectClass!, methodName, methodSignature)
         try checkAndThrowOnJNIError()
-        return result
+
+        return result!
     }
 
     public func GetStaticMethodID(for javaClass: JavaClass, methodName: String, methodSignature: String) throws -> JavaMethodID {
@@ -164,24 +162,32 @@ extension JNI {
 
     // MARK: Fields
 
-    public func GetBooleanField(of javaObject: JavaObject, id: jfieldID) -> JavaBoolean {
+    public func GetBooleanField(of javaObject: JavaObject, id: jfieldID) throws -> JavaBoolean {
         let _env = self._env
-        return _env.pointee.pointee.GetBooleanField(_env, javaObject, id)
+        let result = _env.pointee.pointee.GetBooleanField(_env, javaObject, id)
+        try checkAndThrowOnJNIError()
+        return result
     }
 
-    public func GetIntField(of javaObject: JavaObject, id: jfieldID) -> JavaInt {
+    public func GetIntField(of javaObject: JavaObject, id: jfieldID) throws -> JavaInt {
         let _env = self._env
-        return _env.pointee.pointee.GetIntField(_env, javaObject, id)
+        let result = _env.pointee.pointee.GetIntField(_env, javaObject, id)
+        try checkAndThrowOnJNIError()
+        return result
     }
 
-    public func GetDoubleField(of javaObject: JavaObject, id: jfieldID) -> JavaDouble {
+    public func GetDoubleField(of javaObject: JavaObject, id: jfieldID) throws -> JavaDouble {
         let _env = self._env
-        return _env.pointee.pointee.GetDoubleField(_env, javaObject, id)
+        let result = _env.pointee.pointee.GetDoubleField(_env, javaObject, id)
+        try checkAndThrowOnJNIError()
+        return result
     }
 
-    public func GetObjectField(of javaObject: JavaObject, id: jfieldID) -> JavaObject? {
+    public func GetObjectField(of javaObject: JavaObject, id: jfieldID) throws -> JavaObject {
         let _env = self._env
-        return _env.pointee.pointee.GetObjectField(_env, javaObject, id)
+        let result = _env.pointee.pointee.GetObjectField(_env, javaObject, id)
+        try checkAndThrowOnJNIError()
+        return result!
     }
 
     // MARK: Static Fields
@@ -315,9 +321,9 @@ extension JNI {
         if (index >= count) {
             throw JNIError()
         }
-        let jObj = _env.pointee.pointee.GetObjectArrayElement(_env, array, jsize(index))!
+        let jObj = _env.pointee.pointee.GetObjectArrayElement(_env, array, jsize(index))
         try checkAndThrowOnJNIError()
-        return jObj
+        return jObj!
     }
 }
 
@@ -381,7 +387,7 @@ public struct JavaCallback {
     - parameters: Any number of JavaParameters (*must have the same number and type as the* `methodSignature` *you're trying to call*)
     - Throws: `JavaCallback.Error`
     */
-    public init (_ globalJobj: JavaObject, methodName: String, methodSignature: String) {
+    public init (_ globalJobj: JavaObject, methodName: String, methodSignature: String) throws {
         // At the moment we can only call Void methods, fail if user tries to return something else
         guard let returnType = methodSignature.characters.last, returnType == "V"/*oid*/ else {
             // LOG JavaMethodCallError.IncorrectMethodSignature
@@ -393,10 +399,8 @@ public struct JavaCallback {
         // Doesn't work with more complex object types, arrays etc. we should determine the signature based on parameters.
 
         // TODO: Check methodSignature here and determine expectedParameterCount
-
-        guard
-            let javaClass = jni.GetObjectClass(obj: globalJobj),
-            let methodID = try? jni.GetMethodID(for: javaClass, methodName: methodName, methodSignature: methodSignature)
+        let javaClass = try jni.GetObjectClass(obj: globalJobj)
+        guard let methodID = try? jni.GetMethodID(for: javaClass, methodName: methodName, methodSignature: methodSignature)
             else {
                 // XXX: We should throw here and keep throwing til it gets back to Java
                 fatalError("Failed to make JavaCallback")

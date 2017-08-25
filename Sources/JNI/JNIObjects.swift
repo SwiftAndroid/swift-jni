@@ -1,7 +1,6 @@
 import CJNI
 
 struct CreateNewObjectForConstructorError: Error {}
-struct ClassNotFound: Error {}
 struct ConstructorError: Error {}
 
 /// Designed to simplify calling a constructor and methods on a JavaClass
@@ -13,18 +12,16 @@ open class JNIObject {
     public init(_ className: String, arguments: [JavaParameterConvertible] = []) throws {
         let className = className.replacingFullstopsWithSlashes()
 
-        guard
-            let javaClassLocalRef = jni.FindClass(name: className),
-            let javaClass = jni.NewGlobalRef(javaClassLocalRef)
-        else {
-            assertionFailure("Couldn't find class named \(className)")
-            throw ClassNotFound()
-        }
+        let javaClassLocalRef = jni.FindClass(name: className)
+        try checkAndThrowOnJNIError()
 
-        self.javaClass = javaClass
+        let javaClass = jni.NewGlobalRef(javaClassLocalRef!)
+        try checkAndThrowOnJNIError()
+
+        self.javaClass = javaClass!
 
         guard
-            let instanceLocalRef = try? jni.callConstructor(on: javaClass, arguments: arguments),
+            let instanceLocalRef = try? jni.callConstructor(on: self.javaClass, arguments: arguments),
             let instance = jni.NewGlobalRef(instanceLocalRef)
         else {
             assertionFailure("Error during call to constructor of \(className)")
@@ -72,10 +69,11 @@ public extension JNI {
         return newObject
 	}
 
-	public func GetObjectClass(obj: JavaObject) -> JavaClass? {
+	public func GetObjectClass(obj: JavaObject) throws -> JavaClass {
 	    let env = self._env
         let result = env.pointee.pointee.GetObjectClass(env, obj)
-        return (result != nil) ? result : .none
+        try checkAndThrowOnJNIError()
+        return result!
 	}
 
 }

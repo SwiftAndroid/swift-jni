@@ -38,7 +38,7 @@ extension Bool: JavaParameterConvertible {
     }
 
     public static func fromField(of javaObject: JavaObject, id: jfieldID) throws -> Bool {
-        return jni.GetBooleanField(of: javaObject, id: id) == 1
+        return try jni.GetBooleanField(of: javaObject, id: id) == JNI_TRUE
     }
 }
 
@@ -65,7 +65,7 @@ extension Int: JavaParameterConvertible {
     }
 
     public static func fromField(of javaObject: JavaObject, id: jfieldID) throws -> Int {
-        return Int(jni.GetIntField(of: javaObject, id: id))
+        return try Int(jni.GetIntField(of: javaObject, id: id))
     }
 }
 
@@ -77,8 +77,7 @@ extension Double: JavaParameterConvertible {
     }
 
     public static func fromStaticField(of javaClass: JavaClass, id: jfieldID) throws -> Double {
-        let result = try jni.GetStaticDoubleField(of: javaClass, id: id)
-        return Double(result)
+        return try Double(jni.GetStaticDoubleField(of: javaClass, id: id))
     }
 
     public static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> Double {
@@ -90,7 +89,7 @@ extension Double: JavaParameterConvertible {
     }
 
     public static func fromField(of javaObject: JavaObject, id: jfieldID) throws -> Double {
-        return Double(jni.GetDoubleField(of: javaObject, id: id))
+        return try jni.GetDoubleField(of: javaObject, id: id)
     }
 }
 
@@ -119,9 +118,7 @@ extension String: JavaParameterConvertible {
     }
 
     public static func fromField(of javaObject: JavaObject, id: jfieldID) throws -> String {
-        guard let javaStringObject = jni.GetObjectField(of: javaObject, id: id) else {
-            throw FieldIDNotFound()
-        }
+        let javaStringObject = try jni.GetObjectField(of: javaObject, id: id)
         return jni.GetString(from: javaStringObject)
     }
 }
