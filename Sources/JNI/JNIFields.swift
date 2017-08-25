@@ -20,6 +20,6 @@ public extension JNI {
         let javaClass = try GetObjectClass(obj: javaObject)
         let fieldID = env.pointee.pointee.GetFieldID(env, javaClass, fieldName, T.asJNIParameterString)
         try checkAndThrowOnJNIError()
-        return try T.fromField(of: javaObject, id: fieldID!)
+        return try T.fromField(fieldID!, on: javaObject)
     }
 }

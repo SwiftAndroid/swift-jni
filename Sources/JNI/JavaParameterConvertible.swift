@@ -15,7 +15,7 @@ public protocol JavaParameterConvertible {
     static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> Self
     static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> Self
     static func fromStaticField(of javaClass: JavaClass, id: jfieldID) throws -> Self
-    static func fromField(of javaObject: JavaObject, id: jfieldID) throws -> Self
+    static func fromField(_ fieldID: jfieldID, on javaObject: JavaObject) throws -> Self
 }
 
 extension Bool: JavaParameterConvertible {
@@ -37,8 +37,8 @@ extension Bool: JavaParameterConvertible {
         return try jni.CallStaticBooleanMethod(javaClass: javaClass, method: methodID, parameters: args) == JNI_TRUE
     }
 
-    public static func fromField(of javaObject: JavaObject, id: jfieldID) throws -> Bool {
-        return try jni.GetBooleanField(of: javaObject, id: id) == JNI_TRUE
+    public static func fromField(_ fieldID: jfieldID, on javaObject: JavaObject) throws -> Bool {
+        return try jni.GetBooleanField(of: javaObject, id: fieldID) == JNI_TRUE
     }
 }
 
@@ -64,8 +64,8 @@ extension Int: JavaParameterConvertible {
         return Int(result)
     }
 
-    public static func fromField(of javaObject: JavaObject, id: jfieldID) throws -> Int {
-        return try Int(jni.GetIntField(of: javaObject, id: id))
+    public static func fromField(_ fieldID: jfieldID, on javaObject: JavaObject) throws -> Int {
+        return try Int(jni.GetIntField(of: javaObject, id: fieldID))
     }
 }
 
@@ -88,8 +88,8 @@ extension Double: JavaParameterConvertible {
         return try jni.CallStaticDoubleMethod(methodID, on: javaClass, parameters: args)
     }
 
-    public static func fromField(of javaObject: JavaObject, id: jfieldID) throws -> Double {
-        return try jni.GetDoubleField(of: javaObject, id: id)
+    public static func fromField(_ fieldID: jfieldID, on javaObject: JavaObject) throws -> Double {
+        return try jni.GetDoubleField(of: javaObject, id: fieldID)
     }
 }
 
@@ -117,8 +117,8 @@ extension String: JavaParameterConvertible {
         return jni.GetString(from: jObject)
     }
 
-    public static func fromField(of javaObject: JavaObject, id: jfieldID) throws -> String {
-        let javaStringObject = try jni.GetObjectField(of: javaObject, id: id)
+    public static func fromField(_ fieldID: jfieldID, on javaObject: JavaObject) throws -> String {
+        let javaStringObject = try jni.GetObjectField(of: javaObject, id: fieldID)
         return jni.GetString(from: javaStringObject)
     }
 }
