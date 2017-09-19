@@ -245,7 +245,10 @@ extension JNI {
 
         var result = [JavaByte](repeating: 0, count: count)
         _env.pointee.pointee.GetByteArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
-        return result.map { UInt8(bitPattern: $0) } // numeric value may change here because of the bitPattern constructor
+
+        // Conversion from Int8 (JavaByte) to UInt8: bitPattern-constructor ensures
+        // that negative Int8 values do not cause a crash when trying convert them to UInt8
+        return result.map { UInt8(bitPattern: $0) }
     }
 
     public func SetByteArrayRegion(array: JavaByteArray, startIndex: Int = 0, from sourceElements: [Int]) {
