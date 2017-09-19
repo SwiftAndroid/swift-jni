@@ -163,28 +163,58 @@ extension JNI {
 
     // MARK: Fields
 
-    public func GetStaticBooleanField(of javaClass: JavaClass, id: jfieldID) throws -> JavaBoolean {
+    public func GetBooleanField(of javaObject: JavaObject, id: JavaFieldID) throws -> JavaBoolean {
+        let _env = self._env
+        let result = _env.pointee.pointee.GetBooleanField(_env, javaObject, id)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    public func GetIntField(of javaObject: JavaObject, id: JavaFieldID) throws -> JavaInt {
+        let _env = self._env
+        let result = _env.pointee.pointee.GetIntField(_env, javaObject, id)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    public func GetDoubleField(of javaObject: JavaObject, id: JavaFieldID) throws -> JavaDouble {
+        let _env = self._env
+        let result = _env.pointee.pointee.GetDoubleField(_env, javaObject, id)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    public func GetObjectField(of javaObject: JavaObject, id: JavaFieldID) throws -> JavaObject {
+        let _env = self._env
+        let result = _env.pointee.pointee.GetObjectField(_env, javaObject, id)
+        try checkAndThrowOnJNIError()
+        return result!
+    }
+
+    // MARK: Static Fields
+
+    public func GetStaticBooleanField(of javaClass: JavaClass, id: JavaFieldID) throws -> JavaBoolean {
         let _env = self._env
         let result =  _env.pointee.pointee.GetStaticBooleanField(_env, javaClass, id)
         try checkAndThrowOnJNIError()
         return result
     }
 
-    public func GetStaticIntField(of javaClass: JavaClass, id: jfieldID) throws -> JavaInt {
+    public func GetStaticIntField(of javaClass: JavaClass, id: JavaFieldID) throws -> JavaInt {
         let _env = self._env
         let result = _env.pointee.pointee.GetStaticIntField(_env, javaClass, id)
         try checkAndThrowOnJNIError()
         return result
     }
 
-    public func GetStaticDoubleField(of javaClass: JavaClass, id: jfieldID) throws -> JavaDouble {
+    public func GetStaticDoubleField(of javaClass: JavaClass, id: JavaFieldID) throws -> JavaDouble {
         let _env = self._env
         let result = _env.pointee.pointee.GetStaticDoubleField(_env, javaClass, id)
         try checkAndThrowOnJNIError()
         return result
     }
 
-    public func GetStaticObjectField(of javaClass: JavaClass, id: jfieldID) throws -> JavaObject {
+    public func GetStaticObjectField(of javaClass: JavaClass, id: JavaFieldID) throws -> JavaObject {
         let _env = self._env
         guard let result = _env.pointee.pointee.GetStaticObjectField(_env, javaClass, id) else { throw JNIError() }
         try checkAndThrowOnJNIError()
@@ -216,7 +246,10 @@ extension JNI {
 
         var result = [JavaByte](repeating: 0, count: count)
         _env.pointee.pointee.GetByteArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
-        return result.map { UInt8(bitPattern: $0) } // may not have the same numeric value, but
+
+        // Conversion from Int8 (JavaByte) to UInt8: bitPattern-constructor ensures
+        // that negative Int8 values do not cause a crash when trying convert them to UInt8
+        return result.map { UInt8(bitPattern: $0) }
     }
 
     public func SetByteArrayRegion(array: JavaByteArray, startIndex: Int = 0, from sourceElements: [Int]) {
@@ -285,6 +318,17 @@ extension JNI {
 
         return strings
     }
+
+    public func GetObjectArrayElement(in array: JavaObjectArray, at index: Int) throws -> JavaObject {
+        let _env = self._env
+        let count = jni.GetLength(array)
+        if (index >= count) {
+            throw JNIError()
+        }
+        let jObj = _env.pointee.pointee.GetObjectArrayElement(_env, array, jsize(index))
+        try checkAndThrowOnJNIError()
+        return jObj!
+    }
 }
 
 func checkAndThrowOnJNIError() throws {
@@ -347,7 +391,7 @@ public struct JavaCallback {
     - parameters: Any number of JavaParameters (*must have the same number and type as the* `methodSignature` *you're trying to call*)
     - Throws: `JavaCallback.Error`
     */
-    public init (_ globalJobj: JavaObject, methodName: String, methodSignature: String) {
+    public init (_ globalJobj: JavaObject, methodName: String, methodSignature: String) throws {
         // At the moment we can only call Void methods, fail if user tries to return something else
         guard let returnType = methodSignature.characters.last, returnType == "V"/*oid*/ else {
             // LOG JavaMethodCallError.IncorrectMethodSignature
@@ -359,10 +403,8 @@ public struct JavaCallback {
         // Doesn't work with more complex object types, arrays etc. we should determine the signature based on parameters.
 
         // TODO: Check methodSignature here and determine expectedParameterCount
-
-        guard
-            let javaClass = jni.GetObjectClass(obj: globalJobj),
-            let methodID = try? jni.GetMethodID(for: javaClass, methodName: methodName, methodSignature: methodSignature)
+        let javaClass = try jni.GetObjectClass(obj: globalJobj)
+        guard let methodID = try? jni.GetMethodID(for: javaClass, methodName: methodName, methodSignature: methodSignature)
             else {
                 // XXX: We should throw here and keep throwing til it gets back to Java
                 fatalError("Failed to make JavaCallback")

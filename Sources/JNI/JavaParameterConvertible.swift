@@ -14,7 +14,8 @@ public protocol JavaParameterConvertible {
 
     static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> Self
     static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> Self
-    static func fromStaticField(of javaClass: JavaClass, id: jfieldID) throws -> Self
+    static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> Self
+    static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> Self
 }
 
 extension Bool: JavaParameterConvertible {
@@ -24,8 +25,8 @@ extension Bool: JavaParameterConvertible {
         return JavaParameter(bool: (self) ? 1 : 0)
     }
 
-    public static func fromStaticField(of javaClass: JavaClass, id: jfieldID) throws -> Bool {
-        return try jni.GetStaticBooleanField(of: javaClass, id: id) == JNI_TRUE
+    public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> Bool {
+        return try jni.GetStaticBooleanField(of: javaClass, id: fieldID) == JNI_TRUE
     }
 
     public static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> Bool {
@@ -34,6 +35,10 @@ extension Bool: JavaParameterConvertible {
 
     public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> Bool {
         return try jni.CallStaticBooleanMethod(javaClass: javaClass, method: methodID, parameters: args) == JNI_TRUE
+    }
+
+    public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> Bool {
+        return try jni.GetBooleanField(of: javaObject, id: fieldID) == JNI_TRUE
     }
 }
 
@@ -44,8 +49,8 @@ extension Int: JavaParameterConvertible {
         return JavaParameter(int: JavaInt(self))
     }
 
-    public static func fromStaticField(of javaClass: JavaClass, id: jfieldID) throws -> Int {
-        let result = try jni.GetStaticIntField(of: javaClass, id: id)
+    public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> Int {
+        let result = try jni.GetStaticIntField(of: javaClass, id: fieldID)
         return Int(result)
     }
 
@@ -58,6 +63,10 @@ extension Int: JavaParameterConvertible {
         let result = try jni.CallStaticIntMethod(methodID, on: javaClass, parameters: args)
         return Int(result)
     }
+
+    public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> Int {
+        return try Int(jni.GetIntField(of: javaObject, id: fieldID))
+    }
 }
 
 extension Double: JavaParameterConvertible {
@@ -67,9 +76,8 @@ extension Double: JavaParameterConvertible {
         return JavaParameter(double: JavaDouble(self))
     }
 
-    public static func fromStaticField(of javaClass: JavaClass, id: jfieldID) throws -> Double {
-        let result = try jni.GetStaticDoubleField(of: javaClass, id: id)
-        return Double(result)
+    public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> Double {
+        return try Double(jni.GetStaticDoubleField(of: javaClass, id: fieldID))
     }
 
     public static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> Double {
@@ -78,6 +86,10 @@ extension Double: JavaParameterConvertible {
 
     public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> Double {
         return try jni.CallStaticDoubleMethod(methodID, on: javaClass, parameters: args)
+    }
+
+    public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> Double {
+        return try jni.GetDoubleField(of: javaObject, id: fieldID)
     }
 }
 
@@ -90,8 +102,8 @@ extension String: JavaParameterConvertible {
         return JavaParameter(object: stringAsObject)
     }
 
-    public static func fromStaticField(of javaClass: JavaClass, id: jfieldID) throws -> String {
-        let jobject: JavaObject = try jni.GetStaticObjectField(of: javaClass, id: id)
+    public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> String {
+        let jobject: JavaObject = try jni.GetStaticObjectField(of: javaClass, id: fieldID)
         return jni.GetString(from: jobject)
     }
 
@@ -103,5 +115,10 @@ extension String: JavaParameterConvertible {
     public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> String {
         let jObject = try jni.CallStaticObjectMethod(methodID, on: javaClass, parameters: args)
         return jni.GetString(from: jObject)
+    }
+
+    public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> String {
+        let javaStringObject = try jni.GetObjectField(of: javaObject, id: fieldID)
+        return jni.GetString(from: javaStringObject)
     }
 }

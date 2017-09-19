@@ -1,6 +1,7 @@
 import CJNI
 
 struct CreateNewObjectForConstructorError: Error {}
+struct ConstructorError: Error {}
 
 /// Designed to simplify calling a constructor and methods on a JavaClass
 /// Subclass this and add the methods appropriate to the object you are constructing.
@@ -8,25 +9,22 @@ open class JNIObject {
     public let javaClass: JavaClass
     public let instance: JavaObject
 
-    public init?(_ className: String, arguments: [JavaParameterConvertible] = []) {
+    public init(_ className: String, arguments: [JavaParameterConvertible] = []) throws {
         let className = className.replacingFullstopsWithSlashes()
 
-        guard
-            let javaClassLocalRef = jni.FindClass(name: className),
-            let javaClass = jni.NewGlobalRef(javaClassLocalRef)
-        else {
-            assertionFailure("Couldn't find class named \(className)")
-            return nil
-        }
+        let javaClassLocalRef = try jni.FindClass(name: className)
 
-        self.javaClass = javaClass
+        let javaClass = jni.NewGlobalRef(javaClassLocalRef)
+        try checkAndThrowOnJNIError()
+
+        self.javaClass = javaClass!
 
         guard
-            let instanceLocalRef = try? jni.callConstructor(on: javaClass, arguments: arguments),
+            let instanceLocalRef = try? jni.callConstructor(on: self.javaClass, arguments: arguments),
             let instance = jni.NewGlobalRef(instanceLocalRef)
         else {
             assertionFailure("Error during call to constructor of \(className)")
-            return nil
+            throw ConstructorError()
         }
 
         self.instance = instance
@@ -70,10 +68,11 @@ public extension JNI {
         return newObject
 	}
 
-	public func GetObjectClass(obj: JavaObject) -> JavaClass? {
+	public func GetObjectClass(obj: JavaObject) throws -> JavaClass {
 	    let env = self._env
         let result = env.pointee.pointee.GetObjectClass(env, obj)
-        return (result != nil) ? result : .none
+        try checkAndThrowOnJNIError()
+        return result!
 	}
 
 }

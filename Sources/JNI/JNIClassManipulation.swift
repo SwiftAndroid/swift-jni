@@ -6,9 +6,11 @@ public extension JNI {
     //     return env.pointee.pointee.DefineClass(env, name, loader, buffer, bufferLength)!
 	// }
 
-	public func FindClass(name: String) -> JavaClass? {
+	public func FindClass(name: String) throws -> JavaClass {
 	    let env = self._env
-        return env.pointee.pointee.FindClass(env, name)
+        let result = env.pointee.pointee.FindClass(env, name)
+        try checkAndThrowOnJNIError()
+        return result!
 	}
 
 	public func FromReflectedMethod(method: JavaObject) -> JavaMethodID {
@@ -16,7 +18,7 @@ public extension JNI {
         return env.pointee.pointee.FromReflectedMethod(env, method)!
 	}
 
-	public func FromReflectedField(field: JavaObject) -> jfieldID {
+    public func FromReflectedField(field: JavaObject) -> JavaFieldID {
 	    let env = self._env
         return env.pointee.pointee.FromReflectedField(env, field)!
 	}
@@ -36,7 +38,7 @@ public extension JNI {
 	    return env.pointee.pointee.IsAssignableFrom(env, classA, classB)
 	}
 
-	public func ToReflectedField(targetClass: JavaClass, _ fieldID: jfieldID, _ isStatic: JavaBoolean) -> JavaObject {
+    public func ToReflectedField(targetClass: JavaClass, _ fieldID: JavaFieldID, _ isStatic: JavaBoolean) -> JavaObject {
 	    let env = self._env
         return env.pointee.pointee.ToReflectedField(env, targetClass, fieldID, isStatic)!
 	}
