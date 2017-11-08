@@ -14,7 +14,7 @@ public class JNI {
         let threadStatus = jvm.GetEnv(_jvm, &_tmpPointer, JavaInt(JNI_VERSION_1_6))
         var _env = _tmpPointer?.bindMemory(to: JNIEnv.self, capacity: 1)
 
-        switch threadStatus.bigEndian {
+        switch threadStatus {
         case JNI_OK: break // if we're already attached, do nothing
         case JNI_EDETACHED:
             // We weren't attached to the Java UI thread
