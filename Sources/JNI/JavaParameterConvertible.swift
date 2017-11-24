@@ -122,3 +122,27 @@ extension String: JavaParameterConvertible {
         return jni.GetString(from: javaStringObject)
     }
 }
+
+extension JavaObject: JavaParameterConvertible {
+    public static var asJNIParameterString: String { return "L" }
+
+    public func toJavaParameter() -> JavaParameter {
+        return JavaParameter(object: JavaObject(self))
+    }
+
+    public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> JavaObject {
+        return try jni.GetStaticObjectField(of: javaClass, id: fieldID)
+    }
+
+    public static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> JavaObject {
+        return try jni.CallObjectMethod(methodID, on: object, parameters: args)
+    }
+
+    public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> JavaObject {
+        return try jni.CallStaticObjectMethod(methodID, on: javaClass, parameters: args)
+    }
+
+    public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> JavaObject {
+        return try jni.GetObjectField(of: javaObject, id: fieldID)
+    }
+}
