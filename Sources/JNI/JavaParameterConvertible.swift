@@ -124,7 +124,8 @@ extension String: JavaParameterConvertible {
 }
 
 extension JavaObject: JavaParameterConvertible {
-    public static var asJNIParameterString: String { return "L" }
+    private static let javaClassname = "java/lang/Object"
+    public static var asJNIParameterString = "L\(javaClassname);"
 
     public func toJavaParameter() -> JavaParameter {
         return JavaParameter(object: JavaObject(self))
