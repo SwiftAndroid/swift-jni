@@ -393,7 +393,7 @@ public struct JavaCallback {
     */
     public init (_ globalJobj: JavaObject, methodName: String, methodSignature: String) throws {
         // At the moment we can only call Void methods, fail if user tries to return something else
-        guard let returnType = methodSignature.characters.last, returnType == "V"/*oid*/ else {
+        guard let returnType = methodSignature.last, returnType == "V"/*oid*/ else {
             // LOG JavaMethodCallError.IncorrectMethodSignature
             fatalError("JavaMethodCallError.IncorrectMethodSignature")
         }
