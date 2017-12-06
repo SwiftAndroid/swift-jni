@@ -9,8 +9,8 @@ import CJNI
 
 extension String {
     func replacingFullstopsWithSlashes() -> String {
-        let replacedCharacters = self.characters.map { ($0 == ".") ? "/" : $0 }
-        return String(String.CharacterView(replacedCharacters))
+        let replacedCharacters = self.map { ($0 == ".") ? "/" : $0 }
+        return String(replacedCharacters)
     }
 }
 
