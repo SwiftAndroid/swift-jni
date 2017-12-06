@@ -19,7 +19,7 @@ public protocol JavaParameterConvertible {
 }
 
 extension Bool: JavaParameterConvertible {
-    public static var asJNIParameterString: String { return "Z" }
+    public static let asJNIParameterString = "Z"
 
     public func toJavaParameter() -> JavaParameter {
         return JavaParameter(bool: (self) ? 1 : 0)
@@ -43,7 +43,7 @@ extension Bool: JavaParameterConvertible {
 }
 
 extension Int: JavaParameterConvertible {
-    public static var asJNIParameterString: String { return "I" }
+    public static var asJNIParameterString = "I"
 
     public func toJavaParameter() -> JavaParameter {
         return JavaParameter(int: JavaInt(self))
@@ -70,7 +70,7 @@ extension Int: JavaParameterConvertible {
 }
 
 extension Double: JavaParameterConvertible {
-    public static var asJNIParameterString: String { return "D" }
+    public static let asJNIParameterString = "D"
 
     public func toJavaParameter() -> JavaParameter {
         return JavaParameter(double: JavaDouble(self))
@@ -120,5 +120,30 @@ extension String: JavaParameterConvertible {
     public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> String {
         let javaStringObject = try jni.GetObjectField(of: javaObject, id: fieldID)
         return jni.GetString(from: javaStringObject)
+    }
+}
+
+extension JavaObject: JavaParameterConvertible {
+    private static let javaClassname = "java/lang/Object"
+    public static let asJNIParameterString = "L\(javaClassname);"
+
+    public func toJavaParameter() -> JavaParameter {
+        return JavaParameter(object: self)
+    }
+
+    public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> JavaObject {
+        return try jni.GetStaticObjectField(of: javaClass, id: fieldID)
+    }
+
+    public static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> JavaObject {
+        return try jni.CallObjectMethod(methodID, on: object, parameters: args)
+    }
+
+    public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> JavaObject {
+        return try jni.CallStaticObjectMethod(methodID, on: javaClass, parameters: args)
+    }
+
+    public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> JavaObject {
+        return try jni.GetObjectField(of: javaObject, id: fieldID)
     }
 }
