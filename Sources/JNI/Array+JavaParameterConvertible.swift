@@ -19,8 +19,8 @@ extension Array where Element == JavaParameterConvertible {
         return self.map { $0.toJavaParameter() }
     }
 
-    /// Returns the String of ordererd arguments for use in JNI method signatures.
-    /// For example, the `"II"` in `(II)V`
+    /// Returns the String of ordered arguments for use in JNI method signatures.
+    /// For example, the `II` in `(II)V`
     private func argumentSignature() -> String {
         return self.reduce("", { $0 + type(of: $1).asJNIParameterString })
     }
@@ -32,6 +32,9 @@ extension Array where Element == JavaParameterConvertible {
         return "(" + self.argumentSignature() + ")" + returnTypeString
     }
 
+    /// Returns the String of ordered arguments enclosed in brackets, followed by the given string. This is only meant
+    /// for custom object types. For all inbuilt types (Int, Float, Void, etc.), use the variant of `methodSignature`
+    /// that accepts a `JavaParameterConvertible` type instead.
     func methodSignature(customReturnType: String) -> String {
         let returnTypeString = customReturnType.replacingFullstopsWithSlashes()
         return "(" + self.argumentSignature() + ")" + returnTypeString

@@ -29,7 +29,7 @@ public class JNI {
 
 
     // Normally we init the jni global ourselves in JNI_OnLoad
-    public init?(jvm: UnsafeMutablePointer<JavaVM>) {
+    public init(jvm: UnsafeMutablePointer<JavaVM>) {
         self._jvm = jvm
     }
 }

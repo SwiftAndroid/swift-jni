@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C5A806E1F432A8D0062F19F /* JavaCallableClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5A806D1F432A8D0062F19F /* JavaCallableClass.swift */; };
+		5C5A80701F432BDF0062F19F /* JNIErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5A806F1F432BDF0062F19F /* JNIErrors.swift */; };
 		OBJ_33 /* Array+JavaParameterConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* Array+JavaParameterConvertible.swift */; };
 		OBJ_34 /* JNI.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* JNI.swift */; };
 		OBJ_35 /* JNIClassManipulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* JNIClassManipulation.swift */; };
@@ -32,6 +34,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5C5A806D1F432A8D0062F19F /* JavaCallableClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaCallableClass.swift; sourceTree = "<group>"; };
+		5C5A806F1F432BDF0062F19F /* JNIErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIErrors.swift; sourceTree = "<group>"; };
 		"JNI::CJNI::Product" /* CJNI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CJNI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"JNI::JNI::Product" /* JNI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JNI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_11 /* jni.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jni.h; sourceTree = "<group>"; };
@@ -82,6 +86,8 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_14 /* Array+JavaParameterConvertible.swift */,
+				5C5A806D1F432A8D0062F19F /* JavaCallableClass.swift */,
+				OBJ_22 /* JavaParameterConvertible.swift */,
 				OBJ_15 /* JNI.swift */,
 				OBJ_16 /* JNIClassManipulation.swift */,
 				OBJ_17 /* JNIExceptions.swift */,
@@ -89,8 +95,8 @@
 				OBJ_19 /* JNIObjects.swift */,
 				OBJ_20 /* JNIRefs.swift */,
 				OBJ_21 /* JNIStrings.swift */,
-				OBJ_22 /* JavaParameterConvertible.swift */,
 				OBJ_23 /* SwiftJNI.swift */,
+				5C5A806F1F432BDF0062F19F /* JNIErrors.swift */,
 			);
 			name = JNI;
 			path = Sources/JNI;
@@ -112,7 +118,7 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -120,7 +126,6 @@
 				OBJ_24 /* Tests */,
 				OBJ_25 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -193,7 +198,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_25 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -212,10 +217,12 @@
 				OBJ_33 /* Array+JavaParameterConvertible.swift in Sources */,
 				OBJ_34 /* JNI.swift in Sources */,
 				OBJ_35 /* JNIClassManipulation.swift in Sources */,
+				5C5A806E1F432A8D0062F19F /* JavaCallableClass.swift in Sources */,
 				OBJ_36 /* JNIExceptions.swift in Sources */,
 				OBJ_37 /* JNIMethods.swift in Sources */,
 				OBJ_38 /* JNIObjects.swift in Sources */,
 				OBJ_39 /* JNIRefs.swift in Sources */,
+				5C5A80701F432BDF0062F19F /* JNIErrors.swift in Sources */,
 				OBJ_40 /* JNIStrings.swift in Sources */,
 				OBJ_41 /* JavaParameterConvertible.swift in Sources */,
 				OBJ_42 /* SwiftJNI.swift in Sources */,
