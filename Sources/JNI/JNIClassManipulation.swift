@@ -8,7 +8,7 @@ public extension JNI {
 
 	public func FindClass(name: String) throws -> JavaClass {
 	    let env = self._env
-        let result = env.pointee.pointee.FindClass(env, name)
+        let result = env.pointee.pointee.FindClass(env, name.replacingFullstopsWithSlashes())
         try checkAndThrowOnJNIError()
         return result!
 	}

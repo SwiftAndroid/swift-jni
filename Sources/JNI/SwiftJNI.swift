@@ -343,83 +343,83 @@ struct JNIError: Error {
     }
 }
 
-/**
- Allows a (Void) Java method to be called from Swift. Takes a global jobj (a class instance), a method name and its signature. The resulting callback can be called via javaCallback.call(param1, param2...), or javaCallback.apply([params]). Each param must be a JavaParameter.
+// /**
+//  Allows a (Void) Java method to be called from Swift. Takes a global jobj (a class instance), a method name and its signature. The resulting callback can be called via javaCallback.call(param1, param2...), or javaCallback.apply([params]). Each param must be a JavaParameter.
 
- Needs more error checking and handling. The basis is there, but from memory I had issues with either the optional or the throwing on Android.
-*/
-public struct JavaCallback {
-    private let jobj: JavaObject // must be a JNI Global Reference
-    private let methodID: JavaMethodID
+//  Needs more error checking and handling. The basis is there, but from memory I had issues with either the optional or the throwing on Android.
+// */
+// public struct JavaCallback {
+//     private let jobj: JavaObject // must be a JNI Global Reference
+//     private let methodID: JavaMethodID
 
-    // Eventually we should check how many parameters are required by the method signature
-    // And also which return type is expected (to allow calling non-Void methods)
-    // For now this implementation remains unsafe
-    //let expectedParameterCount: Int
+//     // Eventually we should check how many parameters are required by the method signature
+//     // And also which return type is expected (to allow calling non-Void methods)
+//     // For now this implementation remains unsafe
+//     //let expectedParameterCount: Int
 
-    /// Errors describing the various things that can go wrong when calling a Java method via JNI.
-    /// - __InvalidParameters__: One character per method parameter is required. For example, with a methodSignature of "(FF)V", you need to pass two floats as parameters.
-    /// - __InvalidMethod__: Couldn't get the requested method from the JavaObject provided (are you calling with the right JavaObject instance / calling on the correct class?)
-    /// - __IncorrectMethodSignature__: The JNI is separated into Java method calls to functions with various return types. So if you perform `callJavaMethod`, you need to accept the return value with the corresponding type. *XXX: currently only Void methods are implemented*.
+//     /// Errors describing the various things that can go wrong when calling a Java method via JNI.
+//     /// - __InvalidParameters__: One character per method parameter is required. For example, with a methodSignature of "(FF)V", you need to pass two floats as parameters.
+//     /// - __InvalidMethod__: Couldn't get the requested method from the JavaObject provided (are you calling with the right JavaObject instance / calling on the correct class?)
+//     /// - __IncorrectMethodSignature__: The JNI is separated into Java method calls to functions with various return types. So if you perform `callJavaMethod`, you need to accept the return value with the corresponding type. *XXX: currently only Void methods are implemented*.
 
-    enum JavaError: Error {
-        case JNINotReady
-        case InvalidParameters
-        case IncorrectMethodSignature
-        case InvalidClass
-        case InvalidMethod
-    }
+//     enum JavaError: Error {
+//         case JNINotReady
+//         case InvalidParameters
+//         case IncorrectMethodSignature
+//         case InvalidClass
+//         case InvalidMethod
+//     }
 
-    /**
-    - Parameters:
-    - globalJobj: The class instance you want to perform the method on. Note this must be a jni GlobalRef, otherwise your callback will either crash or just silently not work.
-    - methodName: A `String` with the name of the Java method to call
-    - methodSignature: A `String` containing the method's exact signature. Although it is possible to call non-Void Java methods via the JNI, that is not yet implemented in the the current Swift binding. This means that, for now, `methodSignature` must end with `"V"` i.e., return `Void`
-    - **`"(F)V"`** would reference a method that accepts one Float and returns Void.
-    - **Z** boolean
-    - **B** byte
-    - **C** char
-    - **S** short
-    - **I** int
-    - **J** long
-    - **F** float
-    - **D** double
-    - **Lfully-qualified-class;** fully-qualified-class
-    - **[type** type[]
-    - **(arg-types)ret-type** method type
-    - e.g. **`"([I)V"`** would accept one array of Ints and return Void.
-    - parameters: Any number of JavaParameters (*must have the same number and type as the* `methodSignature` *you're trying to call*)
-    - Throws: `JavaCallback.Error`
-    */
-    public init (_ globalJobj: JavaObject, methodName: String, methodSignature: String) throws {
-        // At the moment we can only call Void methods, fail if user tries to return something else
-        guard let returnType = methodSignature.characters.last, returnType == "V"/*oid*/ else {
-            // LOG JavaMethodCallError.IncorrectMethodSignature
-            fatalError("JavaMethodCallError.IncorrectMethodSignature")
-        }
+//     *
+//     - Parameters:
+//     - globalJobj: The class instance you want to perform the method on. Note this must be a jni GlobalRef, otherwise your callback will either crash or just silently not work.
+//     - methodName: A `String` with the name of the Java method to call
+//     - methodSignature: A `String` containing the method's exact signature. Although it is possible to call non-Void Java methods via the JNI, that is not yet implemented in the the current Swift binding. This means that, for now, `methodSignature` must end with `"V"` i.e., return `Void`
+//     - **`"(F)V"`** would reference a method that accepts one Float and returns Void.
+//     - **Z** boolean
+//     - **B** byte
+//     - **C** char
+//     - **S** short
+//     - **I** int
+//     - **J** long
+//     - **F** float
+//     - **D** double
+//     - **Lfully-qualified-class;** fully-qualified-class
+//     - **[type** type[]
+//     - **(arg-types)ret-type** method type
+//     - e.g. **`"([I)V"`** would accept one array of Ints and return Void.
+//     - parameters: Any number of JavaParameters (*must have the same number and type as the* `methodSignature` *you're trying to call*)
+//     - Throws: `JavaCallback.Error`
+    
+//     public init (_ globalJobj: JavaObject, methodName: String, methodSignature: String) throws {
+//         // At the moment we can only call Void methods, fail if user tries to return something else
+//         guard let returnType = methodSignature.last, returnType == "V"/*oid*/ else {
+//             // LOG JavaMethodCallError.IncorrectMethodSignature
+//             fatalError("JavaMethodCallError.IncorrectMethodSignature")
+//         }
 
-        // With signature "(FF)V", parameters count should be 2, ignoring the two brackets and the V
-        // XXX: This test isn't robust, but it will prevent simple user errors
-        // Doesn't work with more complex object types, arrays etc. we should determine the signature based on parameters.
+//         // With signature "(FF)V", parameters count should be 2, ignoring the two brackets and the V
+//         // XXX: This test isn't robust, but it will prevent simple user errors
+//         // Doesn't work with more complex object types, arrays etc. we should determine the signature based on parameters.
 
-        // TODO: Check methodSignature here and determine expectedParameterCount
-        let javaClass = try jni.GetObjectClass(obj: globalJobj)
-        guard let methodID = try? jni.GetMethodID(for: javaClass, methodName: methodName, methodSignature: methodSignature)
-            else {
-                // XXX: We should throw here and keep throwing til it gets back to Java
-                fatalError("Failed to make JavaCallback")
-        }
+//         // TODO: Check methodSignature here and determine expectedParameterCount
+//         let javaClass = try jni.GetObjectClass(obj: globalJobj)
+//         guard let methodID = try? jni.GetMethodID(for: javaClass, methodName: methodName, methodSignature: methodSignature)
+//             else {
+//                 // XXX: We should throw here and keep throwing til it gets back to Java
+//                 fatalError("Failed to make JavaCallback")
+//         }
 
-        self.jobj = globalJobj
-        self.methodID = methodID
-    }
+//         self.jobj = globalJobj
+//         self.methodID = methodID
+//     }
 
-    public func apply(args: [JavaParameter]) {
-        try? jni.CallVoidMethod(methodID, on: jobj, parameters: args)
-    }
+//     public func apply(args: [JavaParameter]) {
+//         try? jni.CallVoidMethod(methodID, on: jobj, parameters: args)
+//     }
 
-    /// Send variadic parameters to the func that takes an array
-    public func call(args: JavaParameter...) {
-        self.apply(args: args)
-    }
-}
+//     /// Send variadic parameters to the func that takes an array
+//     public func call(args: JavaParameter...) {
+//         self.apply(args: args)
+//     }
+// }
