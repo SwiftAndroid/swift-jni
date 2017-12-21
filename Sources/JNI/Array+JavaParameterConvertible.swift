@@ -6,11 +6,11 @@
 //
 
 import CJNI
+import Foundation
 
 extension String {
     func replacingFullstopsWithSlashes() -> String {
-        let replacedCharacters = self.map { ($0 == ".") ? "/" : $0 }
-        return String(replacedCharacters)
+        return self.replacingOccurrences(of: ".", with: "/")
     }
 }
 
