@@ -1,7 +1,7 @@
 import CJNI
 
-struct CreateNewObjectForConstructorError: Error {}
-struct ConstructorError: Error {}
+public struct CreateNewObjectForConstructorError: Error {}
+public struct ConstructorError: Error {}
 
 /// Designed to simplify calling a constructor and methods on a JavaClass
 /// Subclass this and add the methods appropriate to the object you are constructing.
@@ -20,10 +20,9 @@ open class JNIObject {
         self.javaClass = javaClass!
 
         guard
-            let instanceLocalRef = try? jni.callConstructor(on: self.javaClass, arguments: arguments),
+            let instanceLocalRef = try jni.callConstructor(on: self.javaClass, arguments: arguments),
             let instance = jni.NewGlobalRef(instanceLocalRef)
         else {
-            assertionFailure("Error during call to constructor of \(className)")
             throw ConstructorError()
         }
 
@@ -43,8 +42,14 @@ open class JNIObject {
     }
 }
 
+extension JNIObject {
+    enum Error: Swift.Error {
+        case couldntCallConstructor
+    }
+}
+
 extension JNI {
-    func callConstructor(on targetClass: JavaClass, arguments: [JavaParameterConvertible] = []) throws -> JavaObject {
+    func callConstructor(on targetClass: JavaClass, arguments: [JavaParameterConvertible] = []) throws -> JavaObject? {
         let methodID = _env.pointee.pointee.GetMethodID(_env, targetClass, "<init>", arguments.methodSignature(returnType: nil))
         try checkAndThrowOnJNIError()
 
@@ -53,18 +58,12 @@ extension JNI {
 }
 
 public extension JNI {
-	public func AllocObject(targetClass: JavaClass) -> JavaObject? {
-	    let env = self._env
-		return env.pointee.pointee.AllocObject(env, targetClass)
-	}
-
-	public func NewObject(targetClass: JavaClass, _ methodID: JavaMethodID, _ args: [JavaParameter]) throws -> JavaObject {
+	public func NewObject(targetClass: JavaClass, _ methodID: JavaMethodID, _ args: [JavaParameter]) throws -> JavaObject? {
 	    let env = self._env
         var mutableArgs = args
-        guard let newObject = env.pointee.pointee.NewObject(env, targetClass, methodID, &mutableArgs) else {
-            throw CreateNewObjectForConstructorError()
-        }
+        let newObject = env.pointee.pointee.NewObject(env, targetClass, methodID, &mutableArgs)
         try checkAndThrowOnJNIError()
+
         return newObject
 	}
 
@@ -74,5 +73,4 @@ public extension JNI {
         try checkAndThrowOnJNIError()
         return result!
 	}
-
 }

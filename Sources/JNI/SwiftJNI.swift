@@ -1,5 +1,5 @@
 import CJNI
-// import Dispatch
+import Dispatch
 
 public var jni: JNI! // this gets set "OnLoad" so should always exist
 
@@ -11,7 +11,7 @@ public func JNI_OnLoad(jvm: UnsafeMutablePointer<JavaVM>, reserved: UnsafeMutabl
 
     jni = localJNI // set the global for use elsewhere
 
-    //     DispatchQueue.setThreadDetachCallback(JNI_DetachCurrentThread)
+    DispatchQueue.setThreadDetachCallback(JNI_DetachCurrentThread)
 
     return JNI_VERSION_1_6
 }
@@ -49,177 +49,7 @@ extension JNI {
         return string
     }
 
-    // MARK: Classes and Methods
 
-    public func GetMethodID(for object: JavaObject, methodName: String, methodSignature: String) throws -> JavaMethodID {
-        let _env = self._env
-        let objectClass = _env.pointee.pointee.GetObjectClass(_env, object)
-        try checkAndThrowOnJNIError()
-
-        let result = _env.pointee.pointee.GetMethodID(_env, objectClass!, methodName, methodSignature)
-        _env.pointee.pointee.DeleteLocalRef(_env, objectClass)
-        try checkAndThrowOnJNIError()
-
-        return result!
-    }
-
-    public func GetStaticMethodID(for javaClass: JavaClass, methodName: String, methodSignature: String) throws -> JavaMethodID {
-        let _env = self._env
-        guard let result = _env.pointee.pointee.GetStaticMethodID(_env, javaClass, methodName, methodSignature) else {
-            throw InvalidMethodID()
-        }
-
-        try checkAndThrowOnJNIError()
-        return result
-    }
-
-    public func CallVoidMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws {
-        let _env = self._env
-        var methodArgs = parameters
-        _env.pointee.pointee.CallVoidMethod(_env, object, method, &methodArgs)
-        try checkAndThrowOnJNIError()
-    }
-
-    public func CallBooleanMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaBoolean {
-        let _env = self._env
-        var methodArgs = parameters
-        let result = _env.pointee.pointee.CallBooleanMethod(_env, object, method, &methodArgs)
-        try checkAndThrowOnJNIError()
-        return result
-    }
-
-    public func CallIntMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaInt {
-        let _env = self._env
-        var methodArgs = parameters
-        let result = _env.pointee.pointee.CallIntMethod(_env, object, method, &methodArgs)
-        try checkAndThrowOnJNIError()
-        return result
-    }
-
-    public func CallDoubleMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaDouble {
-        let _env = self._env
-        var methodArgs = parameters
-        let result = _env.pointee.pointee.CallDoubleMethod(_env, object, method, &methodArgs)
-        try checkAndThrowOnJNIError()
-        return result
-    }
-
-    public func CallObjectMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaObject {
-        let _env = self._env
-        var methodArgs = parameters
-        let result = _env.pointee.pointee.CallObjectMethod(_env, object, method, &methodArgs)!
-        try checkAndThrowOnJNIError()
-        return result
-    }
-
-    // MARK: Static methods
-
-    public func CallStaticObjectMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> JavaObject {
-        let _env = self._env
-        var methodArgs = parameters
-        let result = _env.pointee.pointee.CallStaticObjectMethodA(_env, javaClass, method, &methodArgs)
-        try checkAndThrowOnJNIError()
-        return result! // we checked for error in the line above
-    }
-
-    public func CallStaticBooleanMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> Bool {
-        let _env = self._env
-        var methodArgs = parameters
-        let result = _env.pointee.pointee.CallStaticBooleanMethodA(_env, javaClass, method, &methodArgs)
-        try checkAndThrowOnJNIError()
-        return result == true
-    }
-
-    public func CallStaticIntMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> JavaInt {
-        let _env = self._env
-        var methodArgs = parameters
-        let result = _env.pointee.pointee.CallStaticIntMethodA(_env, javaClass, method, &methodArgs)
-        try checkAndThrowOnJNIError()
-        return result
-    }
-
-    public func CallStaticDoubleMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> JavaDouble {
-        let _env = self._env
-        var methodArgs = parameters
-        let result = _env.pointee.pointee.CallStaticDoubleMethodA(_env, javaClass, method, &methodArgs)
-        try checkAndThrowOnJNIError()
-        return result
-    }
-
-    public func CallStaticBooleanMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) throws -> JavaBoolean {
-        let _env = self._env
-        var methodArgs = parameters
-        let result = _env.pointee.pointee.CallStaticBooleanMethodA(_env, javaClass, method, &methodArgs)
-        try checkAndThrowOnJNIError()
-        return result
-    }
-
-    public func CallStaticVoidMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) throws {
-        let _env = self._env
-        var methodArgs = parameters
-        _env.pointee.pointee.CallStaticVoidMethodA(_env, javaClass, method, &methodArgs)
-        try checkAndThrowOnJNIError()
-    }
-
-    // MARK: Fields
-
-    public func GetBooleanField(of javaObject: JavaObject, id: JavaFieldID) throws -> JavaBoolean {
-        let _env = self._env
-        let result = _env.pointee.pointee.GetBooleanField(_env, javaObject, id)
-        try checkAndThrowOnJNIError()
-        return result
-    }
-
-    public func GetIntField(of javaObject: JavaObject, id: JavaFieldID) throws -> JavaInt {
-        let _env = self._env
-        let result = _env.pointee.pointee.GetIntField(_env, javaObject, id)
-        try checkAndThrowOnJNIError()
-        return result
-    }
-
-    public func GetDoubleField(of javaObject: JavaObject, id: JavaFieldID) throws -> JavaDouble {
-        let _env = self._env
-        let result = _env.pointee.pointee.GetDoubleField(_env, javaObject, id)
-        try checkAndThrowOnJNIError()
-        return result
-    }
-
-    public func GetObjectField(of javaObject: JavaObject, id: JavaFieldID) throws -> JavaObject {
-        let _env = self._env
-        let result = _env.pointee.pointee.GetObjectField(_env, javaObject, id)
-        try checkAndThrowOnJNIError()
-        return result!
-    }
-
-    // MARK: Static Fields
-
-    public func GetStaticBooleanField(of javaClass: JavaClass, id: JavaFieldID) throws -> JavaBoolean {
-        let _env = self._env
-        let result =  _env.pointee.pointee.GetStaticBooleanField(_env, javaClass, id)
-        try checkAndThrowOnJNIError()
-        return result
-    }
-
-    public func GetStaticIntField(of javaClass: JavaClass, id: JavaFieldID) throws -> JavaInt {
-        let _env = self._env
-        let result = _env.pointee.pointee.GetStaticIntField(_env, javaClass, id)
-        try checkAndThrowOnJNIError()
-        return result
-    }
-
-    public func GetStaticDoubleField(of javaClass: JavaClass, id: JavaFieldID) throws -> JavaDouble {
-        let _env = self._env
-        let result = _env.pointee.pointee.GetStaticDoubleField(_env, javaClass, id)
-        try checkAndThrowOnJNIError()
-        return result
-    }
-
-    public func GetStaticObjectField(of javaClass: JavaClass, id: JavaFieldID) throws -> JavaObject {
-        let _env = self._env
-        guard let result = _env.pointee.pointee.GetStaticObjectField(_env, javaClass, id) else { throw JNIError() }
-        try checkAndThrowOnJNIError()
-        return result
-    }
 
     // MARK: Arrays
 
