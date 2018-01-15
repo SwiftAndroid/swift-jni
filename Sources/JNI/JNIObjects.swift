@@ -16,7 +16,6 @@ open class JNIObject {
 
         let javaClass = jni.NewGlobalRef(javaClassLocalRef)
         try checkAndThrowOnJNIError()
-
         self.javaClass = javaClass!
 
         guard
@@ -27,6 +26,11 @@ open class JNIObject {
         }
 
         self.instance = instance
+    }
+
+    deinit {
+        jni.DeleteGlobalRef(instance)
+        jni.DeleteGlobalRef(javaClass)
     }
 
     public func call(methodName: String, arguments: [JavaParameterConvertible] = []) throws {

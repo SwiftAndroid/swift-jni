@@ -388,7 +388,7 @@ struct JNINativeInterface
     jstring (* _Nonnull NewStringUTF)(JNIEnv * _Nonnull, const char * _Nonnull);
     jsize (* _Nonnull GetStringUTFLength)(JNIEnv * _Nonnull, jstring);
     /* JNI spec says this returns const jbyte*, but that's inconsistent */
-    const char * _Nonnull(* _Nonnull GetStringUTFChars)(JNIEnv * _Nonnull, jstring, jboolean * _Nullable);
+    const char * _Nullable(* _Nonnull GetStringUTFChars)(JNIEnv * _Nonnull, jstring, jboolean * _Nullable);
     void (* _Nonnull ReleaseStringUTFChars)(JNIEnv * _Nonnull, jstring, const char * _Nullable);
     jsize (* _Nonnull GetArrayLength)(JNIEnv * _Nonnull, jarray);
     jobjectArray (* _Nonnull NewObjectArray)(JNIEnv * _Nonnull, jsize, jclass, jobject);

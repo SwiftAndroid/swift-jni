@@ -39,22 +39,22 @@ extension String: JavaParameterConvertible {
 
     public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> String {
         let jobject: JavaObject = try jni.GetStaticObjectField(of: javaClass, id: fieldID)
-        return jni.GetString(from: jobject)
+        return try String(javaString: jobject)
     }
 
     public static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> String {
         let jObject = try jni.CallObjectMethod(methodID, on: object, parameters: args)
-        return jni.GetString(from: jObject)
+        return try String(javaString: jObject)
     }
 
     public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> String {
         let jObject = try jni.CallStaticObjectMethod(methodID, on: javaClass, parameters: args)
-        return jni.GetString(from: jObject)
+        return try String(javaString: jObject)
     }
 
     public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> String {
         let javaStringObject = try jni.GetObjectField(of: javaObject, id: fieldID)
-        return jni.GetString(from: javaStringObject)
+        return try String(javaString: javaStringObject)
     }
 }
 

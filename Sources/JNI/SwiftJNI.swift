@@ -41,16 +41,6 @@ extension JNI {
         _ = env.ThrowNew(_env, env.FindClass(_env, "java/lang/Exception"), message)
     }
 
-    public func GetString(from javaString: JavaString) -> String {
-        let _env = self._env
-        let chars = _env.pointee.pointee.GetStringUTFChars(_env, javaString, nil)
-        let string = String(cString: chars)
-        _env.pointee.pointee.ReleaseStringUTFChars(_env, javaString, chars)
-        return string
-    }
-
-
-
     // MARK: Arrays
 
     public func GetLength(_ array: JavaArray) -> Int {
@@ -143,7 +133,7 @@ extension JNI {
             try checkAndThrowOnJNIError()
             defer { _env.pointee.pointee.ReleaseStringUTFChars(_env, jString, chars) }
 
-            return String(cString: chars)
+            return String(cString: chars!)
         }
 
         return strings
