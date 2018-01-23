@@ -11,7 +11,9 @@ public func JNI_OnLoad(jvm: UnsafeMutablePointer<JavaVM>, reserved: UnsafeMutabl
 
     jni = localJNI // set the global for use elsewhere
 
+    #if os(Android)
     DispatchQueue.setThreadDetachCallback(JNI_DetachCurrentThread)
+    #endif
 
     return JNI_VERSION_1_6
 }

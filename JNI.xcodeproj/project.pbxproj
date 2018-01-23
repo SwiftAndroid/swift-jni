@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		034A7B8E1F30D18A0071A850 /* JNIFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034A7B8D1F30D18A0071A850 /* JNIFields.swift */; };
+		5CFFF4352016125500D989BC /* JavaParameterConvertible+Objects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFFF4332016125400D989BC /* JavaParameterConvertible+Objects.swift */; };
+		5CFFF4362016125500D989BC /* JavaParameterConvertible+Primitives.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFFF4342016125500D989BC /* JavaParameterConvertible+Primitives.swift */; };
 		OBJ_33 /* Array+JavaParameterConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* Array+JavaParameterConvertible.swift */; };
 		OBJ_34 /* JNI.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* JNI.swift */; };
 		OBJ_35 /* JNIClassManipulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* JNIClassManipulation.swift */; };
@@ -34,6 +36,8 @@
 
 /* Begin PBXFileReference section */
 		034A7B8D1F30D18A0071A850 /* JNIFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIFields.swift; sourceTree = "<group>"; };
+		5CFFF4332016125400D989BC /* JavaParameterConvertible+Objects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JavaParameterConvertible+Objects.swift"; sourceTree = "<group>"; };
+		5CFFF4342016125500D989BC /* JavaParameterConvertible+Primitives.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JavaParameterConvertible+Primitives.swift"; sourceTree = "<group>"; };
 		"JNI::CJNI::Product" /* CJNI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CJNI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"JNI::JNI::Product" /* JNI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JNI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_11 /* jni.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jni.h; sourceTree = "<group>"; };
@@ -91,6 +95,8 @@
 				OBJ_20 /* JNIRefs.swift */,
 				OBJ_21 /* JNIStrings.swift */,
 				OBJ_22 /* JavaParameterConvertible.swift */,
+				5CFFF4332016125400D989BC /* JavaParameterConvertible+Objects.swift */,
+				5CFFF4342016125500D989BC /* JavaParameterConvertible+Primitives.swift */,
 				OBJ_23 /* SwiftJNI.swift */,
 			);
 			name = JNI;
@@ -211,11 +217,13 @@
 			files = (
 				OBJ_33 /* Array+JavaParameterConvertible.swift in Sources */,
 				OBJ_34 /* JNI.swift in Sources */,
+				5CFFF4352016125500D989BC /* JavaParameterConvertible+Objects.swift in Sources */,
 				OBJ_35 /* JNIClassManipulation.swift in Sources */,
 				OBJ_36 /* JNIExceptions.swift in Sources */,
 				OBJ_37 /* JNIMethods.swift in Sources */,
 				034A7B8E1F30D18A0071A850 /* JNIFields.swift in Sources */,
 				OBJ_38 /* JNIObjects.swift in Sources */,
+				5CFFF4362016125500D989BC /* JavaParameterConvertible+Primitives.swift in Sources */,
 				OBJ_39 /* JNIRefs.swift in Sources */,
 				OBJ_40 /* JNIStrings.swift in Sources */,
 				OBJ_41 /* JavaParameterConvertible.swift in Sources */,
