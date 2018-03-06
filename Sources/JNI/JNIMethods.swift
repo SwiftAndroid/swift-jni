@@ -12,7 +12,7 @@ extension JNI {
         try jni.CallStaticVoidMethod(javaClass: javaClass, method: methodID, parameters: arguments.asJavaParameters())
     }
 
-    public func callStatic<T: JavaParameterConvertible>(_ methodName: String, on javaClass: JavaClass, arguments: [JavaParameterConvertible] = []) throws -> T {
+    public func callStatic<T: JavaInitializableFromMethod & JavaParameterConvertible>(_ methodName: String, on javaClass: JavaClass, arguments: [JavaParameterConvertible] = []) throws -> T {
         let methodSignature = arguments.methodSignature(returnType: T.self)
         let methodID = try jni.GetStaticMethodID(for: javaClass, methodName: methodName, methodSignature: methodSignature)
 
@@ -35,7 +35,7 @@ extension JNI {
         return try jni.CallVoidMethod(methodID, on: object, parameters: arguments.asJavaParameters())
     }
 
-    public func call<T: JavaParameterConvertible>(_ methodName: String, on object: JavaObject, arguments: [JavaParameterConvertible] = []) throws -> T {
+    public func call<T: JavaInitializableFromMethod & JavaParameterConvertible>(_ methodName: String, on object: JavaObject, arguments: [JavaParameterConvertible] = []) throws -> T {
         let methodSignature = arguments.methodSignature(returnType: T.self)
         let methodID = try jni.GetMethodID(for: object, methodName: methodName, methodSignature: methodSignature)
 

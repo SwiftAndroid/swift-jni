@@ -1,6 +1,6 @@
 // Bool
 
-extension Bool: JavaParameterConvertible {
+extension Bool: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {
     public static let asJNIParameterString = "Z"
 
     public func toJavaParameter() -> JavaParameter {
@@ -27,7 +27,7 @@ extension Bool: JavaParameterConvertible {
 
 // Int
 
-extension Int: JavaParameterConvertible {
+extension Int: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {
     public static var asJNIParameterString = "I"
 
     public func toJavaParameter() -> JavaParameter {
@@ -57,7 +57,7 @@ extension Int: JavaParameterConvertible {
 
 // Double
 
-extension Double: JavaParameterConvertible {
+extension Double: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {
     public static let asJNIParameterString = "D"
 
     public func toJavaParameter() -> JavaParameter {
@@ -84,7 +84,7 @@ extension Double: JavaParameterConvertible {
 
 // Float
 
-extension Float: JavaParameterConvertible {
+extension Float: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {
     public static let asJNIParameterString = "F"
 
     public func toJavaParameter() -> JavaParameter {

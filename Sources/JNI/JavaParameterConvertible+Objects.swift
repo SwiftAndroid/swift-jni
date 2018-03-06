@@ -1,6 +1,6 @@
 // JavaObject
 
-extension JavaObject: JavaParameterConvertible {
+extension JavaObject: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {
     private static let javaClassname = "java/lang/Object"
     public static let asJNIParameterString = "L\(javaClassname);"
 
@@ -28,7 +28,7 @@ extension JavaObject: JavaParameterConvertible {
 
 // String
 
-extension String: JavaParameterConvertible {
+extension String: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {
     private static let javaClassname = "java/lang/String"
     public static let asJNIParameterString = "L\(javaClassname);"
 
@@ -61,7 +61,7 @@ extension String: JavaParameterConvertible {
 
 // Context
 
-public struct JavaContext: JavaParameterConvertible {
+public struct JavaContext: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {
     private let object: JavaObject
     public init(_ object: JavaObject) {
         self.object = object

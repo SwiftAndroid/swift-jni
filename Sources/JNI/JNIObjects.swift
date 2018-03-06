@@ -1,31 +1,32 @@
 import CJNI
 
-public struct CreateNewObjectForConstructorError: Error {}
-public struct ConstructorError: Error {}
-
 /// Designed to simplify calling a constructor and methods on a JavaClass
 /// Subclass this and add the methods appropriate to the object you are constructing.
 open class JNIObject {
     public let javaClass: JavaClass
     public let instance: JavaObject
 
-    public init(_ className: String, arguments: [JavaParameterConvertible] = []) throws {
-        let className = className.replacingFullstopsWithSlashes()
+    required public init(_ instance: JavaObject) throws {
+        guard let globalInstanceRef = jni.NewGlobalRef(instance) else {
+            throw Error.couldntCreateGlobalRef
+        }
 
-        let javaClassLocalRef = try jni.FindClass(name: className)
-
+        let javaClassLocalRef = try jni.GetObjectClass(obj: instance)
         let javaClass = jni.NewGlobalRef(javaClassLocalRef)
         try checkAndThrowOnJNIError()
         self.javaClass = javaClass!
+        self.instance = globalInstanceRef
+    }
 
-        guard
-            let instanceLocalRef = try jni.callConstructor(on: self.javaClass, arguments: arguments),
-            let instance = jni.NewGlobalRef(instanceLocalRef)
-        else {
-            throw ConstructorError()
+    convenience public init(_ className: String, arguments: [JavaParameterConvertible] = []) throws {
+        let className = className.replacingFullstopsWithSlashes()
+        let javaClassLocalRef = try jni.FindClass(name: className)
+
+        guard let instanceLocalRef = try jni.callConstructor(on: javaClassLocalRef, arguments: arguments) else {
+            throw Error.couldntCallConstructor
         }
 
-        self.instance = instance
+        try self.init(instanceLocalRef)
     }
 
     deinit {
@@ -37,7 +38,7 @@ open class JNIObject {
         try jni.call(methodName, on: self.instance, arguments: arguments)
     }
 
-    public func call<T: JavaParameterConvertible>(methodName: String, arguments: [JavaParameterConvertible] = []) throws -> T {
+    public func call<T: JavaInitializableFromMethod & JavaParameterConvertible>(methodName: String, arguments: [JavaParameterConvertible] = []) throws -> T {
         return try jni.call(methodName, on: self.instance, arguments: arguments)
     }
 
@@ -48,6 +49,7 @@ open class JNIObject {
 
 extension JNIObject {
     enum Error: Swift.Error {
+        case couldntCreateGlobalRef
         case couldntCallConstructor
     }
 }
