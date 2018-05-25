@@ -123,6 +123,14 @@ extension JNI {
         return result
     }
 
+    public func CallInt64Method(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaLong {
+        let _env = self._env
+        var methodArgs = parameters
+        let result = _env.pointee.pointee.CallLongMethod(_env, object, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
     public func CallDoubleMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaDouble {
         let _env = self._env
         var methodArgs = parameters
@@ -164,6 +172,14 @@ extension JNI {
         let _env = self._env
         var methodArgs = parameters
         let result = _env.pointee.pointee.CallStaticIntMethodA(_env, javaClass, method, &methodArgs)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    public func CallStaticInt64Method(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> JavaLong {
+        let _env = self._env
+        var methodArgs = parameters
+        let result = _env.pointee.pointee.CallStaticLongMethodA(_env, javaClass, method, &methodArgs)
         try checkAndThrowOnJNIError()
         return result
     }
