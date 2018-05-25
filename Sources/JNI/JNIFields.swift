@@ -49,6 +49,13 @@ public extension JNI {
         return result
     }
 
+    public func GetLongField(of javaObject: JavaObject, id: JavaFieldID) throws -> JavaLong {
+        let _env = self._env
+        let result = _env.pointee.pointee.GetLongField(_env, javaObject, id)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
     public func GetDoubleField(of javaObject: JavaObject, id: JavaFieldID) throws -> JavaDouble {
         let _env = self._env
         let result = _env.pointee.pointee.GetDoubleField(_env, javaObject, id)
@@ -82,6 +89,13 @@ public extension JNI {
     public func GetStaticFloatField(of javaClass: JavaClass, id: JavaFieldID) throws -> JavaFloat {
         let _env = self._env
         let result = _env.pointee.pointee.GetStaticFloatField(_env, javaClass, id)
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    public func GetStaticLongField(of javaClass: JavaClass, id: JavaFieldID) throws -> JavaLong {
+        let _env = self._env
+        let result = _env.pointee.pointee.GetStaticLongField(_env, javaClass, id)
         try checkAndThrowOnJNIError()
         return result
     }

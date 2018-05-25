@@ -107,3 +107,29 @@ extension Float: JavaParameterConvertible, JavaInitializableFromMethod, JavaInit
         return try jni.GetFloatField(of: javaObject, id: fieldID)
     }
 }
+
+// JavaLong aka Int64
+
+extension JavaLong: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {
+    public static let asJNIParameterString = "J"
+
+    public func toJavaParameter() -> JavaParameter {
+        return JavaParameter(long: self)
+    }
+
+    public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> JavaLong {
+        return try JavaLong(jni.GetStaticLongField(of: javaClass, id: fieldID))
+    }
+
+    public static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> JavaLong {
+        return try jni.CallLongMethod(methodID, on: object, parameters: args)
+    }
+
+    public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> JavaLong {
+        return try jni.CallStaticLongMethod(methodID, on: javaClass, parameters: args)
+    }
+
+    public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> JavaLong {
+        return try jni.GetLongField(of: javaObject, id: fieldID)
+    }
+}
