@@ -108,28 +108,28 @@ extension Float: JavaParameterConvertible, JavaInitializableFromMethod, JavaInit
     }
 }
 
-// Int64 aka JavaLong
+// JavaLong aka Int64
 
-extension Int64: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {
+extension JavaLong: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {
     public static let asJNIParameterString = "J"
 
     public func toJavaParameter() -> JavaParameter {
-        return JavaParameter(long: Int64(self))
+        return JavaParameter(long: self)
     }
 
-    public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> Int64 {
-        return try Int64(jni.GetStaticInt64Field(of: javaClass, id: fieldID))
+    public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> JavaLong {
+        return try JavaLong(jni.GetStaticLongField(of: javaClass, id: fieldID))
     }
 
-    public static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> Int64 {
-        return try jni.CallInt64Method(methodID, on: object, parameters: args)
+    public static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> JavaLong {
+        return try jni.CallLongMethod(methodID, on: object, parameters: args)
     }
 
-    public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> Int64 {
-        return try jni.CallStaticInt64Method(methodID, on: javaClass, parameters: args)
+    public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> JavaLong {
+        return try jni.CallStaticLongMethod(methodID, on: javaClass, parameters: args)
     }
 
-    public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> Int64 {
-        return try jni.GetInt64Field(of: javaObject, id: fieldID)
+    public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> JavaLong {
+        return try jni.GetLongField(of: javaObject, id: fieldID)
     }
 }

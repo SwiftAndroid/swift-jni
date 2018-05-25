@@ -49,7 +49,7 @@ public extension JNI {
         return result
     }
 
-    public func GetInt64Field(of javaObject: JavaObject, id: JavaFieldID) throws -> JavaLong {
+    public func GetLongField(of javaObject: JavaObject, id: JavaFieldID) throws -> JavaLong {
         let _env = self._env
         let result = _env.pointee.pointee.GetLongField(_env, javaObject, id)
         try checkAndThrowOnJNIError()
@@ -93,7 +93,7 @@ public extension JNI {
         return result
     }
 
-    public func GetStaticInt64Field(of javaClass: JavaClass, id: JavaFieldID) throws -> JavaLong {
+    public func GetStaticLongField(of javaClass: JavaClass, id: JavaFieldID) throws -> JavaLong {
         let _env = self._env
         let result = _env.pointee.pointee.GetStaticLongField(_env, javaClass, id)
         try checkAndThrowOnJNIError()
