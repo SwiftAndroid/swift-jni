@@ -25,32 +25,32 @@ extension Bool: JavaParameterConvertible, JavaInitializableFromMethod, JavaIniti
 }
 
 
-// Int
+// JavaInt
 
-extension Int: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {
+extension JavaInt: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {
     public static var asJNIParameterString = "I"
 
     public func toJavaParameter() -> JavaParameter {
         return JavaParameter(int: JavaInt(self))
     }
 
-    public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> Int {
+    public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> JavaInt {
         let result = try jni.GetStaticIntField(of: javaClass, id: fieldID)
-        return Int(result)
+        return JavaInt(result)
     }
 
-    public static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> Int {
+    public static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> JavaInt {
         let result = try jni.CallIntMethod(methodID, on: object, parameters: args)
-        return Int(result)
+        return JavaInt(result)
     }
 
-    public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> Int {
+    public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> JavaInt {
         let result = try jni.CallStaticIntMethod(methodID, on: javaClass, parameters: args)
-        return Int(result)
+        return JavaInt(result)
     }
 
-    public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> Int {
-        return try Int(jni.GetIntField(of: javaObject, id: fieldID))
+    public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> JavaInt {
+        return try JavaInt(jni.GetIntField(of: javaObject, id: fieldID))
     }
 }
 
