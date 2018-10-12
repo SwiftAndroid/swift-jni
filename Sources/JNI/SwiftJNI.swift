@@ -81,7 +81,7 @@ extension JNI {
         _env.pointee.pointee.SetArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
     }
 
-    public func GetIntArrayRegion(array: JavaIntArray, startIndex: Int = 0, numElements: Int = -1) -> [Int] {
+    public func GetIntArrayRegion(array: JavaIntArray, startIndex: Int = 0, numElements: Int = -1) -> [JavaInt] {
         let _env = self._env
         var count = numElements
 
@@ -91,7 +91,7 @@ extension JNI {
 
         var result = [JavaInt](repeating: 0, count: count)
         _env.pointee.pointee.GetIntArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
-        return result.map { Int($0) }
+        return result
     }
 
     public func SetIntArrayRegion(array: JavaIntArray, startIndex: Int = 0, from sourceElements: [Int]) {
