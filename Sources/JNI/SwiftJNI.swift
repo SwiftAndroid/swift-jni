@@ -3,7 +3,7 @@ import Dispatch
 
 public var jni: JNI! // this gets set "OnLoad" so should always exist
 
-@_silgen_name("JNI_OnLoad")
+@_cdecl("JNI_OnLoad")
 public func JNI_OnLoad(jvm: UnsafeMutablePointer<JavaVM>, reserved: UnsafeMutableRawPointer) -> JavaInt {
     guard let localJNI = JNI(jvm: jvm) else {
          fatalError("Couldn't initialise JNI")
