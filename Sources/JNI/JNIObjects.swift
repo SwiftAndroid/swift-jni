@@ -64,7 +64,7 @@ extension JNI {
 }
 
 public extension JNI {
-	public func NewObject(targetClass: JavaClass, _ methodID: JavaMethodID, _ args: [JavaParameter]) throws -> JavaObject? {
+	func NewObject(targetClass: JavaClass, _ methodID: JavaMethodID, _ args: [JavaParameter]) throws -> JavaObject? {
 	    let env = self._env
         var mutableArgs = args
         let newObject = env.pointee.pointee.NewObject(env, targetClass, methodID, &mutableArgs)
@@ -73,7 +73,7 @@ public extension JNI {
         return newObject
 	}
 
-	public func GetObjectClass(obj: JavaObject) throws -> JavaClass {
+	func GetObjectClass(obj: JavaObject) throws -> JavaClass {
 	    let env = self._env
         let result = env.pointee.pointee.GetObjectClass(env, obj)
         try checkAndThrowOnJNIError()
