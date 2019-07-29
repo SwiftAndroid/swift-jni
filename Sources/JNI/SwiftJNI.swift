@@ -13,7 +13,7 @@ public func JNI_OnLoad(jvm: UnsafeMutablePointer<JavaVM>, reserved: UnsafeMutabl
 
     #if os(Android)
     // DispatchQueue.drainingMainQueue = true
-    DispatchQueue.setThreadDetachCallback(JNI_DetachCurrentThread)
+    // DispatchQueue.setThreadDetachCallback(JNI_DetachCurrentThread)
     #endif
 
     return JNI_VERSION_1_6
