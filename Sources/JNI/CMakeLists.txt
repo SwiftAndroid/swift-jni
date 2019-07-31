@@ -21,7 +21,4 @@ set_target_properties(JNI PROPERTIES
 target_compile_options(JNI PUBLIC
     SHELL: -I ${SwiftJNI_SOURCE_DIR}/Sources/CJNI)
 
-target_link_options(JNI PRIVATE
-    SHELL: -Xlinker -soname=libJNI.so)
-
 # TODO Add ${SwiftJNI_SOURCE_DIR}/Sources/CJNI to interface include dirs?
