@@ -27,11 +27,20 @@ open class JNIObject {
         self.instance = globalInstanceRef
     }
 
+    @available(*, deprecated, message: "Override Self.className instead and use the initializers that don't take className as an argument")
     convenience public init(_ className: String, arguments: [JavaParameterConvertible] = []) throws {
         let className = className.replacingFullstopsWithSlashes()
         let javaClassLocalRef = try jni.FindClass(name: className)
 
         guard let instanceLocalRef = try jni.callConstructor(on: javaClassLocalRef, arguments: arguments) else {
+            throw Error.couldntCallConstructor
+        }
+
+        try self.init(instanceLocalRef)
+    }
+
+    convenience public init(arguments: [JavaParameterConvertible] = []) throws {
+        guard let instanceLocalRef = try jni.callConstructor(on: type(of: self).javaClass, arguments: arguments) else {
             throw Error.couldntCallConstructor
         }
 
