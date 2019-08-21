@@ -73,7 +73,10 @@ extension JNIObject {
 }
 
 extension JNI {
-    func callConstructor(on targetClass: JavaClass, arguments: [JavaParameterConvertible] = []) throws -> JavaObject? {
+    func callConstructor(
+        on targetClass: JavaClass,
+        arguments: [JavaParameterConvertible] = []
+    ) throws -> JavaObject? {
         let methodID = _env.pointee.pointee.GetMethodID(_env, targetClass, "<init>", arguments.methodSignature(returnType: nil))
         try checkAndThrowOnJNIError()
 
