@@ -1,9 +1,21 @@
 import CJNI
+import Dispatch
 
 /// Designed to simplify calling a constructor and methods on a JavaClass
 /// Subclass this and add the methods appropriate to the object you are constructing.
 open class JNIObject {
-    public let javaClass: JavaClass
+    open class var className: String {
+        return "java.lang.object"
+    }
+
+    public class var javaClass: JavaClass {
+        return DispatchQueue.main.sync {
+            let javaClassLocalRef = try! jni.FindClass(name: className.replacingFullstopsWithSlashes())
+            try! checkAndThrowOnJNIError()
+            return jni.NewGlobalRef(javaClassLocalRef)!
+        }
+    }
+
     public let instance: JavaObject
 
     required public init(_ instance: JavaObject) throws {
@@ -11,10 +23,7 @@ open class JNIObject {
             throw Error.couldntCreateGlobalRef
         }
 
-        let javaClassLocalRef = try jni.GetObjectClass(obj: instance)
-        let javaClass = jni.NewGlobalRef(javaClassLocalRef)
         try checkAndThrowOnJNIError()
-        self.javaClass = javaClass!
         self.instance = globalInstanceRef
     }
 
@@ -31,19 +40,28 @@ open class JNIObject {
 
     deinit {
         jni.DeleteGlobalRef(instance)
-        jni.DeleteGlobalRef(javaClass)
     }
 
     public func call(methodName: String, arguments: [JavaParameterConvertible] = []) throws {
         try jni.call(methodName, on: self.instance, arguments: arguments)
     }
 
-    public func call<T: JavaInitializableFromMethod & JavaParameterConvertible>(methodName: String, arguments: [JavaParameterConvertible] = []) throws -> T {
+    public func call<T: JavaInitializableFromMethod & JavaParameterConvertible>(
+        methodName: String,
+        arguments: [JavaParameterConvertible] = []
+    ) throws -> T {
         return try jni.call(methodName, on: self.instance, arguments: arguments)
     }
 
-    public func callStatic(methodName: String, arguments: [JavaParameterConvertible] = []) throws {
+    public static func callStatic(methodName: String, arguments: [JavaParameterConvertible] = []) throws {
         try jni.callStatic(methodName, on: self.javaClass, arguments: arguments)
+    }
+
+    public static func callStatic<T: JavaInitializableFromMethod & JavaParameterConvertible>(
+        methodName: String,
+        arguments: [JavaParameterConvertible] = []
+    ) throws -> T {
+        return try jni.callStatic(methodName, on: self.javaClass, arguments: arguments)
     }
 }
 
@@ -64,19 +82,19 @@ extension JNI {
 }
 
 public extension JNI {
-	public func NewObject(targetClass: JavaClass, _ methodID: JavaMethodID, _ args: [JavaParameter]) throws -> JavaObject? {
-	    let env = self._env
+    func NewObject(targetClass: JavaClass, _ methodID: JavaMethodID, _ args: [JavaParameter]) throws -> JavaObject? {
+        let env = self._env
         var mutableArgs = args
         let newObject = env.pointee.pointee.NewObject(env, targetClass, methodID, &mutableArgs)
         try checkAndThrowOnJNIError()
 
         return newObject
-	}
+    }
 
-	public func GetObjectClass(obj: JavaObject) throws -> JavaClass {
-	    let env = self._env
+    func GetObjectClass(obj: JavaObject) throws -> JavaClass {
+        let env = self._env
         let result = env.pointee.pointee.GetObjectClass(env, obj)
         try checkAndThrowOnJNIError()
         return result!
-	}
+    }
 }
