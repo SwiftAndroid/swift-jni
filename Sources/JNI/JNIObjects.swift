@@ -8,11 +8,20 @@ open class JNIObject {
         return "java.lang.object"
     }
 
+    private static var classInstances = [String: JavaClass]()
+
     public class var javaClass: JavaClass {
         return DispatchQueue.main.sync {
+            if let classInstance = classInstances[className] {
+                return classInstance
+            }
+
             let javaClassLocalRef = try! jni.FindClass(name: className.replacingFullstopsWithSlashes())
             try! checkAndThrowOnJNIError()
-            return jni.NewGlobalRef(javaClassLocalRef)!
+            let classInstance = jni.NewGlobalRef(javaClassLocalRef)!
+            classInstances[className] = classInstance
+
+            return classInstance
         }
     }
 
@@ -39,7 +48,7 @@ open class JNIObject {
         try self.init(instanceLocalRef)
     }
 
-    convenience public init(arguments: [JavaParameterConvertible] = []) throws {
+    convenience public init(arguments: JavaParameterConvertible...) throws {
         guard let instanceLocalRef = try jni.callConstructor(on: type(of: self).javaClass, arguments: arguments) else {
             throw Error.couldntCallConstructor
         }
