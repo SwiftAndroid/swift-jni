@@ -10,7 +10,7 @@ open class JNIObject {
 
     private static var classInstances = [String: JavaClass]()
 
-    public class var javaClass: JavaClass {
+    public static var javaClass: JavaClass {
         return DispatchQueue.main.sync {
             if let classInstance = classInstances[className] {
                 return classInstance
