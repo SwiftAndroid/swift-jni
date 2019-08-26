@@ -142,9 +142,9 @@ public extension JNI {
     func CallObjectMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaObject {
         let _env = self._env
         var methodArgs = parameters
-        let result = _env.pointee.pointee.CallObjectMethod(_env, object, method, &methodArgs)!
+        let result = _env.pointee.pointee.CallObjectMethod(_env, object, method, &methodArgs)
         try checkAndThrowOnJNIError()
-        return result
+        return result!
     }
 }
 
