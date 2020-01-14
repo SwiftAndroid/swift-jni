@@ -1,3 +1,5 @@
+set(CMAKE_Swift_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/swift)
+
 add_library(JNI SHARED
     Array+JavaParameterConvertible.swift
     JavaParameterConvertible+Objects.swift
