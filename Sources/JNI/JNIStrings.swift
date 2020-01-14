@@ -31,62 +31,62 @@ public extension String {
 }
 
 public extension JNI {
-	public func NewString(unicodeChars: UnsafePointer<JavaChar>, _ length: jsize) -> JavaString {
+	func NewString(unicodeChars: UnsafePointer<JavaChar>, _ length: jsize) -> JavaString {
 	    let env = self._env
         return env.pointee.pointee.NewString(env, unicodeChars, length)!
 	}
 
-	public func GetStringLength(_ jString: JavaString) -> jsize {
+	func GetStringLength(_ jString: JavaString) -> jsize {
 	    let env = self._env
 	    return env.pointee.pointee.GetStringLength(env, jString)
 	}
 
-	public func GetStringChars(_ jString: JavaString, _ isCopy: UnsafeMutablePointer<JavaBoolean>) -> UnsafePointer<JavaChar> {
+	func GetStringChars(_ jString: JavaString, _ isCopy: UnsafeMutablePointer<JavaBoolean>) -> UnsafePointer<JavaChar> {
 	    let env = self._env
         return env.pointee.pointee.GetStringChars(env, jString, isCopy)!
 	}
 
-	public func ReleaseStringChars(_ jString: JavaString, _ chars: UnsafePointer<JavaChar>) {
+	func ReleaseStringChars(_ jString: JavaString, _ chars: UnsafePointer<JavaChar>) {
 	    let env = self._env
 	    env.pointee.pointee.ReleaseStringChars(env, jString, chars)
 	}
 
-	public func NewStringUTF(_ string: String) -> JavaString {
+	func NewStringUTF(_ string: String) -> JavaString {
 	    let env = self._env
         return env.pointee.pointee.NewStringUTF(env, string)!
 	}
 
-	public func GetStringUTFLength(_ jString: JavaString) -> jsize {
+	func GetStringUTFLength(_ jString: JavaString) -> jsize {
 	    let env = self._env
 	    return env.pointee.pointee.GetStringUTFLength(env, jString)
 	}
 
-	public func GetStringUTFChars(_ jString: JavaString, _ isCopy: UnsafeMutablePointer<JavaBoolean>) -> String {
+	func GetStringUTFChars(_ jString: JavaString, _ isCopy: UnsafeMutablePointer<JavaBoolean>) -> String {
 	    let env = self._env
         return String(describing: env.pointee.pointee.GetStringUTFChars(env, jString, isCopy))
 	}
 
-	public func ReleaseStringUTFChars(_ jString: JavaString, _ utf: String) {
+	func ReleaseStringUTFChars(_ jString: JavaString, _ utf: String) {
 	    let env = self._env
 	    env.pointee.pointee.ReleaseStringUTFChars(env, jString, utf)
 	}
 
-	public func GetStringRegion(_ jString: JavaString, _ start: jsize, _ length: jsize, _ buf: UnsafeMutablePointer<JavaChar>) {
+	func GetStringRegion(_ jString: JavaString, _ start: jsize, _ length: jsize, _ buf: UnsafeMutablePointer<JavaChar>) {
 	    let env = self._env
 	    env.pointee.pointee.GetStringRegion(env, jString, start, length, buf)
 	}
 
-	public func GetStringUTFRegion(_ jString: JavaString, _ start: jsize, _ length: jsize, _ buf: UnsafeMutablePointer<CChar>) {
+	func GetStringUTFRegion(_ jString: JavaString, _ start: jsize, _ length: jsize, _ buf: UnsafeMutablePointer<CChar>) {
 	    let env = self._env
 	    env.pointee.pointee.GetStringUTFRegion(env, jString, start, length, buf)
 	}
 
-	public func GetStringCritical(_ jString: JavaString, _ isCopy: UnsafeMutablePointer<JavaBoolean>) -> UnsafePointer<JavaChar> {
+	func GetStringCritical(_ jString: JavaString, _ isCopy: UnsafeMutablePointer<JavaBoolean>) -> UnsafePointer<JavaChar> {
 	    let env = self._env
         return env.pointee.pointee.GetStringCritical(env, jString, isCopy)!
 	}
 
-	public func ReleaseStringCritical(_ jString: JavaString, _ cArray: UnsafePointer<JavaChar>) {
+	func ReleaseStringCritical(_ jString: JavaString, _ cArray: UnsafePointer<JavaChar>) {
 	    let env = self._env
 	    env.pointee.pointee.ReleaseStringCritical(env, jString, cArray)
 	}

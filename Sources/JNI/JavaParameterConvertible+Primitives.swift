@@ -28,7 +28,7 @@ extension Bool: JavaParameterConvertible, JavaInitializableFromMethod, JavaIniti
 // JavaInt
 
 extension JavaInt: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {
-    public static var asJNIParameterString = "I"
+    public static let asJNIParameterString = "I"
 
     public func toJavaParameter() -> JavaParameter {
         return JavaParameter(int: self)

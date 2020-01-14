@@ -35,32 +35,32 @@ public class JNI {
 }
 
 public extension JNI {
-    public func GetVersion() -> JavaInt {
+    func GetVersion() -> JavaInt {
         let env = self._env
         return env.pointee.pointee.GetVersion(env)
     }
 
-    public func GetJavaVM(vm: UnsafeMutablePointer<UnsafeMutablePointer<JavaVM>>) -> JavaInt {
+    func GetJavaVM(vm: UnsafeMutablePointer<UnsafeMutablePointer<JavaVM>>) -> JavaInt {
         let env = self._env
         return env.pointee.pointee.GetJavaVM(env, vm)
     }
 
-    public func RegisterNatives(targetClass: JavaClass, _ methods: UnsafePointer<JNINativeMethod>, _ nMethods: JavaInt) -> JavaInt {
+    func RegisterNatives(targetClass: JavaClass, _ methods: UnsafePointer<JNINativeMethod>, _ nMethods: JavaInt) -> JavaInt {
         let env = self._env
         return env.pointee.pointee.RegisterNatives(env, targetClass, methods, nMethods)
     }
 
-    public func UnregisterNatives(targetClass: JavaClass) -> JavaInt {
+    func UnregisterNatives(targetClass: JavaClass) -> JavaInt {
         let env = self._env
         return env.pointee.pointee.UnregisterNatives(env, targetClass)
     }
 
-    public func MonitorEnter(obj: JavaObject) -> JavaInt {
+    func MonitorEnter(obj: JavaObject) -> JavaInt {
         let env = self._env
         return env.pointee.pointee.MonitorEnter(env, obj)
     }
 
-    public func MonitorExit(obj: JavaObject) -> JavaInt {
+    func MonitorExit(obj: JavaObject) -> JavaInt {
         let env = self._env
         return env.pointee.pointee.MonitorExit(env, obj)
     }
