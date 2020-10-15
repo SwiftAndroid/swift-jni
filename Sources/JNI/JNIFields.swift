@@ -18,6 +18,9 @@ public extension JNI {
     func GetField<T: JavaInitializableFromField & JavaParameterConvertible>(_ fieldName: String, from javaObject: JavaObject) throws -> T {
         let env = self._env
         let javaClass = try GetObjectClass(obj: javaObject)
+        defer {
+            jni.DeleteLocalRef(javaClass)
+        }
         let fieldID = env.pointee.pointee.GetFieldID(env, javaClass, fieldName, T.asJNIParameterString)
         try checkAndThrowOnJNIError()
         return try T.fromField(fieldID!, on: javaObject)

@@ -15,7 +15,7 @@ extension String {
 }
 
 extension Array where Element == JavaParameterConvertible {
-    func asJavaParameters() -> [JavaParameter] {
+    public func asJavaParameters() -> [JavaParameter] {
         return self.map { $0.toJavaParameter() }
     }
 
@@ -27,12 +27,12 @@ extension Array where Element == JavaParameterConvertible {
 
     /// Returns the String of ordered arguments enclosed in brackets, followed by the `returnType`'s type string, or 'V'
     /// (Void) if nil is provided. e.g. Returns "(II)V" for `[JavaInt(1), JavaInt(99)].methodSignature(returnType: nil)`
-    func methodSignature(returnType: JavaParameterConvertible.Type?) -> String {
+    public func methodSignature(returnType: JavaParameterConvertible.Type?) -> String {
         let returnTypeString = returnType?.asJNIParameterString ?? "V"
         return "(" + self.argumentSignature() + ")" + returnTypeString
     }
 
-    func methodSignature(customReturnType: String) -> String {
+    public func methodSignature(customReturnType: String) -> String {
         let returnTypeString = customReturnType.replacingFullstopsWithSlashes()
         return "(" + self.argumentSignature() + ")" + returnTypeString
     }

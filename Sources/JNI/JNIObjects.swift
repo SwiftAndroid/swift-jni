@@ -1,5 +1,6 @@
 import CJNI
 import Dispatch
+import Foundation
 
 /// Designed to simplify calling a constructor and methods on a JavaClass
 /// Subclass this and add the methods appropriate to the object you are constructing.
@@ -11,7 +12,7 @@ open class JNIObject {
     private static var classInstances = [String: JavaClass]()
 
     public static var javaClass: JavaClass {
-        return DispatchQueue.main.sync {
+        func getClassInstance() -> JavaClass {
             if let classInstance = classInstances[className] {
                 return classInstance
             }
@@ -23,6 +24,15 @@ open class JNIObject {
 
             return classInstance
         }
+
+        if Thread.isMainThread {
+            return getClassInstance()
+        } else {
+            return DispatchQueue.main.sync {
+                return getClassInstance()
+            }
+        }
+
     }
 
     public let instance: JavaObject
@@ -69,6 +79,12 @@ open class JNIObject {
         arguments: [JavaParameterConvertible] = []
     ) throws -> T {
         return try jni.call(methodName, on: self.instance, arguments: arguments)
+    }
+
+    public func getField<T: JavaInitializableFromField & JavaParameterConvertible>(
+        _ fieldName: String
+    ) throws -> T {
+        return try jni.GetField(fieldName, from: self.instance)
     }
 
     public static func callStatic(methodName: String, arguments: [JavaParameterConvertible] = []) throws {
