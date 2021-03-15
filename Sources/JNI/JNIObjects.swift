@@ -87,6 +87,10 @@ open class JNIObject {
         return try jni.GetField(fieldName, from: self.instance)
     }
 
+    public func getField(_ fieldName: String, fieldJavaClassName: String) throws -> JavaObject {
+        return try jni.GetField(fieldName, fieldJavaClassName: fieldJavaClassName, from: self.instance)
+    }
+
     public static func callStatic(methodName: String, arguments: [JavaParameterConvertible] = []) throws {
         try jni.callStatic(methodName, on: self.javaClass, arguments: arguments)
     }

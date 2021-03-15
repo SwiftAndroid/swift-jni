@@ -64,4 +64,9 @@ public extension JNI {
         let env = self._env
         return env.pointee.pointee.MonitorExit(env, obj)
     }
+
+    func GetDirectBufferAddress(buffer: JavaObject) -> UnsafeMutableRawPointer? {
+        let env = self._env
+        return env.pointee.pointee.GetDirectBufferAddress(env, buffer)
+    }
 }

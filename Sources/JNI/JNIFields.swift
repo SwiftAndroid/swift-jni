@@ -25,6 +25,17 @@ public extension JNI {
         try checkAndThrowOnJNIError()
         return try T.fromField(fieldID!, on: javaObject)
     }
+
+    func GetField(_ fieldName: String, fieldJavaClassName: String, from javaObject: JavaObject) throws -> JavaObject {
+        let env = self._env
+        let javaClass = try GetObjectClass(obj: javaObject)
+        defer {
+            jni.DeleteLocalRef(javaClass)
+        }
+        let fieldID = env.pointee.pointee.GetFieldID(env, javaClass, fieldName, "L\(fieldJavaClassName);")
+        try checkAndThrowOnJNIError()
+        return try JavaObject.fromField(fieldID!, on: javaObject)
+    }
 }
 
 
