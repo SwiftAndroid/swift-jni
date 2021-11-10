@@ -21,11 +21,14 @@
  * Everything here is expected to be VM-neutral.
  */
 
-#define SWIFT_UNAVAILABLE(reason) __attribute__((unavailable(#reason)))
-#define CF_SWIFT_NAME(x) __attribute__((swift_name(#x)))
 
 #ifndef JNI_H_
 #define JNI_H_
+
+#define SWIFT_UNAVAILABLE(reason) __attribute__((unavailable(#reason)))
+#define CF_SWIFT_NAME(x) __attribute__((swift_name(#x)))
+
+int _CFIsMainThread(void); // introduces implicit dependency on CoreFoundation
 
 #include <sys/cdefs.h>
 #include <stdarg.h>

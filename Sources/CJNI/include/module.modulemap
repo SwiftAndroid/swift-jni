@@ -1,4 +1,4 @@
 module CJNI {
-    header "jni.h"
+    header "cjni.h"
     export *
 }

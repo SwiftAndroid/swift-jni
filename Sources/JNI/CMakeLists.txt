@@ -14,6 +14,7 @@ add_library(JNI SHARED
     JNIRefs.swift
     JNIStrings.swift
     SwiftJNI.swift
+    isMainThread.swift
 )
 
 set_target_properties(JNI PROPERTIES

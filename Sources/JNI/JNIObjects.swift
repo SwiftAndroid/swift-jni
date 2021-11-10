@@ -1,6 +1,5 @@
 import CJNI
 import Dispatch
-import Foundation
 
 /// Designed to simplify calling a constructor and methods on a JavaClass
 /// Subclass this and add the methods appropriate to the object you are constructing.
@@ -25,7 +24,7 @@ open class JNIObject {
             return classInstance
         }
 
-        if Thread.isMainThread {
+        if isMainThread {
             return getClassInstance()
         } else {
             return DispatchQueue.main.sync {

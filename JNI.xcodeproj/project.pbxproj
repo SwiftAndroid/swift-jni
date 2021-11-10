@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		034A7B8E1F30D18A0071A850 /* JNIFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034A7B8D1F30D18A0071A850 /* JNIFields.swift */; };
+		5C1AD870273C494F00195C8A /* isMainThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1AD86F273C494F00195C8A /* isMainThread.swift */; };
 		5CFFF4352016125500D989BC /* JavaParameterConvertible+Objects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFFF4332016125400D989BC /* JavaParameterConvertible+Objects.swift */; };
 		5CFFF4362016125500D989BC /* JavaParameterConvertible+Primitives.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFFF4342016125500D989BC /* JavaParameterConvertible+Primitives.swift */; };
 		OBJ_33 /* Array+JavaParameterConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* Array+JavaParameterConvertible.swift */; };
@@ -36,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		034A7B8D1F30D18A0071A850 /* JNIFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JNIFields.swift; sourceTree = "<group>"; };
+		5C1AD86F273C494F00195C8A /* isMainThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = isMainThread.swift; sourceTree = "<group>"; };
 		5CFFF4332016125400D989BC /* JavaParameterConvertible+Objects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JavaParameterConvertible+Objects.swift"; sourceTree = "<group>"; };
 		5CFFF4342016125500D989BC /* JavaParameterConvertible+Primitives.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JavaParameterConvertible+Primitives.swift"; sourceTree = "<group>"; };
 		"JNI::CJNI::Product" /* CJNI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CJNI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +100,7 @@
 				5CFFF4332016125400D989BC /* JavaParameterConvertible+Objects.swift */,
 				5CFFF4342016125500D989BC /* JavaParameterConvertible+Primitives.swift */,
 				OBJ_23 /* SwiftJNI.swift */,
+				5C1AD86F273C494F00195C8A /* isMainThread.swift */,
 			);
 			name = JNI;
 			path = Sources/JNI;
@@ -197,6 +200,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = OBJ_5;
@@ -223,6 +227,7 @@
 				OBJ_37 /* JNIMethods.swift in Sources */,
 				034A7B8E1F30D18A0071A850 /* JNIFields.swift in Sources */,
 				OBJ_38 /* JNIObjects.swift in Sources */,
+				5C1AD870273C494F00195C8A /* isMainThread.swift in Sources */,
 				5CFFF4362016125500D989BC /* JavaParameterConvertible+Primitives.swift in Sources */,
 				OBJ_39 /* JNIRefs.swift in Sources */,
 				OBJ_40 /* JNIStrings.swift in Sources */,
