@@ -1,3 +1,8 @@
+import Glibc
+
+@_silgen_name("syscall")
+public func syscallNonVariadic(_ number: Int) -> Int
+
 public var isMainThread: Bool {
-    return _isMainThread() == 1
+    syscallNonVariadic(Int(SYS_gettid)) == getpid()
 }
