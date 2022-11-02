@@ -59,6 +59,13 @@ public extension JNI {
         return result
     }
 
+    func NewByteArray(count: Int) throws -> JavaArray? {
+        let _env = self._env
+        let result = _env.pointee.pointee.NewByteArray(_env, jsize(count))
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
     func GetByteArrayRegion(array: JavaByteArray, startIndex: Int = 0, numElements: Int = -1) -> [UInt8] {
         let _env = self._env
         var count = numElements
@@ -75,7 +82,7 @@ public extension JNI {
         return result.map { UInt8(bitPattern: $0) }
     }
 
-    func SetByteArrayRegion(array: JavaByteArray, startIndex: Int = 0, from sourceElements: [Int]) {
+    func SetByteArrayRegion(array: JavaByteArray, startIndex: Int = 0, from sourceElements: UnsafeBufferPointer<UInt8>) {
         let _env = self._env
         var newElements = sourceElements.map { JavaByte($0) } // make mutable copy
         _env.pointee.pointee.SetArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
@@ -246,3 +253,11 @@ struct JNIError: Error {
 //         self.apply(args: args)
 //     }
 // }
+
+@discardableResult
+@_silgen_name("__android_log_write")
+public func androidPrint(_ prio: Int32, _ tag: UnsafePointer<CChar>, _ text: UnsafePointer<CChar>) -> Int32
+
+func print(_ string: String) {
+    androidPrint(5, "SwiftJNI", string)
+}

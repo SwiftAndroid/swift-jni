@@ -1,6 +1,8 @@
 import CJNI
 
-struct InvalidMethodID: Error {}
+enum SwiftJNIError: Error {
+    case invalidMethodID(_ methodSignature: String)
+}
 
 public extension JNI {
     // MARK: Static Methods
@@ -81,7 +83,7 @@ public extension JNI {
     func GetStaticMethodID(for javaClass: JavaClass, methodName: String, methodSignature: String) throws -> JavaMethodID {
         let _env = self._env
         guard let result = _env.pointee.pointee.GetStaticMethodID(_env, javaClass, methodName, methodSignature) else {
-            throw InvalidMethodID()
+            throw SwiftJNIError.invalidMethodID(methodSignature)
         }
 
         try checkAndThrowOnJNIError()

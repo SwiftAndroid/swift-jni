@@ -3,9 +3,17 @@ import Dispatch
 
 /// Designed to simplify calling a constructor and methods on a JavaClass
 /// Subclass this and add the methods appropriate to the object you are constructing.
-open class JNIObject {
+open class JNIObject: JavaParameterConvertible {
     open class var className: String {
         return "java.lang.object"
+    }
+
+    public class var asJNIParameterString: String {
+        "L\(Self.className.replacingFullstopsWithSlashes());"
+    }
+
+    public func toJavaParameter() -> JavaParameter {
+        return JavaParameter(object: self.instance)
     }
 
     private static var classInstances = [String: JavaClass]()
@@ -136,5 +144,23 @@ public extension JNI {
         let result = env.pointee.pointee.GetObjectClass(env, obj)
         try checkAndThrowOnJNIError()
         return result!
+    }
+}
+
+extension JNIObject: JavaInitializableFromMethod, JavaInitializableFromField {
+    public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> Self {
+        return try Self(jni.GetStaticObjectField(of: javaClass, id: fieldID))
+    }
+
+    public static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> Self {
+        return try Self(jni.CallObjectMethod(methodID, on: object, parameters: args))
+    }
+
+    public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> Self {
+        return try Self(jni.CallStaticObjectMethod(methodID, on: javaClass, parameters: args))
+    }
+
+    public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> Self {
+        return try Self(jni.GetObjectField(of: javaObject, id: fieldID))
     }
 }
