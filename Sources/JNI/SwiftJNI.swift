@@ -2,9 +2,17 @@ import CJNI
 
 public var jni: JNI! // this gets set "OnLoad" so should always exist
 
+#if !STATIC_SWIFT_STDLIB
 @_cdecl("JNI_OnLoad")
-public func JNI_OnLoad(jvm: UnsafeMutablePointer<JavaVM>, reserved: UnsafeMutableRawPointer) -> JavaInt {
-    guard let localJNI = JNI(jvm: jvm) else {
+public func JNI_Onload(_ vm: UnsafeMutablePointer<JavaVM>, _ reserved: UnsafeMutableRawPointer?) -> JavaInt {
+    return SwiftJNI_OnLoad(vm, reserved)
+}
+#endif
+
+// Can be called manually from another call to JNI_OnLoad
+// e.g. from the user's JNI_OnLoad function defined in the same static library
+public func SwiftJNI_OnLoad(_ vm: UnsafeMutablePointer<JavaVM>, _ reserved: UnsafeMutableRawPointer?) -> JavaInt {
+    guard let localJNI = JNI(jvm: vm) else {
          fatalError("Couldn't initialise JNI")
     }
 

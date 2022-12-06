@@ -1,14 +1,14 @@
-// swift-tools-version:4.0
+// swift-tools-version:5.0
 
 import PackageDescription
 
 let package = Package(
     name: "JNI",
     products: [
-        .library(name: "JNI", type: .dynamic, targets: ["JNI", "CJNI"])
+        .library(name: "JNI", targets: ["JNI", "CJNI"])
     ],
     targets: [
+        .target(name: "JNI", dependencies: ["CJNI"]),
         .target(name: "CJNI"),
-        .target(name: "JNI", dependencies: ["CJNI"])
     ]
 )
