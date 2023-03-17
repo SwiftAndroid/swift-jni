@@ -25,6 +25,32 @@ extension Bool: JavaParameterConvertible, JavaInitializableFromMethod, JavaIniti
 }
 
 
+// Int
+extension Int: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {
+    public static let asJNIParameterString = "I"
+
+    public func toJavaParameter() -> JavaParameter {
+        return JavaParameter(int: JavaInt(self))
+    }
+
+    public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> Int {
+        return try Int(jni.GetStaticIntField(of: javaClass, id: fieldID))
+    }
+
+    public static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> Int {
+        return try Int(jni.CallIntMethod(methodID, on: object, parameters: args))
+    }
+
+    public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> Int {
+        return try Int(jni.CallStaticIntMethod(methodID, on: javaClass, parameters: args))
+    }
+
+    public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> Int {
+        return try Int(jni.GetIntField(of: javaObject, id: fieldID))
+    }
+}
+
+
 // JavaInt
 
 extension JavaInt: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {
