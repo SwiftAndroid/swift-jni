@@ -60,7 +60,7 @@ public extension JNI {
         return result
     }
 
-    func NewByteArray(count: Int) throws -> JavaArray? {
+    func NewByteArray(count: Int) throws -> JavaByteArray? {
         let _env = self._env
         let result = _env.pointee.pointee.NewByteArray(_env, jsize(count))
         try checkAndThrowOnJNIError()
@@ -83,9 +83,9 @@ public extension JNI {
         return result.map { UInt8(bitPattern: $0) }
     }
 
-    func SetByteArrayRegion(array: JavaByteArray, startIndex: Int = 0, from sourceElements: UnsafeBufferPointer<UInt8>) {
+    func SetByteArrayRegion(array: JavaByteArray, startIndex: Int = 0, from sourceElements: Array<UInt8>) {
         let _env = self._env
-        var newElements = sourceElements.map { JavaByte($0) } // make mutable copy
+        var newElements = sourceElements.map { JavaByte(bitPattern: $0) } // make mutable copy
         _env.pointee.pointee.SetArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
     }
 
