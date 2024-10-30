@@ -1,5 +1,5 @@
-#if canImport(Glibc)
-import Glibc
+#if canImport(Bionic)
+import Bionic
 
 @_silgen_name("syscall")
 public func syscallNonVariadic(_ number: Int) -> Int

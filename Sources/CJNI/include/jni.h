@@ -22,113 +22,69 @@
  */
 
 
-#ifndef JNI_H_
-#define JNI_H_
+#pragma once
 
 #define SWIFT_UNAVAILABLE(reason) __attribute__((unavailable(#reason)))
 #define CF_SWIFT_NAME(x) __attribute__((swift_name(#x)))
 
-int _CFIsMainThread(void); // introduces implicit dependency on CoreFoundation
-
-#include <sys/cdefs.h>
 #include <stdarg.h>
+#include <stdint.h>
 
-/*
- * Primitive types that match up with Java equivalents.
- */
-#ifdef HAVE_INTTYPES_H
-#include <inttypes.h>     /* C99 */
-typedef uint8_t jboolean; /* unsigned 8 bits */
-typedef int8_t jbyte;     /* signed 8 bits */
-typedef uint16_t jchar;   /* unsigned 16 bits */
-typedef int16_t jshort;   /* signed 16 bits */
-typedef int32_t jint;     /* signed 32 bits */
-typedef int64_t jlong;    /* signed 64 bits */
-typedef float jfloat;     /* 32-bit IEEE 754 */
-typedef double jdouble;   /* 64-bit IEEE 754 */
-#else
-typedef unsigned char jboolean CF_SWIFT_NAME(JavaBoolean); /* unsigned 8 bits */
-typedef signed char jbyte CF_SWIFT_NAME(JavaByte);         /* signed 8 bits */
-typedef unsigned short jchar CF_SWIFT_NAME(JavaChar);      /* unsigned 16 bits */
-typedef short jshort CF_SWIFT_NAME(JavaShort);             /* signed 16 bits */
-typedef int jint CF_SWIFT_NAME(JavaInt);                   /* signed 32 bits */
-typedef long long jlong CF_SWIFT_NAME(JavaLong);           /* signed 64 bits */
-typedef float jfloat CF_SWIFT_NAME(JavaFloat);             /* 32-bit IEEE 754 */
-typedef double jdouble CF_SWIFT_NAME(JavaDouble);          /* 64-bit IEEE 754 */
-#endif
+/* Primitive types that match up with Java equivalents. */
+typedef uint8_t jboolean CF_SWIFT_NAME(JavaBoolean); /* unsigned 8 bits */
+typedef int8_t jbyte CF_SWIFT_NAME(JavaByte);        /* signed 8 bits */
+typedef uint16_t jchar CF_SWIFT_NAME(JavaChar);      /* unsigned 16 bits */
+typedef int16_t jshort CF_SWIFT_NAME(JavaShort);     /* signed 16 bits */
+typedef int32_t jint CF_SWIFT_NAME(JavaInt);         /* signed 32 bits */
+typedef int64_t jlong CF_SWIFT_NAME(JavaLong);       /* signed 64 bits */
+typedef float jfloat CF_SWIFT_NAME(JavaFloat);       /* 32-bit IEEE 754 */
+typedef double jdouble CF_SWIFT_NAME(JavaDouble);    /* 64-bit IEEE 754 */
 
 /* "cardinal indices and sizes" */
-typedef jint jsize;
+typedef jint     jsize;
 
 #ifdef __cplusplus
 /*
  * Reference types, in C++
  */
-class _jobject
-{
-};
-class _jclass : public _jobject
-{
-};
-class _jstring : public _jobject
-{
-};
-class _jarray : public _jobject
-{
-};
-class _jobjectArray : public _jarray
-{
-};
-class _jbooleanArray : public _jarray
-{
-};
-class _jbyteArray : public _jarray
-{
-};
-class _jcharArray : public _jarray
-{
-};
-class _jshortArray : public _jarray
-{
-};
-class _jintArray : public _jarray
-{
-};
-class _jlongArray : public _jarray
-{
-};
-class _jfloatArray : public _jarray
-{
-};
-class _jdoubleArray : public _jarray
-{
-};
-class _jthrowable : public _jobject
-{
-};
+class _jobject {};
+class _jclass : public _jobject {};
+class _jstring : public _jobject {};
+class _jarray : public _jobject {};
+class _jobjectArray : public _jarray {};
+class _jbooleanArray : public _jarray {};
+class _jbyteArray : public _jarray {};
+class _jcharArray : public _jarray {};
+class _jshortArray : public _jarray {};
+class _jintArray : public _jarray {};
+class _jlongArray : public _jarray {};
+class _jfloatArray : public _jarray {};
+class _jdoubleArray : public _jarray {};
+class _jthrowable : public _jobject {};
 
-typedef _jobject *jobject;
-typedef _jclass *jclass;
-typedef _jstring *jstring;
-typedef _jarray *jarray;
-typedef _jobjectArray *jobjectArray;
-typedef _jbooleanArray *jbooleanArray;
-typedef _jbyteArray *jbyteArray;
-typedef _jcharArray *jcharArray;
-typedef _jshortArray *jshortArray;
-typedef _jintArray *jintArray;
-typedef _jlongArray *jlongArray;
-typedef _jfloatArray *jfloatArray;
-typedef _jdoubleArray *jdoubleArray;
-typedef _jthrowable *jthrowable;
-typedef _jobject *jweak;
+typedef _jobject*       jobject;
+typedef _jclass*        jclass;
+typedef _jstring*       jstring;
+typedef _jarray*        jarray;
+typedef _jobjectArray*  jobjectArray;
+typedef _jbooleanArray* jbooleanArray;
+typedef _jbyteArray*    jbyteArray;
+typedef _jcharArray*    jcharArray;
+typedef _jshortArray*   jshortArray;
+typedef _jintArray*     jintArray;
+typedef _jlongArray*    jlongArray;
+typedef _jfloatArray*   jfloatArray;
+typedef _jdoubleArray*  jdoubleArray;
+typedef _jthrowable*    jthrowable;
+typedef _jobject*       jweak;
+
 
 #else /* not __cplusplus */
 
 /*
  * Reference types, in C.
  */
-typedef void * _Nullable jobject CF_SWIFT_NAME(JavaObject);
+typedef void * jobject CF_SWIFT_NAME(JavaObject);
 typedef jobject jclass CF_SWIFT_NAME(JavaClass);
 typedef jobject jstring CF_SWIFT_NAME(JavaString);
 typedef jobject jarray CF_SWIFT_NAME(JavaArray);
@@ -155,15 +111,15 @@ typedef struct _jmethodID * _Nullable jmethodID CF_SWIFT_NAME(JavaMethodID); /* 
 struct JNIInvokeInterface;
 
 typedef union CF_SWIFT_NAME(JavaParameter) jvalue {
-    jboolean z CF_SWIFT_NAME(bool);
-    jbyte b CF_SWIFT_NAME(byte);
-    jchar c CF_SWIFT_NAME(char);
-    jshort s CF_SWIFT_NAME(short);
-    jint i CF_SWIFT_NAME(int);
-    jlong j CF_SWIFT_NAME(long);
-    jfloat f CF_SWIFT_NAME(float);
-    jdouble d CF_SWIFT_NAME(double);
-    jobject l CF_SWIFT_NAME(object);
+    jboolean    z CF_SWIFT_NAME(bool);
+    jbyte       b CF_SWIFT_NAME(byte);
+    jchar       c CF_SWIFT_NAME(char);
+    jshort      s CF_SWIFT_NAME(short);
+    jint        i CF_SWIFT_NAME(int);
+    jlong       j CF_SWIFT_NAME(long);
+    jfloat      f CF_SWIFT_NAME(float);
+    jdouble     d CF_SWIFT_NAME(double);
+    jobject     l CF_SWIFT_NAME(object);
 } jvalue;
 
 typedef enum CF_SWIFT_NAME(JavaObjectRefType) jobjectRefType {
@@ -1436,20 +1392,22 @@ JNIEXPORT void JNICALL JNI_OnUnload(JavaVM * _Nonnull vm, void * _Nullable reser
 /*
  * Manifest constants.
  */
-#define JNI_FALSE 0
-#define JNI_TRUE 1
+#define JNI_FALSE   0
+#define JNI_TRUE    1
 
 #define JNI_VERSION_1_1 0x00010001
 #define JNI_VERSION_1_2 0x00010002
 #define JNI_VERSION_1_4 0x00010004
 #define JNI_VERSION_1_6 0x00010006
 
-#define JNI_OK (0)         /* no error */
-#define JNI_ERR (-1)       /* generic error */
-#define JNI_EDETACHED (-2) /* thread detached from the VM */
-#define JNI_EVERSION (-3)  /* JNI version error */
+#define JNI_OK          (0)         /* no error */
+#define JNI_ERR         (-1)        /* generic error */
+#define JNI_EDETACHED   (-2)        /* thread detached from the VM */
+#define JNI_EVERSION    (-3)        /* JNI version error */
+#define JNI_ENOMEM      (-4)        /* Out of memory */
+#define JNI_EEXIST      (-5)        /* VM already created */
+#define JNI_EINVAL      (-6)        /* Invalid argument */
 
-#define JNI_COMMIT 1 /* copy content, do not free buffer */
-#define JNI_ABORT 2  /* free buffer w/o copying back */
+#define JNI_COMMIT      1           /* copy content, do not free buffer */
+#define JNI_ABORT       2           /* free buffer w/o copying back */
 
-#endif /* JNI_H_ */

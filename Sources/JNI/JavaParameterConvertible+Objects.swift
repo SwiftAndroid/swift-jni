@@ -1,3 +1,5 @@
+import CJNI
+
 // JavaObject
 
 extension JavaObject: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitializableFromField {

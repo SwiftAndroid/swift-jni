@@ -1,6 +1,7 @@
 set(CMAKE_Swift_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/swift)
 
 add_library(JNI SHARED
+    isMainThread.swift
     Array+JavaParameterConvertible.swift
     JavaParameterConvertible+Objects.swift
     JavaParameterConvertible+Primitives.swift
@@ -14,7 +15,6 @@ add_library(JNI SHARED
     JNIRefs.swift
     JNIStrings.swift
     SwiftJNI.swift
-    isMainThread.swift
 )
 
 set_target_properties(JNI PROPERTIES
