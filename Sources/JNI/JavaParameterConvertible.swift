@@ -5,8 +5,6 @@
 //  Created by flowing erik on 19.07.17.
 //
 
-import CJNI
-
 public protocol JavaParameterConvertible {
     typealias JavaMethod = ((JavaParameterConvertible...) throws -> Self)
     static var asJNIParameterString: String { get }

@@ -1,5 +1,5 @@
-#if canImport(Bionic)
-import Bionic
+#if canImport(Android)
+import Android
 
 @_silgen_name("syscall")
 public func syscallNonVariadic(_ number: Int) -> Int

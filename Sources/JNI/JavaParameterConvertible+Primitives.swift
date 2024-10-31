@@ -4,23 +4,23 @@ extension Bool: JavaParameterConvertible, JavaInitializableFromMethod, JavaIniti
     public static let asJNIParameterString = "Z"
 
     public func toJavaParameter() -> JavaParameter {
-        return JavaParameter(bool: (self) ? 1 : 0)
+        return JavaParameter(z: (self) ? 1 : 0)
     }
 
     public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> Bool {
-        return try jni.GetStaticBooleanField(of: javaClass, id: fieldID) == JNI_TRUE
+        return try jni.GetStaticBooleanField(of: javaClass, id: fieldID) == .true
     }
 
     public static func fromMethod(calling methodID: JavaMethodID, on object: JavaObject, args: [JavaParameter]) throws -> Bool {
-        return try jni.CallBooleanMethod(methodID, on: object, parameters: args) == JNI_TRUE
+        return try jni.CallBooleanMethod(methodID, on: object, parameters: args) == .true
     }
 
     public static func fromStaticMethod(calling methodID: JavaMethodID, on javaClass: JavaClass, args: [JavaParameter]) throws -> Bool {
-        return try jni.CallStaticBooleanMethod(javaClass: javaClass, method: methodID, parameters: args) == JNI_TRUE
+        return try jni.CallStaticBooleanMethod(javaClass: javaClass, method: methodID, parameters: args) == .true
     }
 
     public static func fromField(_ fieldID: JavaFieldID, on javaObject: JavaObject) throws -> Bool {
-        return try jni.GetBooleanField(of: javaObject, id: fieldID) == JNI_TRUE
+        return try jni.GetBooleanField(of: javaObject, id: fieldID) == .true
     }
 }
 
@@ -30,7 +30,7 @@ extension Int: JavaParameterConvertible, JavaInitializableFromMethod, JavaInitia
     public static let asJNIParameterString = "I"
 
     public func toJavaParameter() -> JavaParameter {
-        return JavaParameter(int: JavaInt(self))
+        return JavaParameter(i: JavaInt(self))
     }
 
     public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> Int {
@@ -57,7 +57,7 @@ extension JavaInt: JavaParameterConvertible, JavaInitializableFromMethod, JavaIn
     public static let asJNIParameterString = "I"
 
     public func toJavaParameter() -> JavaParameter {
-        return JavaParameter(int: self)
+        return JavaParameter(i: self)
     }
 
     public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> JavaInt {
@@ -84,7 +84,7 @@ extension Double: JavaParameterConvertible, JavaInitializableFromMethod, JavaIni
     public static let asJNIParameterString = "D"
 
     public func toJavaParameter() -> JavaParameter {
-        return JavaParameter(double: JavaDouble(self))
+        return JavaParameter(d: JavaDouble(self))
     }
 
     public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> Double {
@@ -111,7 +111,7 @@ extension Float: JavaParameterConvertible, JavaInitializableFromMethod, JavaInit
     public static let asJNIParameterString = "F"
 
     public func toJavaParameter() -> JavaParameter {
-        return JavaParameter(float: JavaFloat(self))
+        return JavaParameter(f: JavaFloat(self))
     }
 
     public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> Float {
@@ -137,7 +137,7 @@ extension JavaLong: JavaParameterConvertible, JavaInitializableFromMethod, JavaI
     public static let asJNIParameterString = "J"
 
     public func toJavaParameter() -> JavaParameter {
-        return JavaParameter(long: self)
+        return JavaParameter(j: self)
     }
 
     public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> JavaLong {

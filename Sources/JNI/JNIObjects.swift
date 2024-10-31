@@ -1,4 +1,3 @@
-import CJNI
 import Dispatch
 
 /// Designed to simplify calling a constructor and methods on a JavaClass
@@ -13,7 +12,7 @@ open class JNIObject: JavaParameterConvertible {
     }
 
     public func toJavaParameter() -> JavaParameter {
-        return JavaParameter(object: self.instance)
+        return JavaParameter(l: self.instance)
     }
 
     private static var classInstances = [String: JavaClass]()
@@ -122,7 +121,7 @@ extension JNI {
         on targetClass: JavaClass,
         arguments: [JavaParameterConvertible] = []
     ) throws -> JavaObject? {
-        let methodID = _env.pointee.pointee.GetMethodID(_env, targetClass, "<init>", arguments.methodSignature(returnType: nil))
+        let methodID = _env.pointee!.pointee.GetMethodID(_env, targetClass, "<init>", arguments.methodSignature(returnType: nil))
         try checkAndThrowOnJNIError()
 
         return try jni.NewObject(targetClass: targetClass, methodID!, arguments.asJavaParameters())
@@ -133,7 +132,7 @@ public extension JNI {
     func NewObject(targetClass: JavaClass, _ methodID: JavaMethodID, _ args: [JavaParameter]) throws -> JavaObject? {
         let env = self._env
         var mutableArgs = args
-        let newObject = env.pointee.pointee.NewObject(env, targetClass, methodID, &mutableArgs)
+        let newObject = env.pointee!.pointee.NewObjectA(env, targetClass, methodID, &mutableArgs)
         try checkAndThrowOnJNIError()
 
         return newObject
@@ -141,7 +140,7 @@ public extension JNI {
 
     func GetObjectClass(obj: JavaObject) throws -> JavaClass {
         let env = self._env
-        let result = env.pointee.pointee.GetObjectClass(env, obj)
+        let result = env.pointee!.pointee.GetObjectClass(env, obj)
         try checkAndThrowOnJNIError()
         return result!
     }

@@ -1,17 +1,17 @@
-import CJNI
+@_exported import jni
 
 public var jni: JNI! // this gets set "OnLoad" so should always exist
 
 #if !STATIC_SWIFT_STDLIB
 @_cdecl("JNI_OnLoad")
-public func JNI_Onload(_ vm: UnsafeMutablePointer<JavaVM>, _ reserved: UnsafeMutableRawPointer?) -> JavaInt {
+public func JNI_Onload(_ vm: UnsafeMutablePointer<JavaVM?>, _ reserved: UnsafeMutableRawPointer?) -> JavaInt {
     return SwiftJNI_OnLoad(vm, reserved)
 }
 #endif
 
 // Can be called manually from another call to JNI_OnLoad
 // e.g. from the user's JNI_OnLoad function defined in the same static library
-public func SwiftJNI_OnLoad(_ vm: UnsafeMutablePointer<JavaVM>, _ reserved: UnsafeMutableRawPointer?) -> JavaInt {
+public func SwiftJNI_OnLoad(_ vm: UnsafeMutablePointer<JavaVM?>, _ reserved: UnsafeMutableRawPointer?) -> JavaInt {
     guard let localJNI = JNI(jvm: vm) else {
          fatalError("Couldn't initialise JNI")
     }
@@ -21,27 +21,26 @@ public func SwiftJNI_OnLoad(_ vm: UnsafeMutablePointer<JavaVM>, _ reserved: Unsa
 }
 
 public func JNI_DetachCurrentThread() {
-    _ = jni._jvm.pointee.pointee.DetachCurrentThread(jni._jvm)
+    _ = jni._jvm.pointee!.pointee.DetachCurrentThread(jni._jvm)
 }
 
-extension JavaBoolean : ExpressibleByBooleanLiteral {
-    public init(booleanLiteral value: Bool) {
-        self = value ? JavaBoolean(JNI_TRUE) : JavaBoolean(JNI_FALSE)
-    }
+extension JavaBoolean {
+    static let `true` = JavaBoolean(JNI_TRUE)
+    static let `false` = JavaBoolean(JNI_FALSE)
 }
 
 // SwiftJNI Public API
 public extension JNI {
     func RegisterNatives(javaClass: JavaClass, methods: [JNINativeMethod]) -> Bool {
         let _env = self._env
-		let env = _env.pointee.pointee
+        let env = _env.pointee!.pointee
         let result = env.RegisterNatives(_env, javaClass, methods, JavaInt(methods.count))
         return (result == 0)
     }
 
     func ThrowNew(message: String) {
         let _env = self._env
-        let env = _env.pointee.pointee
+        let env = _env.pointee!.pointee
         _ = env.ThrowNew(_env, env.FindClass(_env, "java/lang/Exception"), message)
     }
 
@@ -49,20 +48,20 @@ public extension JNI {
 
     func GetLength(_ array: JavaArray) -> Int {
         let _env = self._env
-        let result = _env.pointee.pointee.GetArrayLength(_env, array)
+        let result = _env.pointee!.pointee.GetArrayLength(_env, array)
         return Int(result)
     }
 
     func NewIntArray(count: Int) throws -> JavaArray? {
         let _env = self._env
-        let result = _env.pointee.pointee.NewIntArray(_env, jsize(count))
+        let result = _env.pointee!.pointee.NewIntArray(_env, jsize(count))
         try checkAndThrowOnJNIError()
         return result
     }
 
     func NewByteArray(count: Int) throws -> JavaByteArray? {
         let _env = self._env
-        let result = _env.pointee.pointee.NewByteArray(_env, jsize(count))
+        let result = _env.pointee!.pointee.NewByteArray(_env, jsize(count))
         try checkAndThrowOnJNIError()
         return result
     }
@@ -76,7 +75,7 @@ public extension JNI {
         }
 
         var result = [JavaByte](repeating: 0, count: count)
-        _env.pointee.pointee.GetByteArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
+        _env.pointee!.pointee.GetByteArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
 
         // Conversion from Int8 (JavaByte) to UInt8: bitPattern-constructor ensures
         // that negative Int8 values do not cause a crash when trying convert them to UInt8
@@ -86,7 +85,7 @@ public extension JNI {
     func SetByteArrayRegion(array: JavaByteArray, startIndex: Int = 0, from sourceElements: Array<UInt8>) {
         let _env = self._env
         var newElements = sourceElements.map { JavaByte(bitPattern: $0) } // make mutable copy
-        _env.pointee.pointee.SetArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
+        _env.pointee!.pointee.SetByteArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
     }
 
     func GetIntArrayRegion(array: JavaIntArray, startIndex: Int = 0, numElements: Int = -1) -> [JavaInt] {
@@ -98,19 +97,19 @@ public extension JNI {
         }
 
         var result = [JavaInt](repeating: 0, count: count)
-        _env.pointee.pointee.GetIntArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
+        _env.pointee!.pointee.GetIntArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
         return result
     }
 
     func SetIntArrayRegion(array: JavaIntArray, startIndex: Int = 0, from sourceElements: [Int]) {
         let _env = self._env
         var newElements = sourceElements.map { JavaInt($0) } // make mutable copy
-        _env.pointee.pointee.SetArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
+        _env.pointee!.pointee.SetIntArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
     }
 
     func NewFloatArray(count: Int) throws -> JavaArray? {
         let _env = self._env
-        let result = _env.pointee.pointee.NewFloatArray(_env, jsize(count))
+        let result = _env.pointee!.pointee.NewFloatArray(_env, jsize(count))
         try checkAndThrowOnJNIError()
         return result
     }
@@ -124,14 +123,14 @@ public extension JNI {
         }
 
         var result = [JavaFloat](repeating: 0, count: count)
-        _env.pointee.pointee.GetFloatArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
+        _env.pointee!.pointee.GetFloatArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
         return result.map { Float($0) }
     }
 
     func SetFloatArrayRegion(array: JavaFloatArray, startIndex: Int = 0, from sourceElements: [Float]) {
         let _env = self._env
         var newElements = sourceElements.map { JavaFloat($0) } // make mutable copy
-        _env.pointee.pointee.SetArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
+        _env.pointee!.pointee.SetFloatArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
     }
 
     func GetStrings(from array: JavaObjectArray) throws -> [String] {
@@ -139,10 +138,10 @@ public extension JNI {
         let count = jni.GetLength(array)
 
         let strings: [String] = try (0 ..< count).map { i in
-            let jString: JavaString? = _env.pointee.pointee.GetObjectArrayElement(_env, array, jsize(i))
-            let chars = _env.pointee.pointee.GetStringUTFChars(_env, jString, nil)
+            let jString: JavaString? = _env.pointee!.pointee.GetObjectArrayElement(_env, array, jsize(i))
+            let chars = _env.pointee!.pointee.GetStringUTFChars(_env, jString, nil)
             try checkAndThrowOnJNIError()
-            defer { _env.pointee.pointee.ReleaseStringUTFChars(_env, jString, chars) }
+            defer { _env.pointee!.pointee.ReleaseStringUTFChars(_env, jString, chars) }
 
             return String(cString: chars!)
         }
@@ -156,7 +155,7 @@ public extension JNI {
         if (index >= count) {
             throw JNIError()
         }
-        let jObj = _env.pointee.pointee.GetObjectArrayElement(_env, array, jsize(index))
+        let jObj = _env.pointee!.pointee.GetObjectArrayElement(_env, array, jsize(index))
         try checkAndThrowOnJNIError()
         return jObj!
     }
@@ -183,3 +182,34 @@ func print(_ string: String) {
     androidPrint(5, "SwiftJNI", string)
 }
 #endif
+
+public typealias JavaBoolean = jboolean
+public typealias JavaByte = jbyte
+public typealias JavaChar = jchar
+public typealias JavaShort = jshort
+public typealias JavaInt = jint
+public typealias JavaLong = jlong
+public typealias JavaFloat = jfloat
+public typealias JavaDouble = jdouble
+public typealias JavaSize = jint
+
+public typealias JavaParameter = jvalue
+public typealias JavaObjectRefType = jobjectRefType
+public typealias JavaFieldID = jfieldID
+public typealias JavaMethodID = jmethodID
+
+public typealias JavaObject = UnsafeMutableRawPointer
+public typealias JavaClass = JavaObject
+public typealias JavaString = JavaObject
+public typealias JavaArray = JavaObject
+public typealias JavaObjectArray = JavaArray
+public typealias JavaBooleanArray = JavaArray
+public typealias JavaByteArray = JavaArray
+public typealias JavaCharArray = JavaArray
+public typealias JavaShortArray = JavaArray
+public typealias JavaIntArray = JavaArray
+public typealias JavaLongArray = JavaArray
+public typealias JavaFloatArray = JavaArray
+public typealias JavaDoubleArray = JavaArray
+public typealias JavaThrowable = JavaObject
+public typealias JavaWeakReference = JavaObject

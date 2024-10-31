@@ -5,8 +5,6 @@
 //  Created by flowing erik on 19.07.17.
 //
 
-import CJNI
-
 extension String {
     func replacingFullstopsWithSlashes() -> String {
         return String(self.map { $0 == "." ? "/" : $0 })
