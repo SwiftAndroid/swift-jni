@@ -1,6 +1,4 @@
-#if canImport(Android)
 import Android
-#endif
 
 public class JNI {
     /// Our reference to the Java Virtual Machine, to be set on init
