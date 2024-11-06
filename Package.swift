@@ -5,10 +5,9 @@ import PackageDescription
 let package = Package(
     name: "JNI",
     products: [
-        .library(name: "JNI", targets: ["JNI", "CJNI"])
+        .library(name: "JNI", targets: ["JNI"])
     ],
     targets: [
-        .target(name: "JNI", dependencies: ["CJNI"]),
-        .target(name: "CJNI"),
+        .target(name: "JNI"),
     ]
 )
