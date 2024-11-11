@@ -76,12 +76,12 @@ open class JNIObject: JavaParameterConvertible {
         jni.DeleteGlobalRef(instance)
     }
 
-    public func call(methodName: String, arguments: [JavaParameterConvertible] = []) throws {
+    public func call(_ methodName: String, arguments: [JavaParameterConvertible] = []) throws {
         try jni.call(methodName, on: self.instance, arguments: arguments)
     }
 
     public func call<T: JavaInitializableFromMethod & JavaParameterConvertible>(
-        methodName: String,
+        _ methodName: String,
         arguments: [JavaParameterConvertible] = []
     ) throws -> T {
         return try jni.call(methodName, on: self.instance, arguments: arguments)
@@ -97,12 +97,12 @@ open class JNIObject: JavaParameterConvertible {
         return try jni.GetField(fieldName, fieldJavaClassName: fieldJavaClassName, from: self.instance)
     }
 
-    public static func callStatic(methodName: String, arguments: [JavaParameterConvertible] = []) throws {
+    public static func callStatic(_ methodName: String, arguments: [JavaParameterConvertible] = []) throws {
         try jni.callStatic(methodName, on: self.javaClass, arguments: arguments)
     }
 
     public static func callStatic<T: JavaInitializableFromMethod & JavaParameterConvertible>(
-        methodName: String,
+        _ methodName: String,
         arguments: [JavaParameterConvertible] = []
     ) throws -> T {
         return try jni.callStatic(methodName, on: self.javaClass, arguments: arguments)
