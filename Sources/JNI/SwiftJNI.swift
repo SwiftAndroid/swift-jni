@@ -24,7 +24,7 @@ public func JNI_DetachCurrentThread() {
     _ = jni._jvm.pointee!.pointee.DetachCurrentThread(jni._jvm)
 }
 
-extension JavaBoolean {
+public extension JavaBoolean {
     static let `true` = JavaBoolean(JNI_TRUE)
     static let `false` = JavaBoolean(JNI_FALSE)
 }
@@ -64,6 +64,33 @@ public extension JNI {
         let result = _env.pointee!.pointee.NewByteArray(_env, jsize(count))
         try checkAndThrowOnJNIError()
         return result
+    }
+
+    func NewBooleanArray(count: Int) throws -> JavaBooleanArray? {
+        let _env = self._env
+        let result = _env.pointee!.pointee.NewBooleanArray(_env, jsize(count))
+        try checkAndThrowOnJNIError()
+        return result
+    }
+
+    func GetBooleanArrayRegion(array: JavaBooleanArray, startIndex: Int = 0, numElements: Int = -1) -> [Bool] {
+        let _env = self._env
+        var count = numElements
+
+        if numElements < 0 {
+            count = GetLength(array)
+        }
+
+        var result = [JavaBoolean](repeating: 0, count: count)
+        _env.pointee!.pointee.GetBooleanArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
+
+        return result.map { $0 == .true }
+    }
+
+    func SetBooleanArrayRegion(array: JavaBooleanArray, startIndex: Int = 0, from sourceElements: [Bool]) {
+        let _env = self._env
+        var newElements = sourceElements.map { $0 ? JavaBoolean.true : .false } // make mutable copy
+        _env.pointee!.pointee.SetBooleanArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
     }
 
     func GetByteArrayRegion(array: JavaByteArray, startIndex: Int = 0, numElements: Int = -1) -> [UInt8] {
