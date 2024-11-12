@@ -2,7 +2,7 @@ import Dispatch
 
 /// Designed to simplify calling a constructor and methods on a JavaClass
 /// Subclass this and add the methods appropriate to the object you are constructing.
-open class JNIObject: JavaParameterConvertible {
+open class JNIObject: JavaParameterConvertible, Sendable {
     open class var className: String {
         return "java.lang.object"
     }
