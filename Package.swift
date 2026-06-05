@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:6.0
 
 import PackageDescription
 
@@ -8,6 +8,7 @@ let package = Package(
         .library(name: "JNI", targets: ["JNI"])
     ],
     targets: [
-        .target(name: "JNI"),
-    ]
+        .target(name: "JNI", swiftSettings: [.interoperabilityMode(.Cxx)]),
+    ],
+    swiftLanguageModes: [.v5]
 )
