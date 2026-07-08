@@ -21,7 +21,7 @@ public func SwiftJNI_OnLoad(_ vm: UnsafeMutablePointer<JavaVM>, _ reserved: Unsa
 }
 
 public func JNI_DetachCurrentThread() {
-    _ = jni._jvm.pointee!.pointee.DetachCurrentThread(jni._jvm)
+    _ = jni._jvm.pointee.DetachCurrentThread()
 }
 
 public extension JavaBoolean {
@@ -32,45 +32,38 @@ public extension JavaBoolean {
 // SwiftJNI Public API
 public extension JNI {
     func RegisterNatives(javaClass: JavaClass, methods: [JNINativeMethod]) -> Bool {
-        let _env = self._env
-        let env = _env.pointee!.pointee
-        let result = env.RegisterNatives(_env, javaClass, methods, JavaInt(methods.count))
+        let result = self._env.pointee.RegisterNatives(javaClass.asJClass, methods, JavaInt(methods.count))
         return (result == 0)
     }
 
     func ThrowNew(message: String) {
         let _env = self._env
-        let env = _env.pointee!.pointee
-        _ = env.ThrowNew(_env, env.FindClass(_env, "java/lang/Exception"), message)
+        _ = _env.pointee.ThrowNew(_env.pointee.FindClass("java/lang/Exception")!, message)
     }
 
     // MARK: Arrays
 
     func GetLength(_ array: JavaArray) -> Int {
-        let _env = self._env
-        let result = _env.pointee!.pointee.GetArrayLength(_env, array)
+        let result = self._env.pointee.GetArrayLength(array.asJArray)
         return Int(result)
     }
 
     func NewIntArray(count: Int) throws -> JavaArray? {
-        let _env = self._env
-        let result = _env.pointee!.pointee.NewIntArray(_env, jsize(count))
+        let result = self._env.pointee.NewIntArray(jsize(count))
         try checkAndThrowOnJNIError()
-        return result
+        return result?.asJavaObject
     }
 
     func NewByteArray(count: Int) throws -> JavaByteArray? {
-        let _env = self._env
-        let result = _env.pointee!.pointee.NewByteArray(_env, jsize(count))
+        let result = self._env.pointee.NewByteArray(jsize(count))
         try checkAndThrowOnJNIError()
-        return result
+        return result?.asJavaObject
     }
 
     func NewBooleanArray(count: Int) throws -> JavaBooleanArray? {
-        let _env = self._env
-        let result = _env.pointee!.pointee.NewBooleanArray(_env, jsize(count))
+        let result = self._env.pointee.NewBooleanArray(jsize(count))
         try checkAndThrowOnJNIError()
-        return result
+        return result?.asJavaObject
     }
 
     func GetBooleanArrayRegion(array: JavaBooleanArray, startIndex: Int = 0, numElements: Int = -1) -> [Bool] {
@@ -82,7 +75,7 @@ public extension JNI {
         }
 
         var result = [JavaBoolean](repeating: 0, count: count)
-        _env.pointee!.pointee.GetBooleanArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
+        _env.pointee.GetBooleanArrayRegion(array.asJBooleanArray, jsize(startIndex), jsize(count), &result)
 
         return result.map { $0 == .true }
     }
@@ -90,7 +83,7 @@ public extension JNI {
     func SetBooleanArrayRegion(array: JavaBooleanArray, startIndex: Int = 0, from sourceElements: [Bool]) {
         let _env = self._env
         var newElements = sourceElements.map { $0 ? JavaBoolean.true : .false } // make mutable copy
-        _env.pointee!.pointee.SetBooleanArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
+        _env.pointee.SetBooleanArrayRegion(array.asJBooleanArray, jsize(startIndex), jsize(newElements.count), &newElements)
     }
 
     func GetByteArrayRegion(array: JavaByteArray, startIndex: Int = 0, numElements: Int = -1) -> [UInt8] {
@@ -102,7 +95,7 @@ public extension JNI {
         }
 
         var result = [JavaByte](repeating: 0, count: count)
-        _env.pointee!.pointee.GetByteArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
+        _env.pointee.GetByteArrayRegion(array.asJByteArray, jsize(startIndex), jsize(count), &result)
 
         // Conversion from Int8 (JavaByte) to UInt8: bitPattern-constructor ensures
         // that negative Int8 values do not cause a crash when trying convert them to UInt8
@@ -112,7 +105,7 @@ public extension JNI {
     func SetByteArrayRegion(array: JavaByteArray, startIndex: Int = 0, from sourceElements: Array<UInt8>) {
         let _env = self._env
         var newElements = sourceElements.map { JavaByte(bitPattern: $0) } // make mutable copy
-        _env.pointee!.pointee.SetByteArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
+        _env.pointee.SetByteArrayRegion(array.asJByteArray, jsize(startIndex), jsize(newElements.count), &newElements)
     }
 
     func GetIntArrayRegion(array: JavaIntArray, startIndex: Int = 0, numElements: Int = -1) -> [JavaInt] {
@@ -124,21 +117,20 @@ public extension JNI {
         }
 
         var result = [JavaInt](repeating: 0, count: count)
-        _env.pointee!.pointee.GetIntArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
+        _env.pointee.GetIntArrayRegion(array.asJIntArray, jsize(startIndex), jsize(count), &result)
         return result
     }
 
     func SetIntArrayRegion(array: JavaIntArray, startIndex: Int = 0, from sourceElements: [Int]) {
         let _env = self._env
         var newElements = sourceElements.map { JavaInt($0) } // make mutable copy
-        _env.pointee!.pointee.SetIntArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
+        _env.pointee.SetIntArrayRegion(array.asJIntArray, jsize(startIndex), jsize(newElements.count), &newElements)
     }
 
     func NewFloatArray(count: Int) throws -> JavaArray? {
-        let _env = self._env
-        let result = _env.pointee!.pointee.NewFloatArray(_env, jsize(count))
+        let result = self._env.pointee.NewFloatArray(jsize(count))
         try checkAndThrowOnJNIError()
-        return result
+        return result?.asJavaObject
     }
 
     func GetFloatArrayRegion(array: JavaFloatArray, startIndex: Int = 0, numElements: Int = -1) -> [Float] {
@@ -150,14 +142,14 @@ public extension JNI {
         }
 
         var result = [JavaFloat](repeating: 0, count: count)
-        _env.pointee!.pointee.GetFloatArrayRegion(_env, array, jsize(startIndex), jsize(count), &result)
+        _env.pointee.GetFloatArrayRegion(array.asJFloatArray, jsize(startIndex), jsize(count), &result)
         return result.map { Float($0) }
     }
 
     func SetFloatArrayRegion(array: JavaFloatArray, startIndex: Int = 0, from sourceElements: [Float]) {
         let _env = self._env
         var newElements = sourceElements.map { JavaFloat($0) } // make mutable copy
-        _env.pointee!.pointee.SetFloatArrayRegion(_env, array, jsize(startIndex), jsize(newElements.count), &newElements)
+        _env.pointee.SetFloatArrayRegion(array.asJFloatArray, jsize(startIndex), jsize(newElements.count), &newElements)
     }
 
     func GetStrings(from array: JavaObjectArray) throws -> [String] {
@@ -165,10 +157,10 @@ public extension JNI {
         let count = jni.GetLength(array)
 
         let strings: [String] = try (0 ..< count).map { i in
-            let jString: JavaString? = _env.pointee!.pointee.GetObjectArrayElement(_env, array, jsize(i))
-            let chars = _env.pointee!.pointee.GetStringUTFChars(_env, jString, nil)
+            let jString: JavaString? = _env.pointee.GetObjectArrayElement(array.asJObjectArray, jsize(i))?.asJavaObject
+            let chars = _env.pointee.GetStringUTFChars(jString?.asJString, nil)
             try checkAndThrowOnJNIError()
-            defer { _env.pointee!.pointee.ReleaseStringUTFChars(_env, jString, chars) }
+            defer { _env.pointee.ReleaseStringUTFChars(jString?.asJString, chars) }
 
             return String(cString: chars!)
         }
@@ -182,9 +174,9 @@ public extension JNI {
         if (index >= count) {
             throw JNIError()
         }
-        let jObj = _env.pointee!.pointee.GetObjectArrayElement(_env, array, jsize(index))
+        let jObj = _env.pointee.GetObjectArrayElement(array.asJObjectArray, jsize(index))
         try checkAndThrowOnJNIError()
-        return jObj!
+        return jObj!.asJavaObject
     }
 }
 

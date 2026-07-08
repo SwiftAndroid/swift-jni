@@ -1,36 +1,29 @@
 public extension JNI {
     func ExceptionCheck() -> Bool {
-        let env = self._env
-        return env.pointee!.pointee.ExceptionCheck(env) == .true
+        return self._env.pointee.ExceptionCheck() == .true
     }
 
     func ExceptionDescribe() {
-        let env = self._env
-        env.pointee!.pointee.ExceptionDescribe(env)
+        self._env.pointee.ExceptionDescribe()
     }
 
     func ExceptionClear() {
-        let env = self._env
-        env.pointee!.pointee.ExceptionClear(env)
+        self._env.pointee.ExceptionClear()
     }
 
     func ExceptionOccurred() -> JavaThrowable {
-        let env = self._env
-        return env.pointee!.pointee.ExceptionOccurred(env)!
+        return self._env.pointee.ExceptionOccurred()!.asJavaObject
     }
 
     func Throw(obj: JavaThrowable) -> JavaInt {
-        let env = self._env
-        return env.pointee!.pointee.Throw(env, obj)
+        return self._env.pointee.Throw(obj.asJThrowable)
     }
 
     func ThrowNew(targetClass: JavaClass, _ message: String) -> JavaInt {
-        let env = self._env
-        return env.pointee!.pointee.ThrowNew(env, targetClass, message)
+        return self._env.pointee.ThrowNew(targetClass.asJClass, message)
     }
 
     func FatalError(msg: String) {
-        let env = self._env
-        env.pointee?.pointee.FatalError(env, msg)
+        self._env.pointee.FatalError(msg)
     }
 }

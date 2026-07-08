@@ -67,20 +67,20 @@ public extension JNI {
 
 public extension JNI {
     func GetMethodID(for object: JavaObject, methodName: String, methodSignature: String) throws -> JavaMethodID {
-        let _env = self._env
-        let objectClass = _env.pointee!.pointee.GetObjectClass(_env, object)
+        let env = self._env
+        let objectClass = env.pointee.GetObjectClass(object.asJObject)
         try checkAndThrowOnJNIError()
 
-        let result = _env.pointee!.pointee.GetMethodID(_env, objectClass!, methodName, methodSignature)
-        _env.pointee!.pointee.DeleteLocalRef(_env, objectClass)
+        let result = env.pointee.GetMethodID(objectClass!, methodName, methodSignature)
+        env.pointee.DeleteLocalRef(objectClass?.asJavaObject.asJObject)
         try checkAndThrowOnJNIError()
 
         return result!
     }
 
     func GetStaticMethodID(for javaClass: JavaClass, methodName: String, methodSignature: String) throws -> JavaMethodID {
-        let _env = self._env
-        guard let result = _env.pointee!.pointee.GetStaticMethodID(_env, javaClass, methodName, methodSignature) else {
+        let env = self._env
+        guard let result = env.pointee.GetStaticMethodID(javaClass.asJClass, methodName, methodSignature) else {
             throw SwiftJNIError.invalidMethodID(methodSignature)
         }
 
@@ -93,58 +93,58 @@ public extension JNI {
 
 public extension JNI {
     func CallVoidMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws {
-        let _env = self._env
+        let env = self._env
         var methodArgs = parameters
-        _env.pointee!.pointee.CallVoidMethodA(_env, object, method, &methodArgs)
+        env.pointee.CallVoidMethodA(object.asJObject, method, &methodArgs)
         try checkAndThrowOnJNIError()
     }
 
     func CallBooleanMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaBoolean {
-        let _env = self._env
+        let env = self._env
         var methodArgs = parameters
-        let result = _env.pointee!.pointee.CallBooleanMethodA(_env, object, method, &methodArgs)
+        let result = env.pointee.CallBooleanMethodA(object.asJObject, method, &methodArgs)
         try checkAndThrowOnJNIError()
         return result
     }
 
     func CallIntMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaInt {
-        let _env = self._env
+        let env = self._env
         var methodArgs = parameters
-        let result = _env.pointee!.pointee.CallIntMethodA(_env, object, method, &methodArgs)
+        let result = env.pointee.CallIntMethodA(object.asJObject, method, &methodArgs)
         try checkAndThrowOnJNIError()
         return result
     }
 
     func CallFloatMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaFloat {
-        let _env = self._env
+        let env = self._env
         var methodArgs = parameters
-        let result = _env.pointee!.pointee.CallFloatMethodA(_env, object, method, &methodArgs)
+        let result = env.pointee.CallFloatMethodA(object.asJObject, method, &methodArgs)
         try checkAndThrowOnJNIError()
         return result
     }
 
     func CallLongMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaLong {
-        let _env = self._env
+        let env = self._env
         var methodArgs = parameters
-        let result = _env.pointee!.pointee.CallLongMethodA(_env, object, method, &methodArgs)
+        let result = env.pointee.CallLongMethodA(object.asJObject, method, &methodArgs)
         try checkAndThrowOnJNIError()
         return result
     }
 
     func CallDoubleMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaDouble {
-        let _env = self._env
+        let env = self._env
         var methodArgs = parameters
-        let result = _env.pointee!.pointee.CallDoubleMethodA(_env, object, method, &methodArgs)
+        let result = env.pointee.CallDoubleMethodA(object.asJObject, method, &methodArgs)
         try checkAndThrowOnJNIError()
         return result
     }
 
     func CallObjectMethod(_ method: JavaMethodID, on object: JavaObject, parameters: [JavaParameter]) throws -> JavaObject {
-        let _env = self._env
+        let env = self._env
         var methodArgs = parameters
-        let result = _env.pointee!.pointee.CallObjectMethodA(_env, object, method, &methodArgs)
+        let result = env.pointee.CallObjectMethodA(object.asJObject, method, &methodArgs)
         try checkAndThrowOnJNIError()
-        return result!
+        return result!.asJavaObject
     }
 }
 
@@ -153,65 +153,65 @@ public extension JNI {
 
 public extension JNI {
     func CallStaticObjectMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> JavaObject {
-        let _env = self._env
+        let env = self._env
         var methodArgs = parameters
-        let result = _env.pointee!.pointee.CallStaticObjectMethodA(_env, javaClass, method, &methodArgs)
+        let result = env.pointee.CallStaticObjectMethodA(javaClass.asJClass, method, &methodArgs)
         try checkAndThrowOnJNIError()
-        return result! // we checked for error in the line above
+        return result!.asJavaObject // we checked for error in the line above
     }
 
     func CallStaticBooleanMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> Bool {
-        let _env = self._env
+        let env = self._env
         var methodArgs = parameters
-        let result = _env.pointee!.pointee.CallStaticBooleanMethodA(_env, javaClass, method, &methodArgs)
+        let result = env.pointee.CallStaticBooleanMethodA(javaClass.asJClass, method, &methodArgs)
         try checkAndThrowOnJNIError()
         return result == .true
     }
 
     func CallStaticIntMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> JavaInt {
-        let _env = self._env
+        let env = self._env
         var methodArgs = parameters
-        let result = _env.pointee!.pointee.CallStaticIntMethodA(_env, javaClass, method, &methodArgs)
+        let result = env.pointee.CallStaticIntMethodA(javaClass.asJClass, method, &methodArgs)
         try checkAndThrowOnJNIError()
         return result
     }
 
     func CallStaticLongMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> JavaLong {
-        let _env = self._env
+        let env = self._env
         var methodArgs = parameters
-        let result = _env.pointee!.pointee.CallStaticLongMethodA(_env, javaClass, method, &methodArgs)
+        let result = env.pointee.CallStaticLongMethodA(javaClass.asJClass, method, &methodArgs)
         try checkAndThrowOnJNIError()
         return result
     }
 
     func CallStaticFloatMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> JavaFloat {
-        let _env = self._env
+        let env = self._env
         var methodArgs = parameters
-        let result = _env.pointee!.pointee.CallStaticFloatMethodA(_env, javaClass, method, &methodArgs)
+        let result = env.pointee.CallStaticFloatMethodA(javaClass.asJClass, method, &methodArgs)
         try checkAndThrowOnJNIError()
         return result
     }
 
     func CallStaticDoubleMethod(_ method: JavaMethodID, on javaClass: JavaClass, parameters: [JavaParameter]) throws -> JavaDouble {
-        let _env = self._env
+        let env = self._env
         var methodArgs = parameters
-        let result = _env.pointee!.pointee.CallStaticDoubleMethodA(_env, javaClass, method, &methodArgs)
+        let result = env.pointee.CallStaticDoubleMethodA(javaClass.asJClass, method, &methodArgs)
         try checkAndThrowOnJNIError()
         return result
     }
 
     func CallStaticBooleanMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) throws -> JavaBoolean {
-        let _env = self._env
+        let env = self._env
         var methodArgs = parameters
-        let result = _env.pointee!.pointee.CallStaticBooleanMethodA(_env, javaClass, method, &methodArgs)
+        let result = env.pointee.CallStaticBooleanMethodA(javaClass.asJClass, method, &methodArgs)
         try checkAndThrowOnJNIError()
         return result
     }
 
     func CallStaticVoidMethod(javaClass: JavaClass, method: JavaMethodID, parameters: [JavaParameter]) throws {
-        let _env = self._env
+        let env = self._env
         var methodArgs = parameters
-        _env.pointee!.pointee.CallStaticVoidMethodA(_env, javaClass, method, &methodArgs)
+        env.pointee.CallStaticVoidMethodA(javaClass.asJClass, method, &methodArgs)
         try checkAndThrowOnJNIError()
     }
 }

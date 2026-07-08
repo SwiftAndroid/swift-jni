@@ -12,7 +12,7 @@ open class JNIObject: JavaParameterConvertible, Sendable {
     }
 
     public func toJavaParameter() -> JavaParameter {
-        return JavaParameter(l: self.instance)
+        return JavaParameter(l: self.instance.asJObject)
     }
 
     private static var classInstances = [String: JavaClass]()
@@ -121,7 +121,7 @@ extension JNI {
         on targetClass: JavaClass,
         arguments: [JavaParameterConvertible] = []
     ) throws -> JavaObject? {
-        let methodID = _env.pointee!.pointee.GetMethodID(_env, targetClass, "<init>", arguments.methodSignature(returnType: nil))
+        let methodID = _env.pointee.GetMethodID(targetClass.asJClass, "<init>", arguments.methodSignature(returnType: nil))
         try checkAndThrowOnJNIError()
 
         return try jni.NewObject(targetClass: targetClass, methodID!, arguments.asJavaParameters())
@@ -132,17 +132,17 @@ public extension JNI {
     func NewObject(targetClass: JavaClass, _ methodID: JavaMethodID, _ args: [JavaParameter]) throws -> JavaObject? {
         let env = self._env
         var mutableArgs = args
-        let newObject = env.pointee!.pointee.NewObjectA(env, targetClass, methodID, &mutableArgs)
+        let newObject = env.pointee.NewObjectA(targetClass.asJClass, methodID, &mutableArgs)
         try checkAndThrowOnJNIError()
 
-        return newObject
+        return newObject?.asJavaObject
     }
 
     func GetObjectClass(obj: JavaObject) throws -> JavaClass {
         let env = self._env
-        let result = env.pointee!.pointee.GetObjectClass(env, obj)
+        let result = env.pointee.GetObjectClass(obj.asJObject)
         try checkAndThrowOnJNIError()
-        return result!
+        return result!.asJavaObject
     }
 }
 

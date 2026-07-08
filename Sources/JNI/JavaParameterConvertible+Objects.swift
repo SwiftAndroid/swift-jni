@@ -5,7 +5,7 @@ extension JavaObject: JavaParameterConvertible, JavaInitializableFromMethod, Jav
     public static let asJNIParameterString = "L\(javaClassname);"
 
     public func toJavaParameter() -> JavaParameter {
-        return JavaParameter(l: self)
+        return JavaParameter(l: self.asJObject)
     }
 
     public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> JavaObject {
@@ -34,7 +34,7 @@ extension String: JavaParameterConvertible, JavaInitializableFromMethod, JavaIni
 
     public func toJavaParameter() -> JavaParameter {
         let stringAsObject = jni.NewStringUTF(self)
-        return JavaParameter(l: stringAsObject)
+        return JavaParameter(l: stringAsObject.asJObject)
     }
 
     public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> String {
@@ -71,7 +71,7 @@ public struct JavaContext: JavaParameterConvertible, JavaInitializableFromMethod
     public static let asJNIParameterString = "L\(javaClassname);"
 
     public func toJavaParameter() -> JavaParameter {
-        return JavaParameter(l: self.object)
+        return JavaParameter(l: self.object.asJObject)
     }
 
     public static func fromStaticField(_ fieldID: JavaFieldID, of javaClass: JavaClass) throws -> JavaContext {
